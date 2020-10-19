@@ -1,0 +1,6 @@
+.idea/
+cmake*
+CMake*
+Makefile
+!CMakeLists.txt
+build
