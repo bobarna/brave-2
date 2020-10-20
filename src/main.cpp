@@ -5,6 +5,7 @@
 
 #include "utils/math.h"
 #include "utils/gl_helper.h"
+//#include "utils/ShaderFileLoader.h"
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
@@ -68,29 +69,132 @@ static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
     }
 }
 
+const char *vertex_shader = R"(
+    #version 330 core
+        layout (location = 0) in vec2 aPos;   // the position variable has attribute position 0
+        layout (location = 1) in vec3 aColor; // the color variable has attribute position 1
+
+        out vec3 ourColor; // output a color to the fragment shader
+
+        void main()
+        {
+            gl_Position = vec4(aPos, 0, 1);
+            ourColor = aColor; // set ourColor to the input color we got from the vertex data
+        }
+    )";
+
+const char *fragment_shader = R"(
+        #version 330 core
+        in vec3 ourColor;
+        out vec4 fragmentColor;
+
+        void main()
+        {
+            fragmentColor = vec4(ourColor, 1);
+        }
+    )";
+
+void initVbo(GLuint &vao) {
+    float points[] = {
+             0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+            -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+             0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    unsigned int vbo = 0;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, 15 * sizeof(float), points, GL_STATIC_DRAW);
+
+    vao = 0;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, NULL);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) (2*sizeof(float)));
+}
+
+void initShader(GLuint &shader_programme) {
+    GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vs, 1, &vertex_shader, NULL);
+    glCompileShader(vs);
+    GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fs, 1, &fragment_shader, NULL);
+    glCompileShader(fs);
+
+    shader_programme = glCreateProgram();
+    glAttachShader(shader_programme, fs);
+    glAttachShader(shader_programme, vs);
+    glLinkProgram(shader_programme);
+
+    glDeleteShader(vs);
+    glDeleteShader(fs);
+}
+
+GLuint vao;
+
+void draw() {
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
 int main(int argc, char **argv) {
+    // start GL context and O/S window using the GLFW helper library
+    if (!glfwInit()) {
+        std::cerr << "ERROR: could not start GLFW3" << std::endl;
+        return 1;
+    }
     GLFWwindow *window;
 
     glfwInit();
-    window = glfwCreateWindow(WIDTH, HEIGHT, argv[0], NULL, NULL);
+    window = glfwCreateWindow(WIDTH, HEIGHT, "Brave-2", NULL, NULL);
+    if (!window) {
+        std::cerr << "ERROR: could not open window with GLFW3" << std::endl;
+        glfwTerminate();
+        return 1;
+    }
     glfwMakeContextCurrent(window);
 
-    Initialize();
+    // start GLEW extension handler
+    glewExperimental = GL_TRUE;
+    glewInit();
 
-    glfwSetWindowSizeCallback(window, Resize);
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetMouseButtonCallback(window, MouseClickCallback);
-    glfwSetCursorPosCallback(window, MouseMotionCallback);
+    // get version info
+    const GLubyte *renderer = glGetString(GL_RENDERER); // get renderer string
+    const GLubyte *version = glGetString(GL_VERSION); // version as a string
+    std::cerr << "Renderer: " << renderer << std::endl;
+    std::cerr << "OpenGL version supported: " << version << std::endl;
+
+//    Initialize();
+//
+//    glfwSetWindowSizeCallback(window, Resize);
+//    glfwSetKeyCallback(window, KeyCallback);
+//    glfwSetMouseButtonCallback(window, MouseClickCallback);
+//    glfwSetCursorPosCallback(window, MouseMotionCallback);
+
+//    ShaderFileLoader shader("shader/test_vs.glsl", "shader/test_fs.glsl");
+
+
+    initVbo(vao);
+    GLuint shader_programme;
+    initShader(shader_programme);
 
     while (!glfwWindowShouldClose(window)) {
-        float delta = glfwGetTime();
-        Update(window, delta);
-        RenderScene(window, delta);
-        glfwSetTime(0);
+        // wipe the drawing surface clear
+        glClearColor(0.3f,0.3f,0.3f,0.5f);
+        glClear(GL_COLOR_BUFFER_BIT);
+//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//        glClear(GL_RED);
+        glUseProgram(shader_programme);
+        draw();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    glfwDestroyWindow(window);
+    // close GL context and any other GLFW resources
+    glfwTerminate();
     return 0;
 }
