@@ -1,31 +1,24 @@
-/******************************
- *
- * Example "Square"
- * created by Syd
- *
- *******************************/
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <cstdlib>
 #include <iostream>
 
-static int WIDTH = 640;
-static int HEIGHT = 480;
-double PI = 3.1415;
-double trans = 0;
+#include "utils/math.h"
+#include "utils/gl_helper.h"
+
+static int WIDTH = 600;
+static int HEIGHT = 400;
 float rotatex = 0, rotatey = 0, mousex = 0, mousey = 0;
 bool dragging = false;
 int keyArr[350];
 
-static void Initialize(void) {
+static void Initialize() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 static void Update(GLFWwindow *window, float delta) {
-    std::cout << "delta:" << delta << std::endl;
     if (keyArr[GLFW_KEY_ESCAPE])
         glfwSetWindowShouldClose(window, 1);
     rotatex += keyArr[GLFW_KEY_LEFT] - keyArr[GLFW_KEY_RIGHT];
@@ -88,6 +81,7 @@ int main(int argc, char **argv) {
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetMouseButtonCallback(window, MouseClickCallback);
     glfwSetCursorPosCallback(window, MouseMotionCallback);
+
     while (!glfwWindowShouldClose(window)) {
         float delta = glfwGetTime();
         Update(window, delta);
@@ -96,6 +90,7 @@ int main(int argc, char **argv) {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
     glfwDestroyWindow(window);
     return 0;
 }
