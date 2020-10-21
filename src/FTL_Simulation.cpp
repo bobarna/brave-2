@@ -23,6 +23,11 @@ void FTL_Simulation::update(float dt) {
     // skip the first one
     for(auto it = ++particles.begin(); it != particles.end(); ++it) {
         Particle *p = *it;
+        vec3 tmp_pos = p->pos + dt * p->v + dt*dt*p->f;
+        // solve constraints
+        auto prev = *(it-1);
+        p->pos = l * normalize(p->pos - prev->pos);
+        p->d = p->pos - p->tmp_pos ;
         p->v = p->v + dt * (p->f / p->m);
         p->tmp_pos += p->v * dt;
         p->f = 0;
