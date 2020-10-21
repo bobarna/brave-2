@@ -1,7 +1,3 @@
-//
-// Created by bobarna on 2020. 10. 19..
-//
-
 #ifndef BRAVE2_MATH_H
 #define BRAVE2_MATH_H
 

@@ -7,8 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
 
 add_executable(${PROJECT_NAME}
-        src/utils/linmath.h
-        src/main.cpp src/utils/math.h src/utils/gl_helper.h src/Shader.h)
+        src/main.cpp src/utils/math.h src/utils/gl_helper.h src/Shader.h src/Particle.h src/ftl_simulation.cpp src/ftl_simulation.h)
 
 # opengl
 find_package(OpenGL REQUIRED)
