@@ -4,6 +4,7 @@
 #include "utils/math.h"
 
 class Particle {
+public:
     Particle(vec3 pos, float m): pos(pos), tmp_pos(pos), m(m) {};
     vec3 pos;
     vec3 tmp_pos;

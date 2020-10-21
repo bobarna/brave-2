@@ -5,6 +5,8 @@
 
 #include "utils/math.h"
 #include "utils/gl_helper.h"
+
+#include "FTL_Simulation.h"
 //#include "utils/ShaderFileLoader.h"
 
 static int WIDTH = 600;
@@ -97,8 +99,8 @@ const char *fragment_shader = R"(
 void initVbo(GLuint &vao) {
     float points[] = {
              0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-            -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-             0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+            -0.2f, 0.0f, 0.0f, 1.0f, 0.0f,
+             0.2f, 0.0f, 0.0f, 0.0f, 1.0f
     };
 
     unsigned int vbo = 0;
@@ -178,18 +180,28 @@ int main(int argc, char **argv) {
 //    ShaderFileLoader shader("shader/test_vs.glsl", "shader/test_fs.glsl");
 
 
-    initVbo(vao);
-    GLuint shader_programme;
-    initShader(shader_programme);
+//    initVbo(vao);
+//    GLuint shader_programme;
+//    initShader(shader_programme);
+
+    FTL_Simulation simulation(40, 0.02);
+    simulation.setup_simulation();
+    //gravity
+    simulation.add_force(vec3(0.0f, -0.1f, 0.0f));
 
     while (!glfwWindowShouldClose(window)) {
+        //clear color and depth buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glLoadIdentity();//load identity matrix
+
         // wipe the drawing surface clear
-        glClearColor(0.3f,0.3f,0.3f,0.5f);
+        glClearColor(0.6f, 0.6f, 0.6f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-//        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//        glClear(GL_RED);
-        glUseProgram(shader_programme);
-        draw();
+
+//        glUseProgram(shader_programme);
+//        draw();
+        simulation.draw();
+        simulation.update(0.002f);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
