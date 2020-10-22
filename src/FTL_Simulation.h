@@ -2,6 +2,7 @@
 #define BRAVE2_FTL_SIMULATION_H
 
 #include "Particle.h"
+#include "utils/util.h"
 class FTL_Simulation {
     size_t n; // number of particles
     float l; // length between each particle

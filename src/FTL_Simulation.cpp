@@ -7,10 +7,10 @@ FTL_Simulation::FTL_Simulation(size_t n, float l, vec3 color, vec3 pos) : n(n), 
 
 void FTL_Simulation::setup_simulation() {
     vec3 pos = start_pos;
-//    float m = 1.5f;
 
     for (size_t i = 0; i < n; i++) {
-        float m = (float) rand() / RAND_MAX * 3.0f + 1.5f;
+        //random mass
+        float m = util::randomOffsetf(1.5f, 3.0f);
         particles.push_back(new Particle(pos, m));
         pos.y -= l;
     }
@@ -19,7 +19,7 @@ void FTL_Simulation::setup_simulation() {
 void FTL_Simulation::add_force(vec3 f) {
     // skip the first particle
     for (auto p = ++particles.begin(); p != particles.end(); ++p)
-        ((Particle *) *p)->f += f;
+        ((Particle *) *p)->f += f ;
 }
 
 void FTL_Simulation::update(float dt) {
@@ -58,14 +58,12 @@ void FTL_Simulation::update(float dt) {
 }
 
 void FTL_Simulation::draw() {
-//    glLineWidth(0.04f);
+    glLineWidth(1.5f);
     glPointSize(5.0f);
     glBegin(GL_LINE_STRIP);
+//    glBegin(GL_POINTS);
     bool flag = true;
     for (auto p = particles.begin(); p != particles.end() - 1; ++p) {
-//        if(p == particles.begin()) glColor3f(0.6f, 0.2f, 0.2f);
-//        else glColor3f(color.x, color.y, color.z);
-
         glColor3f(color.x, color.y, color.z);
         flag = !flag;
         vec3 pos = ((Particle *) *p)->pos;

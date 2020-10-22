@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
 
 add_executable(${PROJECT_NAME}
-        src/main.cpp src/utils/math.h src/utils/gl_helper.h src/Shader.h src/Particle.h src/FTL_Simulation.cpp src/FTL_Simulation.h src/HairSimulation.cpp src/HairSimulation.h src/utils/util.h src/utils/util.cpp)
+        src/main.cpp src/utils/math.h src/utils/gl_helper.h src/Shader.h src/Particle.h src/FTL_Simulation.cpp src/FTL_Simulation.h src/HairSimulation.cpp src/HairSimulation.h src/utils/util.h src/utils/util.cpp src/PBD_Simulation.cpp src/PBD_Simulation.h src/utils/math.cpp)
 
 # opengl
 find_package(OpenGL REQUIRED)

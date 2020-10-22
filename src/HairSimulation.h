@@ -1,14 +1,12 @@
-//
-// Created by bobarna on 2020. 10. 22..
-//
-
 #ifndef BRAVE2_HAIRSIMULATION_H
 #define BRAVE2_HAIRSIMULATION_H
 
 
+#include <iostream>
 #include "utils/math.h"
 #include "FTL_Simulation.h"
 #include "utils/util.h"
+#include "PBD_Simulation.h"
 
 class HairSimulation {
 public:
@@ -16,19 +14,23 @@ public:
     size_t nr_sims;
     size_t nr_segments;
     float l_seg;
-    std::vector<FTL_Simulation> sims;
+//    std::vector<FTL_Simulation> sims;
+    std::vector<PBD_Simulation> sims;
     vec3 external_forces;
 
     void add_force_to_all_sims(vec3 force) {
+        external_forces += force;
+        std::cout << "external forces: " << force << std::endl;
         for (auto & sim : sims)
             sim.add_force(force);
     }
 
     HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) : head(_head), nr_sims(_nr_sims),
                                                                                      nr_segments(_nr_segments),
-                                                                                     l_seg(_l_seg) {
+                                                                                     l_seg(_l_seg),
+                                                                                     external_forces(.0f,.0f,.0f){
+        // placing hair on the head
         propagateHead();
-        add_force_to_all_sims(vec3(-0.05f, -0.05f, 0.0f));
     }
 
     void propagateHead() {

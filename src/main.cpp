@@ -19,9 +19,10 @@ int keyArr[350];
 vec3 force_generated(0.0f, 0.0f, 0.0f);
 
 static void Initialize() {
+    glViewport(0,0,WIDTH, HEIGHT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glClearColor(196.0f/255.0f, 233.0f/255.0f, 241.0f/255.0f, 1.0f);
+    glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
 }
 
 static void Update(GLFWwindow *window, float delta) {
@@ -57,30 +58,42 @@ static void Resize(GLFWwindow *window, int w, int h) {
 
 static void getForce(char dir, float power = 0.05f) {
     vec3 force;
-    switch(dir) {
-        case 'x': force = power*vec3(-1.f,   0.f,   .0f); break;
-        case 'X': force = power*vec3( 1.f,   0.f,   .0f); break;
-        case 'y': force = power*vec3(  .0f, -1.f,    .0f); break;
-        case 'Y': force = power*vec3(  .0f,  1.f,    .0f); break;
-        case 'z': force = power*vec3(  .0f,   .0f, -1.f); break;
-        case 'Z': force = power*vec3(  .0f,   .0f,  1.f); break;
+    switch (dir) {
+        case 'x':
+            force = power * vec3(-1.f, 0.f, .0f);
+            break;
+        case 'X':
+            force = power * vec3(1.f, 0.f, .0f);
+            break;
+        case 'y':
+            force = power * vec3(.0f, -1.f, .0f);
+            break;
+        case 'Y':
+            force = power * vec3(.0f, 1.f, .0f);
+            break;
+        case 'z':
+            force = power * vec3(.0f, .0f, -1.f);
+            break;
+        case 'Z':
+            force = power * vec3(.0f, .0f, 1.f);
+            break;
     }
 //    std::cout << force.x << " " << force.y << " " << force.z << std::endl;
     force_generated += force;
 }
 
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    if(action != GLFW_RELEASE) return;
-    if(key == GLFW_KEY_X)
-        if(mods && GLFW_MOD_SHIFT)
+    if (action != GLFW_RELEASE) return;
+    if (key == GLFW_KEY_X)
+        if (mods && GLFW_MOD_SHIFT)
             getForce('X');
         else getForce('x');
-    if(key == GLFW_KEY_Y)
-        if(mods && GLFW_MOD_SHIFT)
+    if (key == GLFW_KEY_Y)
+        if (mods && GLFW_MOD_SHIFT)
             getForce('Y');
         else getForce('y');
-    if(key == GLFW_KEY_Z)
-        if(mods && GLFW_MOD_SHIFT)
+    if (key == GLFW_KEY_Z)
+        if (mods && GLFW_MOD_SHIFT)
             getForce('Z');
         else getForce('Z');
 }
@@ -88,7 +101,7 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
     switch (button) {
         case GLFW_MOUSE_BUTTON_1:
-            dragging = (action==GLFW_PRESS);
+            dragging = (action == GLFW_PRESS);
             break;
     }
 }
@@ -96,21 +109,22 @@ static void MouseClickCallback(GLFWwindow *window, int button, int action, int m
 struct Mouse {
     float x;
     float y;
+
     Mouse(float x, float y) {
-        this->x = x/WIDTH;
-        this->y = 1 - (y/HEIGHT);
+        this->x = x / WIDTH;
+        this->y = 1 - (y / HEIGHT);
     }
 };
 
 Mouse prev_mouse_pos(0, 0);
 
 static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
-    if(!dragging) return;
-    Mouse curr_mouse((float)x, (float)y);
+    if (!dragging) return;
+    Mouse curr_mouse((float) x, (float) y);
     vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
     prev_mouse_pos = curr_mouse;
     std::cout << delta_mouse.x << " " << delta_mouse.y << std::endl;
-    vec3 force((float)delta_mouse.x/5.f, (float)delta_mouse.y/5.f, 0.0f);
+    vec3 force((float) delta_mouse.x / 5.f, (float) delta_mouse.y / 5.f, 0.0f);
     force_generated += force;
 }
 
@@ -141,9 +155,9 @@ const char *fragment_shader = R"(
 
 void initVbo(GLuint &vao) {
     float points[] = {
-             0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+            0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
             -0.2f, 0.0f, 0.0f, 1.0f, 0.0f,
-             0.2f, 0.0f, 0.0f, 0.0f, 1.0f
+            0.2f, 0.0f, 0.0f, 0.0f, 1.0f
     };
 
     unsigned int vbo = 0;
@@ -156,10 +170,10 @@ void initVbo(GLuint &vao) {
     glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    
+
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, NULL);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*) (2*sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void *) (2 * sizeof(float)));
 }
 
 void initShader(GLuint &shader_programme) {
@@ -231,6 +245,7 @@ int main(int argc, char **argv) {
     Initialize();
     vec3 head_center(0.0f, 0.55f, 1.0f);
     HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
+//    HairSimulation hair_simulation(head_center, 1, 5, 0.025f);
 
     while (!glfwWindowShouldClose(window)) {
         //clear color and depth buffer
@@ -242,9 +257,14 @@ int main(int argc, char **argv) {
 
 //        glUseProgram(shader_programme);
 //        draw();
+//        force_generated = vec3(0,-0.5f,0);
         hair_simulation.add_force_to_all_sims(force_generated);
-        force_generated = vec3(0,0,0);
-        hair_simulation.update(0.05f);
+        // gravity
+//        hair_simulation.add_force_to_all_sims(vec3(0,-0.01, 0));
+
+        // resetting generated force
+        force_generated = vec3(0, 0, 0);
+        hair_simulation.update(0.08f);
 
         hair_simulation.draw();
 
