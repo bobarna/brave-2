@@ -21,7 +21,7 @@ vec3 force_generated(0.0f, 0.0f, 0.0f);
 static void Initialize() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearColor(196.0f/255.0f, 233.0f/255.0f, 241.0f/255.0f, 1.0f);
 }
 
 static void Update(GLFWwindow *window, float delta) {
@@ -88,7 +88,7 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
     switch (button) {
         case GLFW_MOUSE_BUTTON_1:
-            dragging = action;
+            dragging = (action==GLFW_PRESS);
             break;
     }
 }
@@ -105,11 +105,12 @@ struct Mouse {
 Mouse prev_mouse_pos(0, 0);
 
 static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
+    if(!dragging) return;
     Mouse curr_mouse((float)x, (float)y);
     vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
     prev_mouse_pos = curr_mouse;
     std::cout << delta_mouse.x << " " << delta_mouse.y << std::endl;
-    vec3 force((float)delta_mouse.x/5, (float)delta_mouse.y/5, 0.0f);
+    vec3 force((float)delta_mouse.x/5.f, (float)delta_mouse.y/5.f, 0.0f);
     force_generated += force;
 }
 
@@ -212,14 +213,11 @@ int main(int argc, char **argv) {
     std::cerr << "Renderer: " << renderer << std::endl;
     std::cerr << "OpenGL version supported: " << version << std::endl;
 
-//    Initialize();
 //
 //    glfwSetWindowSizeCallback(window, Resize);
     glfwSetKeyCallback(window, KeyCallback);
-//    glfwSetMouseButtonCallback(window, MouseClickCallback);
+    glfwSetMouseButtonCallback(window, MouseClickCallback);
     glfwSetCursorPosCallback(window, MouseMotionCallback);
-
-//    ShaderFileLoader shader("shader/test_vs.glsl", "shader/test_fs.glsl");
 
 
 //    initVbo(vao);
@@ -228,17 +226,18 @@ int main(int argc, char **argv) {
 
 
     srand(time(NULL));
-    vec3 head_center(0.0f, 0.55f, 1.0f);
-    HairSimulation hair_simulation(head_center, 300, 20, 0.05f);
 
+    // Initialize
+    Initialize();
+    vec3 head_center(0.0f, 0.55f, 1.0f);
+    HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
 
     while (!glfwWindowShouldClose(window)) {
         //clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //glLoadIdentity();//load identity matrix
+        glLoadIdentity();//load identity matrix
 
         // wipe the drawing surface clear
-        glClearColor(0.6f, 0.6f, 0.6f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
 //        glUseProgram(shader_programme);
@@ -248,8 +247,6 @@ int main(int argc, char **argv) {
         hair_simulation.update(0.05f);
 
         hair_simulation.draw();
-
-//        addForceToAllSims(vec3(0.0f, -0.01f, 0.0f));
 
         glfwSwapBuffers(window);
         glfwPollEvents();
