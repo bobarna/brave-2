@@ -11,7 +11,7 @@
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
-float rotatex = 0, rotatey = 0, mousex = 0, mousey = 0;
+//double rotatex = 0, rotatey = 0, mousex = 0, mousey = 0;
 bool dragging = false;
 int keyArr[350];
 
@@ -24,8 +24,8 @@ static void Initialize() {
 static void Update(GLFWwindow *window, float delta) {
     if (keyArr[GLFW_KEY_ESCAPE])
         glfwSetWindowShouldClose(window, 1);
-    rotatex += keyArr[GLFW_KEY_LEFT] - keyArr[GLFW_KEY_RIGHT];
-    rotatey += keyArr[GLFW_KEY_UP] - keyArr[GLFW_KEY_DOWN];
+//    rotatex += keyArr[GLFW_KEY_LEFT] - keyArr[GLFW_KEY_RIGHT];
+//    rotatey += keyArr[GLFW_KEY_UP] - keyArr[GLFW_KEY_DOWN];
 }
 
 static void RenderScene(GLFWwindow *window, float delta) {
@@ -52,8 +52,41 @@ static void Resize(GLFWwindow *window, int w, int h) {
     glMatrixMode(GL_MODELVIEW);
 }
 
+std::vector<FTL_Simulation> sims;
+
+static void addForceToAllSims(vec3 force) {
+    for(auto it = sims.begin(); it != sims.end(); it++)
+        it->add_force(force);
+}
+
+static void getForce(char dir, float power = 0.05f) {
+    vec3 force;
+    switch(dir) {
+        case 'x': force = power*vec3(-1.f,   0.f,   .0f); break;
+        case 'X': force = power*vec3( 1.f,   0.f,   .0f); break;
+        case 'y': force = power*vec3(  .0f, -1.f,    .0f); break;
+        case 'Y': force = power*vec3(  .0f,  1.f,    .0f); break;
+        case 'z': force = power*vec3(  .0f,   .0f, -1.f); break;
+        case 'Z': force = power*vec3(  .0f,   .0f,  1.f); break;
+    }
+    std::cout << force.x << " " << force.y << " " << force.z << std::endl;
+    addForceToAllSims(force);
+}
+
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    keyArr[key] = action;
+    if(action != GLFW_RELEASE) return;
+    if(key == GLFW_KEY_X)
+        if(mods && GLFW_MOD_SHIFT)
+            getForce('X');
+        else getForce('x');
+    if(key == GLFW_KEY_Y)
+        if(mods && GLFW_MOD_SHIFT)
+            getForce('Y');
+        else getForce('y');
+    if(key == GLFW_KEY_Z)
+        if(mods && GLFW_MOD_SHIFT)
+            getForce('Z');
+        else getForce('Z');
 }
 
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
@@ -64,11 +97,26 @@ static void MouseClickCallback(GLFWwindow *window, int button, int action, int m
     }
 }
 
-static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
-    if (dragging) {
-        mousex += x;
-        mousey += y;
+struct Mouse {
+    float x;
+    float y;
+    Mouse(float x, float y) {
+        this->x = x/WIDTH;
+        this->y = 1 - (y/HEIGHT);
     }
+};
+
+Mouse prev_mouse_pos(0, 0);
+
+static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
+    Mouse curr_mouse((float)x, (float)y);
+    vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
+    prev_mouse_pos = curr_mouse;
+    std::cout << delta_mouse.x << " " << delta_mouse.y << std::endl;
+//    vec3 force((float)delta_mouse.x/10, 0.0f, 0.0f);
+    vec3 force((float)delta_mouse.x/10, (float)delta_mouse.y/10, 0.0f);
+//    std::cout << force.x << " " << force.y;
+    addForceToAllSims(force);
 }
 
 const char *vertex_shader = R"(
@@ -173,9 +221,9 @@ int main(int argc, char **argv) {
 //    Initialize();
 //
 //    glfwSetWindowSizeCallback(window, Resize);
-//    glfwSetKeyCallback(window, KeyCallback);
+    glfwSetKeyCallback(window, KeyCallback);
 //    glfwSetMouseButtonCallback(window, MouseClickCallback);
-//    glfwSetCursorPosCallback(window, MouseMotionCallback);
+    glfwSetCursorPosCallback(window, MouseMotionCallback);
 
 //    ShaderFileLoader shader("shader/test_vs.glsl", "shader/test_fs.glsl");
 
@@ -184,10 +232,29 @@ int main(int argc, char **argv) {
 //    GLuint shader_programme;
 //    initShader(shader_programme);
 
-    FTL_Simulation simulation(40, 0.02);
-    simulation.setup_simulation();
-    //gravity
-    simulation.add_force(vec3(0.0f, -0.1f, 0.0f));
+
+    srand(time(NULL));
+    vec3 head_center(0.0f, 0.55f, 1.0f);
+    float step = M_PI/350;
+    float curr_angle = M_PI;
+    float r = 0.20f;
+    for(int i = 0; i < 350; i++) {
+        float red = (float) rand() / RAND_MAX * 50 + 200;
+        float green = (float) rand() / RAND_MAX * 20 + 91;
+        float blue = (float) rand() / RAND_MAX * 20 + 22;
+        red /= 255;
+        green /= 255;
+        blue /= 255;
+        vec3 color(red, green, blue);
+//        vec3 color(222.0f/255.0f, 101.0f/255.0f, 32.0f/255.0f);
+
+        vec2 curr_pos(head_center.x + cosf(curr_angle)*r*1.2, head_center.y + sinf(curr_angle)*r*1.1);
+        float length_of_segments = (float) rand() / RAND_MAX * 0.03 + 0.02;
+        sims.emplace_back(25, length_of_segments, color, curr_pos);
+        curr_angle -= step;
+        //gravity
+        sims[sims.size()-1].add_force(vec3(.2f, -0.45f, .0f));
+    }
 
     while (!glfwWindowShouldClose(window)) {
         //clear color and depth buffer
@@ -200,8 +267,12 @@ int main(int argc, char **argv) {
 
 //        glUseProgram(shader_programme);
 //        draw();
-        simulation.draw();
-        simulation.update(0.002f);
+        for(auto it = sims.begin(); it != sims.end(); it++) {
+            it->draw();
+            it->update(0.05f);
+        }
+//        addForceToAllSims(vec3(0.0f, -0.01f, 0.0f));
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
