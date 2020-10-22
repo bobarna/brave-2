@@ -7,6 +7,7 @@
 #include "utils/gl_helper.h"
 
 #include "FTL_Simulation.h"
+#include "HairSimulation.h"
 //#include "utils/ShaderFileLoader.h"
 
 static int WIDTH = 600;
@@ -14,6 +15,8 @@ static int HEIGHT = 400;
 //double rotatex = 0, rotatey = 0, mousex = 0, mousey = 0;
 bool dragging = false;
 int keyArr[350];
+
+vec3 force_generated(0.0f, 0.0f, 0.0f);
 
 static void Initialize() {
     glMatrixMode(GL_MODELVIEW);
@@ -52,13 +55,6 @@ static void Resize(GLFWwindow *window, int w, int h) {
     glMatrixMode(GL_MODELVIEW);
 }
 
-std::vector<FTL_Simulation> sims;
-
-static void addForceToAllSims(vec3 force) {
-    for(auto it = sims.begin(); it != sims.end(); it++)
-        it->add_force(force);
-}
-
 static void getForce(char dir, float power = 0.05f) {
     vec3 force;
     switch(dir) {
@@ -69,8 +65,8 @@ static void getForce(char dir, float power = 0.05f) {
         case 'z': force = power*vec3(  .0f,   .0f, -1.f); break;
         case 'Z': force = power*vec3(  .0f,   .0f,  1.f); break;
     }
-    std::cout << force.x << " " << force.y << " " << force.z << std::endl;
-    addForceToAllSims(force);
+//    std::cout << force.x << " " << force.y << " " << force.z << std::endl;
+    force_generated += force;
 }
 
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -113,10 +109,8 @@ static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
     vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
     prev_mouse_pos = curr_mouse;
     std::cout << delta_mouse.x << " " << delta_mouse.y << std::endl;
-//    vec3 force((float)delta_mouse.x/10, 0.0f, 0.0f);
-    vec3 force((float)delta_mouse.x/10, (float)delta_mouse.y/10, 0.0f);
-//    std::cout << force.x << " " << force.y;
-    addForceToAllSims(force);
+    vec3 force((float)delta_mouse.x/5, (float)delta_mouse.y/5, 0.0f);
+    force_generated += force;
 }
 
 const char *vertex_shader = R"(
@@ -235,26 +229,8 @@ int main(int argc, char **argv) {
 
     srand(time(NULL));
     vec3 head_center(0.0f, 0.55f, 1.0f);
-    float step = M_PI/350;
-    float curr_angle = M_PI;
-    float r = 0.20f;
-    for(int i = 0; i < 350; i++) {
-        float red = (float) rand() / RAND_MAX * 50 + 200;
-        float green = (float) rand() / RAND_MAX * 20 + 91;
-        float blue = (float) rand() / RAND_MAX * 20 + 22;
-        red /= 255;
-        green /= 255;
-        blue /= 255;
-        vec3 color(red, green, blue);
-//        vec3 color(222.0f/255.0f, 101.0f/255.0f, 32.0f/255.0f);
+    HairSimulation hair_simulation(head_center, 300, 20, 0.05f);
 
-        vec2 curr_pos(head_center.x + cosf(curr_angle)*r*1.2, head_center.y + sinf(curr_angle)*r*1.1);
-        float length_of_segments = (float) rand() / RAND_MAX * 0.03 + 0.02;
-        sims.emplace_back(25, length_of_segments, color, curr_pos);
-        curr_angle -= step;
-        //gravity
-        sims[sims.size()-1].add_force(vec3(.2f, -0.45f, .0f));
-    }
 
     while (!glfwWindowShouldClose(window)) {
         //clear color and depth buffer
@@ -267,10 +243,12 @@ int main(int argc, char **argv) {
 
 //        glUseProgram(shader_programme);
 //        draw();
-        for(auto it = sims.begin(); it != sims.end(); it++) {
-            it->draw();
-            it->update(0.05f);
-        }
+        hair_simulation.add_force_to_all_sims(force_generated);
+        force_generated = vec3(0,0,0);
+        hair_simulation.update(0.05f);
+
+        hair_simulation.draw();
+
 //        addForceToAllSims(vec3(0.0f, -0.01f, 0.0f));
 
         glfwSwapBuffers(window);
