@@ -4,3 +4,4 @@ CMake*
 Makefile
 !CMakeLists.txt
 build
+*.mp4

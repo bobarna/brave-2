@@ -2,7 +2,7 @@
 #define BRAVE2_HAIRSIMULATION_H
 
 
-#include <iostream>
+//#include <iostream>
 #include "utils/math.h"
 #include "FTL_Simulation.h"
 #include "utils/util.h"
@@ -20,7 +20,7 @@ public:
 
     void add_force_to_all_sims(vec3 force) {
         external_forces += force;
-        std::cout << "external forces: " << force << std::endl;
+//        std::cout << "external forces: " << force << std::endl;
         for (auto & sim : sims)
             sim.add_force(force);
     }

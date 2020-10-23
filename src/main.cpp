@@ -2,13 +2,15 @@
 #include <GLFW/glfw3.h>
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
 
 #include "utils/math.h"
 #include "utils/gl_helper.h"
 
 #include "FTL_Simulation.h"
 #include "HairSimulation.h"
-//#include "utils/ShaderFileLoader.h"
+#include "utils/other/stb_image_write.h"
+#include "utils/save_image.h"
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
@@ -247,6 +249,7 @@ int main(int argc, char **argv) {
     HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
 //    HairSimulation hair_simulation(head_center, 1, 5, 0.025f);
 
+    int image_nr = 0;
     while (!glfwWindowShouldClose(window)) {
         //clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -267,6 +270,10 @@ int main(int argc, char **argv) {
         hair_simulation.update(0.08f);
 
         hair_simulation.draw();
+
+        char path[100];
+        sprintf(path, "../renders/render%04d.png", image_nr++);
+        saveImage(path, window);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
