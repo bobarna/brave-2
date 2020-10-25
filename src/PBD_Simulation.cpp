@@ -17,6 +17,7 @@ void PBD_Simulation::initialize() {
     for (size_t i = 0; i < n; i++) {
         //random mass
         float m = util::randomOffsetf(1.5f, 3.0f);
+//        float m = 1.5f;
         if(i == 0) m = 0.0000000001;
         particles.push_back(new Particle(pos, m));
         pos.y -= l;
@@ -82,7 +83,9 @@ void PBD_Simulation::solve_distance_constraint(Particle *p1, Particle *p2) {
     vec3 d_p1 = -(p1->w / (p1->w + p2->w)) *
                 (length(p1->tmp_pos - p2->tmp_pos) - l) *
                 (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
-    vec3 d_p2 = -d_p1;
+    vec3 d_p2 = (p1->w / (p1->w + p2->w)) *
+                (length(p1->tmp_pos - p2->tmp_pos) - l) *
+                (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);;
 
     p1->tmp_pos += d_p1;
     p2->tmp_pos += d_p2;
@@ -102,3 +105,7 @@ void PBD_Simulation::draw() {
     }
     glEnd();
 }
+
+//vec3 PBD_Simulation::get_external_forces() {
+//    return external_forces;
+//}

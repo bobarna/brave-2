@@ -21,6 +21,7 @@ public:
     void add_force(vec3 f);
     void update(float dt);
     void draw();
+    vec3 get_external_forces();
 };
 
 
