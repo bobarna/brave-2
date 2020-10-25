@@ -19,6 +19,8 @@ bool dragging = false;
 int keyArr[350];
 
 vec3 force_generated(0.0f, 0.0f, 0.0f);
+bool gravityOn = false;
+bool capturing = false;
 
 static void Initialize() {
     glViewport(0,0,WIDTH, HEIGHT);
@@ -98,6 +100,21 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
         if (mods && GLFW_MOD_SHIFT)
             getForce('Z');
         else getForce('Z');
+    if (key == GLFW_KEY_G) {
+        gravityOn ? gravityOn=false : gravityOn=true;
+        std::cout << "gravity switched" << std::endl;
+    }
+    if (key == GLFW_KEY_C) {
+        if(capturing) {
+            capturing = false;
+            std::cout << "Capturing stopped." << std::endl;
+        } else
+        {
+            capturing = true;
+            std::cout << "Capturing started." << std::endl;
+        }
+    }
+
 }
 
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
@@ -125,8 +142,8 @@ static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
     Mouse curr_mouse((float) x, (float) y);
     vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
     prev_mouse_pos = curr_mouse;
-    std::cout << delta_mouse.x << " " << delta_mouse.y << std::endl;
-    vec3 force((float) delta_mouse.x / 5.f, (float) delta_mouse.y / 5.f, 0.0f);
+//    std::cout << delta_mouse.x << " " << delta_mouse.y << std::endl;
+    vec3 force((float) delta_mouse.x/3.0f, (float) delta_mouse.y/3.0f, 0.0f);
     force_generated += force;
 }
 
@@ -246,11 +263,24 @@ int main(int argc, char **argv) {
     // Initialize
     Initialize();
     vec3 head_center(0.0f, 0.55f, 1.0f);
-    HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
-//    HairSimulation hair_simulation(head_center, 1, 5, 0.025f);
+//    HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
+    HairSimulation hair_simulation(head_center, 200, 15, 0.05f);
+
+//    vec3 center(0, 0, 1.0f);
+//    HairSimulation hair_simulation(center, 1, 50, 0.005f);
 
     int image_nr = 0;
+    double time_elapsed = 0.0f;
     while (!glfwWindowShouldClose(window)) {
+
+        // ticking every 24 FPS
+        bool tick = false;
+        double time_elapased = glfwGetTime();
+        if(time_elapased >= 1.0f/24.0f) {
+            glfwSetTime(0.0f);
+            tick = true;
+        }
+
         //clear color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();//load identity matrix
@@ -261,9 +291,16 @@ int main(int argc, char **argv) {
 //        glUseProgram(shader_programme);
 //        draw();
 //        force_generated = vec3(0,-0.5f,0);
-        hair_simulation.add_force_to_all_sims(force_generated);
+        if( force_generated.x != 0.0f ||
+            force_generated.y != 0.0f ||
+            force_generated.z != 0.0f )
+            hair_simulation.add_force_to_all_sims(force_generated);
+
         // gravity
-//        hair_simulation.add_force_to_all_sims(vec3(0,-0.01, 0));
+        if(gravityOn) {
+            hair_simulation.add_force_to_all_sims(vec3(0,-0.5, 0));
+            gravityOn = false;
+        }
 
         // resetting generated force
         force_generated = vec3(0, 0, 0);
@@ -271,9 +308,21 @@ int main(int argc, char **argv) {
 
         hair_simulation.draw();
 
-        char path[100];
-        sprintf(path, "../renders/render%04d.png", image_nr++);
-        saveImage(path, window);
+        if(capturing) {
+            glPointSize(20.0f);
+            glBegin(GL_POINTS);
+            glColor3f(200.0f, 0.0f, 0.0f);
+            glVertex3f(-0.8f, -0.8f, 1.0f);
+            glEnd();
+        }
+
+        if(tick && capturing) {
+            char path[100];
+            sprintf(path, "../renders/render%04d.bmp", image_nr++);
+            saveImage(path, window);
+            std::cout << path << ".bmp printed" << std::endl;
+        }
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
