@@ -11,6 +11,7 @@ void FTL_Simulation::setup_simulation() {
     for (size_t i = 0; i < n; i++) {
         //random mass
         float m = util::randomOffsetf(1.5f, 3.0f);
+//        float m = 1.5f;
         particles.push_back(new Particle(pos, m));
         pos.y -= l;
     }

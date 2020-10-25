@@ -23,7 +23,15 @@ public:
 //        std::cout << "external forces: " << force << std::endl;
         for (auto & sim : sims)
             sim.add_force(force);
+
+        std::cout << external_forces << std::endl;
     }
+
+//    void reset_external_forces () {
+//        external_forces = vec3(0.0f, 0.0f, 0.0f);
+//        for(auto & sim : sims)
+//            sim.add_force(sim.)
+////    };
 
     HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) : head(_head), nr_sims(_nr_sims),
                                                                                      nr_segments(_nr_segments),
@@ -38,12 +46,16 @@ public:
         float step = M_PI / nr_sims;
         float curr_angle = M_PI;
         float r = 0.20f;
+
+        if(nr_sims == 1) r = 0.0;
+
         for (size_t i = 0; i < nr_sims; i++) {
 
             vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
             vec2 curr_pos(head.x + cosf(curr_angle) * r * 1.2, head.y + sinf(curr_angle) * r * 1.1);
 
             float l_seg_rand = util::randomOffsetf(l_seg, 0.03f);
+//            float l_seg_rand = util::randomOffsetf(l_seg, 0.0f);
 
             sims.emplace_back(nr_segments, l_seg_rand, color, curr_pos);
             curr_angle -= step;
