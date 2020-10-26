@@ -5,17 +5,29 @@
 
 class Particle {
 public:
-    Particle(vec3 pos, float m): pos(pos), tmp_pos(pos), m(m), w(1/m), v(0.0f) {};
+    Particle(vec3 pos, float w): pos(pos), tmp_pos(pos), w(w), v(0.0f) {};
     vec3 pos;
     vec3 tmp_pos;
 
-    float m; //mass of the particle
+    // TODO store only inverse mass of the particle
+//    float m; //mass of the particle
     float w; // inverse mass of the particle
+
 
     vec3 v; //velocity
 
-    vec3 f; //forces
+    // TODO don't store force in particle
+    //vec3 f; //forces
     vec3 d; // velocity correction vector
+
+    /** gets the particle's mass
+     *
+     * @return the particle's mass. If infinity, 0 is returned.
+     */
+    float get_mass() {
+        if (w == 0.0f) return 0;
+        return 1/w;
+    }
 };
 
 

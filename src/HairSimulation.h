@@ -20,18 +20,17 @@ public:
 
     void add_force_to_all_sims(vec3 force) {
         external_forces += force;
-//        std::cout << "external forces: " << force << std::endl;
         for (auto & sim : sims)
             sim.add_force(force);
 
-        std::cout << external_forces << std::endl;
+        std::cout << "External forces:" << external_forces << std::endl;
     }
 
 //    void reset_external_forces () {
 //        external_forces = vec3(0.0f, 0.0f, 0.0f);
 //        for(auto & sim : sims)
 //            sim.add_force(sim.)
-////    };
+//    };
 
     HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) : head(_head), nr_sims(_nr_sims),
                                                                                      nr_segments(_nr_segments),
@@ -70,6 +69,10 @@ public:
     void draw() {
         for (auto &sim : sims)
             sim.draw();
+    }
+
+    vec3 get_external_forces() {
+        return external_forces;
     }
 
 };

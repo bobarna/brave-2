@@ -20,7 +20,9 @@ void FTL_Simulation::setup_simulation() {
 void FTL_Simulation::add_force(vec3 f) {
     // skip the first particle
     for (auto p = ++particles.begin(); p != particles.end(); ++p)
-        ((Particle *) *p)->f += f ;
+        //TODO rework this
+        //((Particle *) *p)->f += f
+        ;
 }
 
 void FTL_Simulation::update(float dt) {
@@ -31,7 +33,8 @@ void FTL_Simulation::update(float dt) {
             p->tmp_pos = p->pos;
             continue;
         }
-        p->v = p->v + dt * (p->f / p->m);
+        // TODO rework forces acting on current particle
+        //p->v = p->v + dt * (p->f * p->w);
         p->tmp_pos += (p->v * dt);
 //        p->f = 0;
         p->v *= 0.8;

@@ -15,7 +15,7 @@ class PBD_Simulation {
     void solve_position_constraint(Particle *pParticle, Particle *pParticle1);
 public:
     PBD_Simulation(size_t n, float l, vec3 color, vec3 pos);
-//    ~PBD_Simulation();
+    //TODO write destructor
 
     void initialize();
     void add_force(vec3 f);

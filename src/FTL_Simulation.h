@@ -19,7 +19,6 @@ public:
     void add_force(vec3);
     void update(float);
     void draw();
-    vec3 getForce() {return particles[0]->f;}
 };
 
 

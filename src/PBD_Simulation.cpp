@@ -6,25 +6,19 @@ PBD_Simulation::PBD_Simulation(size_t n, float l, vec3 color, vec3 pos) :
     initialize();
 }
 
-//PBD_Simulation::~PBD_Simulation() {
-//    //TODO check if this is a working destructor
-//    for (auto it = particles.begin(); it != particles.end(); ++it)
-//        delete (*it);
-//}
-
 void PBD_Simulation::initialize() {
     vec3 pos = start_pos;
     for (size_t i = 0; i < n; i++) {
         //random mass
         float m = util::randomOffsetf(1.5f, 3.0f);
 //        float m = 1.5f;
-        if(i == 0) m = 0.0000000001;
-        particles.push_back(new Particle(pos, m));
+        // TODO store inverse mass instead of just the mass
+        // first particle's position is infinite
+        if(i == 0) particles.push_back(new Particle(pos, 0));
+        else particles.push_back(new Particle(pos, 1/m));
+        // propagate particles downward
         pos.y -= l;
     }
-
-    // first particle has "infinite" mass
-
 }
 
 void PBD_Simulation::add_force(vec3 f) {
@@ -32,13 +26,17 @@ void PBD_Simulation::add_force(vec3 f) {
 }
 
 void PBD_Simulation::update(float dt) {
-    // Based on http://cg.iit.bme.hu/~umitomi/publications/GRAFGEO2016_PhysicsSimulators.pdf
+    // TODO Ez a publikáció hibás (4.2-es bekezdés)
+    // http://cg.iit.bme.hu/~umitomi/publications/GRAFGEO2016_PhysicsSimulators.pdf
 
     // setting velocity
-    // skipping first one
     for(auto it = particles.begin(); it != particles.end(); ++it) {
         Particle *p = *it;
         p->v = p->v + dt * (p->w) * external_forces;
+
+        // damp velocities
+        // TODO better damping technique: (3.5) https://matthias-research.github.io/pages/publications/posBasedDyn.pdf
+        p->v *= 0.99;
     }
 
     //calculating temporal positions
@@ -50,7 +48,7 @@ void PBD_Simulation::update(float dt) {
 
     // solve distance constraints
     // TODO find out ideal number of iterations
-    size_t num_iter = 50;
+    size_t num_iter = 5;
     for (size_t iter = 0; iter < num_iter; iter++) {
         //keep first particle in place
         // TODO find a better way to do this
@@ -59,7 +57,6 @@ void PBD_Simulation::update(float dt) {
         //distance between subsequent particles should be l
         for (size_t i = 1; i < particles.size(); i++)
             solve_distance_constraint(particles[i - 1], particles[i]);
-
     }
 
     // updating velocities and positions
@@ -83,7 +80,7 @@ void PBD_Simulation::solve_distance_constraint(Particle *p1, Particle *p2) {
     vec3 d_p1 = -(p1->w / (p1->w + p2->w)) *
                 (length(p1->tmp_pos - p2->tmp_pos) - l) *
                 (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
-    vec3 d_p2 = (p1->w / (p1->w + p2->w)) *
+    vec3 d_p2 = (p2->w / (p1->w + p2->w)) *
                 (length(p1->tmp_pos - p2->tmp_pos) - l) *
                 (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);;
 
@@ -106,6 +103,6 @@ void PBD_Simulation::draw() {
     glEnd();
 }
 
-//vec3 PBD_Simulation::get_external_forces() {
-//    return external_forces;
-//}
+vec3 PBD_Simulation::get_external_forces() {
+    return external_forces;
+}
