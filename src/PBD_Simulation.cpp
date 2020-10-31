@@ -12,10 +12,11 @@ void PBD_Simulation::initialize() {
         //random mass
         float m = util::randomOffsetf(1.5f, 3.0f);
 //        float m = 1.5f;
-        // TODO store inverse mass instead of just the mass
+
         // first particle's position is infinite
         if(i == 0) particles.push_back(new Particle(pos, 0));
         else particles.push_back(new Particle(pos, 1/m));
+
         // propagate particles downward
         pos.y -= l;
     }
@@ -36,7 +37,7 @@ void PBD_Simulation::update(float dt) {
 
         // damp velocities
         // TODO better damping technique: (3.5) https://matthias-research.github.io/pages/publications/posBasedDyn.pdf
-        p->v *= 0.99;
+        p->v *= .99f;
     }
 
     //calculating temporal positions
@@ -48,7 +49,7 @@ void PBD_Simulation::update(float dt) {
 
     // solve distance constraints
     // TODO find out ideal number of iterations
-    size_t num_iter = 5;
+    size_t num_iter = 10;
     for (size_t iter = 0; iter < num_iter; iter++) {
         //keep first particle in place
         // TODO find a better way to do this

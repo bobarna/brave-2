@@ -20,7 +20,7 @@ public:
 
     void add_force_to_all_sims(vec3 force) {
         external_forces += force;
-        for (auto & sim : sims)
+        for (auto &sim : sims)
             sim.add_force(force);
 
         std::cout << "External forces:" << external_forces << std::endl;
@@ -35,7 +35,7 @@ public:
     HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) : head(_head), nr_sims(_nr_sims),
                                                                                      nr_segments(_nr_segments),
                                                                                      l_seg(_l_seg),
-                                                                                     external_forces(.0f,.0f,.0f){
+                                                                                     external_forces(.0f, .0f, .0f) {
         // placing hair on the head
         propagateHead();
     }
@@ -46,7 +46,7 @@ public:
         float curr_angle = M_PI;
         float r = 0.20f;
 
-        if(nr_sims == 1) r = 0.0;
+        if (nr_sims == 1) r = 0.0;
 
         for (size_t i = 0; i < nr_sims; i++) {
 

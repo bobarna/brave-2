@@ -277,7 +277,7 @@ int main(int argc, char **argv) {
     HairSimulation hair_simulation(head_center, 200, 30, 0.025f);
 
 //    vec3 center(0, 0, 1.0f);
-//    HairSimulation hair_simulation(center, 1, 50, 0.005f);
+//    HairSimulation hair_simulation(center, 1, 20, 0.02f);
 
     int image_nr = 0;
     double time_elapsed = 0.0f;

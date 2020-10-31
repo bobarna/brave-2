@@ -9,16 +9,18 @@ class FTL_Simulation {
     std::vector<Particle*> particles;
     vec3 color; //color of particles
     vec3 start_pos;
+    vec3 external_forces;
 public:
     FTL_Simulation(size_t n, float l, vec3 color, vec3 pos);
     /*
      * n: int, number of particles
      * l: float, length between each particle
      * */
-    void setup_simulation();
+    void initialize();
     void add_force(vec3);
     void update(float);
     void draw();
+    vec3 get_external_forces();
 };
 
 

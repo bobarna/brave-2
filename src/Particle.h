@@ -5,7 +5,9 @@
 
 class Particle {
 public:
-    Particle(vec3 pos, float w): pos(pos), tmp_pos(pos), w(w), v(0.0f) {};
+    Particle(vec3 pos, float w): pos(pos), tmp_pos(pos), w(w), v(0.0f) {
+        d = vec3(0,0,0);
+    };
     vec3 pos;
     vec3 tmp_pos;
 
@@ -16,9 +18,9 @@ public:
 
     vec3 v; //velocity
 
-    // TODO don't store force in particle
-    //vec3 f; //forces
+    // needed for FTL
     vec3 d; // velocity correction vector
+
 
     /** gets the particle's mass
      *
