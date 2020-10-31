@@ -9,9 +9,10 @@ PBD_Simulation::PBD_Simulation(size_t n, float l, vec3 color, vec3 pos) :
 void PBD_Simulation::initialize() {
     vec3 pos = start_pos;
     for (size_t i = 0; i < n; i++) {
-        //random mass
-        float m = util::randomOffsetf(1.5f, 3.0f);
-//        float m = 1.5f;
+        // random mass
+        // A single strand of hair can weigh between .2 – .5 milligrams,
+        // which is 2.0e-7 kg == 10^(-7) kg
+        float m = util::randomOffsetf(.35f, .15f);
 
         // first particle's position is infinite
         if(i == 0) particles.push_back(new Particle(pos, 0));
@@ -49,11 +50,10 @@ void PBD_Simulation::update(float dt) {
 
     // solve distance constraints
     // TODO find out ideal number of iterations
-    size_t num_iter = 10;
+    size_t num_iter = 15;
     for (size_t iter = 0; iter < num_iter; iter++) {
         //keep first particle in place
-        // TODO find a better way to do this
-        // TODO maybe through solve_position constraint
+
         particles[0]->tmp_pos = particles[0]->pos;
         //distance between subsequent particles should be l
         for (size_t i = 1; i < particles.size(); i++)
@@ -68,11 +68,6 @@ void PBD_Simulation::update(float dt) {
         p->v = (p->tmp_pos - p->pos) / dt;
         p->pos = p->tmp_pos;
     }
-}
-
-//first one should stay in place
-void PBD_Simulation::solve_position_constraint(Particle *p1, Particle *p2) {
-
 }
 
 //distances should be l

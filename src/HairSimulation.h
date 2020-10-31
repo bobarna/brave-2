@@ -1,10 +1,7 @@
 #ifndef BRAVE2_HAIRSIMULATION_H
 #define BRAVE2_HAIRSIMULATION_H
 
-
-//#include <iostream>
 #include "utils/math.h"
-#include "FTL_Simulation.h"
 #include "utils/util.h"
 #include "PBD_Simulation.h"
 
@@ -14,7 +11,6 @@ public:
     size_t nr_sims;
     size_t nr_segments;
     float l_seg;
-//    std::vector<FTL_Simulation> sims;
     std::vector<PBD_Simulation> sims;
     vec3 external_forces;
 
@@ -25,12 +21,6 @@ public:
 
         std::cout << "External forces:" << external_forces << std::endl;
     }
-
-//    void reset_external_forces () {
-//        external_forces = vec3(0.0f, 0.0f, 0.0f);
-//        for(auto & sim : sims)
-//            sim.add_force(sim.)
-//    };
 
     HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) : head(_head), nr_sims(_nr_sims),
                                                                                      nr_segments(_nr_segments),
@@ -52,8 +42,10 @@ public:
 
             vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
             vec2 curr_pos(head.x + cosf(curr_angle) * r * 1.2, head.y + sinf(curr_angle) * r * 1.1);
+//            vec2 curr_pos(head.x + cosf(curr_angle) * r, head.y + sinf(curr_angle) * r);
 
-            float l_seg_rand = util::randomOffsetf(l_seg, 0.03f);
+            float normalized_seg_size = l_seg+r*sinf(curr_angle)/nr_segments;
+            float l_seg_rand = util::randomOffsetf(normalized_seg_size,l_seg*0.2f);
 //            float l_seg_rand = util::randomOffsetf(l_seg, 0.0f);
 
             sims.emplace_back(nr_segments, l_seg_rand, color, curr_pos);

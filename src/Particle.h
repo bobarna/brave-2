@@ -6,28 +6,21 @@
 class Particle {
 public:
     Particle(vec3 pos, float w): pos(pos), tmp_pos(pos), w(w), v(0.0f) {
-        d = vec3(0,0,0);
+
     };
     vec3 pos;
     vec3 tmp_pos;
 
-    // TODO store only inverse mass of the particle
-//    float m; //mass of the particle
     float w; // inverse mass of the particle
-
 
     vec3 v; //velocity
 
-    // needed for FTL
-    vec3 d; // velocity correction vector
-
-
     /** gets the particle's mass
      *
-     * @return the particle's mass. If infinity, 0 is returned.
+     * @return the particle's mass. If infinity, -1 is returned.
      */
     float get_mass() {
-        if (w == 0.0f) return 0;
+        if (w == 0.0f) return -1;
         return 1/w;
     }
 };

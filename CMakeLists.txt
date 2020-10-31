@@ -11,10 +11,8 @@ add_executable(${PROJECT_NAME}
         src/utils/math.h src/utils/math.cpp
         src/utils/util.h src/utils/util.cpp
         src/utils/gl_helper.h
-        src/Shader.h
         src/Particle.h
         src/HairSimulation.h src/HairSimulation.cpp
-        src/FTL_Simulation.h src/FTL_Simulation.cpp
         src/PBD_Simulation.h src/PBD_Simulation.cpp
         src/utils/other/stb_image_write.h
         src/utils/save_image.h
