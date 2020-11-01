@@ -16,7 +16,14 @@ add_executable(${PROJECT_NAME}
         src/PBD_Simulation.h src/PBD_Simulation.cpp
         src/utils/other/stb_image_write.h
         src/utils/save_image.h
-        )
+        src/Scene.cpp src/Scene.h
+        src/Camera.cpp src/Camera.h
+        src/RenderState.h
+        src/Geometry.cpp src/Geometry.h
+        src/Object.cpp src/Object.h
+        src/Shader.cpp src/Shader.h
+        src/MaterialAndTexture.cpp src/MaterialAndTexture.h
+        src/Light.h)
 
 # opengl
 find_package(OpenGL REQUIRED)

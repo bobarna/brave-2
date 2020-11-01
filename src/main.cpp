@@ -10,6 +10,7 @@
 #include "HairSimulation.h"
 #include "utils/other/stb_image_write.h"
 #include "utils/save_image.h"
+#include "Scene.h"
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
@@ -17,6 +18,7 @@ static float GRAVITY_ABS_VALUE = 0.98f;
 bool dragging = false;
 int keyArr[350];
 
+Scene scene(WIDTH, HEIGHT);
 vec3 force_generated(0.0f, 0.0f, 0.0f);
 bool gravityOn = false;
 bool reset_external_forces = false;
@@ -24,20 +26,30 @@ bool capturing = false;
 
 static void Initialize() {
     glViewport(0, 0, WIDTH, HEIGHT);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    //background color
     glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
+    scene.Build();
 }
 
-static void Update(GLFWwindow *window, float delta) {
+static void Update(GLFWwindow *window, float tstart, float tend) {
     if (keyArr[GLFW_KEY_ESCAPE])
         glfwSetWindowShouldClose(window, 1);
+    scene.Animate(tstart, tend);
 }
 
-static void RenderScene(GLFWwindow *window, float delta) {
-
+static void RenderScene(GLFWwindow *window) {
+    //background color
+    glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene.Render();
+    glfwSwapBuffers(window);
 }
 
+//TODO resize
 static void Resize(GLFWwindow *window, int w, int h) {
     if (h < 1)
         h = 1;
@@ -142,7 +154,6 @@ static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
     force_generated += force;
 }
 
-
 int main(int argc, char **argv) {
     // start GL context and O/S window using the GLFW helper library
     if (!glfwInit()) {
@@ -158,8 +169,8 @@ int main(int argc, char **argv) {
         glfwTerminate();
         return 1;
     }
-    glfwMakeContextCurrent(window);
 
+    glfwMakeContextCurrent(window);
     // start GLEW extension handler
     glewExperimental = GL_TRUE;
     glewInit();
@@ -180,6 +191,7 @@ int main(int argc, char **argv) {
 
     // Initialize
     Initialize();
+
     vec3 head_center(0.0f, 0.55f, 1.0f);
 //    HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
     HairSimulation hair_simulation(head_center, 200, 30, 0.025f);
@@ -188,31 +200,25 @@ int main(int argc, char **argv) {
 //    HairSimulation hair_simulation(center, 1, 20, 0.02f);
 
     int image_nr = 0;
-    double time_elapsed;
+    float time_elapsed;
 
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
         // ticking every 24 FPS
         bool tick = false;
 
-        double delta_time = glfwGetTime() - time_elapsed;
-        time_elapsed = glfwGetTime();
+        float delta_time = (float)glfwGetTime() - time_elapsed;
+
+        // update the scene
+        Update(window, time_elapsed, time_elapsed+delta_time);
+
+        time_elapsed = (float)glfwGetTime();
 
         if (time_elapsed >= 1.0f / 24.0f) {
             glfwSetTime(0.0f);
             time_elapsed = 0.0f;
             tick = true;
         }
-
-        //clear color and depth buffer
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity(); //load identity matrix
-
-        // wipe the drawing surface clear
-        glClear(GL_COLOR_BUFFER_BIT);
-
-//        glUseProgram(shader_programme);
-//        draw();
 
         // reset all external forces if gravity was toggled
         if(reset_external_forces) {
@@ -233,6 +239,9 @@ int main(int argc, char **argv) {
         // reset the force generated ...
         force_generated = vec3(0,0,0);
 
+//        glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
+        glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         hair_simulation.update((float)delta_time);
         hair_simulation.draw();
@@ -249,11 +258,11 @@ int main(int argc, char **argv) {
             char path[100];
             sprintf(path, "../renders/render%04d.bmp", image_nr++);
             saveImage(path, window);
-            std::cout << path << ".bmp printed" << std::endl;
+            std::cout << path << " printed" << std::endl;
         }
 
-
-        glfwSwapBuffers(window);
+        RenderScene(window);
+//        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
