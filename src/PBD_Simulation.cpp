@@ -7,6 +7,11 @@ PBD_Simulation::PBD_Simulation(size_t n, float l, vec3 color, vec3 pos) :
 }
 
 void PBD_Simulation::initialize() {
+
+    coll.emplace_back(0.5,-1, 1);
+    coll.emplace_back(0.5, 1, 0);
+    coll.emplace_back(0.5,-1,-1);
+
     vec3 pos = start_pos;
     for (size_t i = 0; i < n; i++) {
         // random mass
@@ -48,16 +53,19 @@ void PBD_Simulation::update(float dt) {
         p->tmp_pos = p->pos + dt * p->v;
     }
 
+    // generate collision constraints
+
     // solve distance constraints
     // TODO find out ideal number of iterations
-    size_t num_iter = 15;
+    size_t num_iter = 20;
     for (size_t iter = 0; iter < num_iter; iter++) {
         //keep first particle in place
-
         particles[0]->tmp_pos = particles[0]->pos;
         //distance between subsequent particles should be l
-        for (size_t i = 1; i < particles.size(); i++)
+        for (size_t i = 1; i < particles.size(); i++) {
             solve_distance_constraint(particles[i - 1], particles[i]);
+            solve_collision_constraint(particles[i], coll[0], coll[1], coll[2]);
+        }
     }
 
     // updating velocities and positions
@@ -83,6 +91,19 @@ void PBD_Simulation::solve_distance_constraint(Particle *p1, Particle *p2) {
     p1->tmp_pos += d_p1;
     p2->tmp_pos += d_p2;
 }
+
+
+void PBD_Simulation::solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3) {
+
+    vec3 n = normalize(cross(q1-q3, q1-q2));
+
+    if(dot(p->tmp_pos - q1, n)<0) return;
+
+    vec3 d_p = -( (p->tmp_pos - q2)*n)*n;
+
+    p->tmp_pos += d_p;
+}
+
 
 void PBD_Simulation::draw() {
     glLineWidth(1.6f);

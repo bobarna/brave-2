@@ -18,7 +18,7 @@ bool dragging = false;
 int keyArr[350];
 
 vec3 force_generated(0.0f, 0.0f, 0.0f);
-bool gravityOn = false;
+bool gravityOn = true;
 bool reset_external_forces = false;
 bool capturing = false;
 
@@ -117,6 +117,7 @@ static void MouseClickCallback(GLFWwindow *window, int button, int action, int m
     switch (button) {
         case GLFW_MOUSE_BUTTON_1:
             dragging = (action == GLFW_PRESS);
+            std::cout << dragging<< std::endl;
             break;
     }
 }
@@ -215,8 +216,7 @@ int main(int argc, char **argv) {
 //        draw();
 
         // reset all external forces if gravity was toggled
-        if(reset_external_forces) {
-            //TODO REFACTOR WHOLE GRAVITY HANDLING
+        if(reset_external_forces || !dragging) {
             force_generated += -hair_simulation.get_external_forces();
             if(gravityOn)
                 force_generated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
