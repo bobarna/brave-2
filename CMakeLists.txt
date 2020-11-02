@@ -13,7 +13,6 @@ add_executable(${PROJECT_NAME}
         src/utils/gl_helper.h
         src/Particle.h
         src/HairSimulation.h src/HairSimulation.cpp
-        src/PBD_Simulation.h src/PBD_Simulation.cpp
         src/utils/other/stb_image_write.h
         src/utils/save_image.h
         )

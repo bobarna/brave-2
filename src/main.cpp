@@ -135,7 +135,10 @@ struct Mouse {
 Mouse prev_mouse_pos(0, 0);
 
 static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
-    if (!dragging) return;
+    if (!dragging) {
+        prev_mouse_pos = Mouse(x,y);
+        return;
+    }
     Mouse curr_mouse((float) x, (float) y);
     vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
     prev_mouse_pos = curr_mouse;

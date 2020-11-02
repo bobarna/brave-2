@@ -3,69 +3,55 @@
 
 #include "utils/math.h"
 #include "utils/util.h"
-#include "PBD_Simulation.h"
+#include "Particle.h"
 
 class HairSimulation {
+    class PBD_Strand {
+        size_t n; // number of particles
+        float l; // length between each particle
+        std::vector<Particle*> particles;
+        vec3 color; //color of particles
+        vec3 start_pos;
+        vec3 external_forces;
+
+        std::vector<vec3> coll;
+
+        void solve_distance_constraint(Particle* p1, Particle* p2, float dist);
+        void solve_position_constraint(Particle *pParticle, Particle *pParticle1);
+        void solve_bending_constraint(Particle *p1, Particle *p2, float dist);
+        /// p particle collides with triangle(q1, q2, q3)
+        void solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3);
+        void solve_particle_collision_constraint(Particle *p1, Particle* p2);
+
+    public:
+        PBD_Strand(size_t n, float l, vec3 color, vec3 pos);
+        //TODO write destructor
+
+        void initialize();
+        void add_force(vec3 f);
+        void update(float dt);
+        void draw();
+        vec3 get_external_forces();
+    };
 public:
     vec3 head;
     size_t nr_sims;
     size_t nr_segments;
     float l_seg;
-    std::vector<PBD_Simulation> sims;
+    std::vector<PBD_Strand> sims;
     vec3 external_forces;
 
-    void add_force_to_all_sims(vec3 force) {
-        external_forces += force;
-        for (auto &sim : sims)
-            sim.add_force(force);
+    void add_force_to_all_sims(vec3 force);
 
-        std::cout << "External forces:" << external_forces << std::endl;
-    }
+    HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg);
 
-    HairSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) : head(_head), nr_sims(_nr_sims),
-                                                                                     nr_segments(_nr_segments),
-                                                                                     l_seg(_l_seg),
-                                                                                     external_forces(.0f, .0f, .0f) {
-        // placing hair on the head
-        propagateHead();
-    }
+    void propagateHead();
 
-    void propagateHead() {
-        srand(time(nullptr));
-        float step = M_PI / nr_sims;
-        float curr_angle = M_PI;
-        float r = 0.20f;
+    void update(float dt);
 
-        if (nr_sims == 1) r = 0.0;
+    void draw();
 
-        for (size_t i = 0; i < nr_sims; i++) {
-
-            vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-            vec2 curr_pos(head.x + cosf(curr_angle) * r * 1.2, head.y + sinf(curr_angle) * r * 1.1);
-//            vec2 curr_pos(head.x + cosf(curr_angle) * r, head.y + sinf(curr_angle) * r);
-
-            float normalized_seg_size = l_seg+r*sinf(curr_angle)/nr_segments;
-            float l_seg_rand = util::randomOffsetf(normalized_seg_size,l_seg*0.2f);
-//            float l_seg_rand = util::randomOffsetf(l_seg, 0.0f);
-
-            sims.emplace_back(nr_segments, l_seg_rand, color, curr_pos);
-            curr_angle -= step;
-        }
-    }
-
-    void update(float dt) {
-        for (auto &sim : sims)
-            sim.update(dt);
-    }
-
-    void draw() {
-        for (auto &sim : sims)
-            sim.draw();
-    }
-
-    vec3 get_external_forces() {
-        return external_forces;
-    }
+    vec3 get_external_forces() const;
 
 };
 
