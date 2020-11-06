@@ -15,7 +15,7 @@ add_executable(${PROJECT_NAME}
         src/HairSimulation.h src/HairSimulation.cpp
         src/utils/other/stb_image_write.h
         src/utils/save_image.h
-        )
+        src/Shader.h src/LinesGeometry.h src/PBD_Strand.cpp src/PBD_Strand.h)
 
 # opengl
 find_package(OpenGL REQUIRED)

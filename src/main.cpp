@@ -10,6 +10,7 @@
 #include "HairSimulation.h"
 #include "utils/other/stb_image_write.h"
 #include "utils/save_image.h"
+#include "Shader.h"
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
@@ -194,6 +195,9 @@ int main(int argc, char **argv) {
     int image_nr = 0;
     double time_elapsed;
 
+    Shader basicShader;
+    basicShader.use();
+
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
         // ticking every 24 FPS
@@ -231,11 +235,11 @@ int main(int argc, char **argv) {
         if (force_generated.x != 0.0f ||
             force_generated.y != 0.0f ||
             force_generated.z != 0.0f)
+        {
             hair_simulation.add_force_to_all_sims(force_generated);
-
-        // reset the force generated ...
-        force_generated = vec3(0,0,0);
-
+            // ... and reset the force generated
+            force_generated = vec3(0,0,0);
+        }
 
         hair_simulation.update((float)delta_time);
         hair_simulation.draw();
