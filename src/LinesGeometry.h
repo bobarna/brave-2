@@ -6,7 +6,7 @@
 
 class LinesGeometry {
 protected:
-    unsigned int vao, vbo;
+    GLuint vao, vbo;
 public:
 
     LinesGeometry() {

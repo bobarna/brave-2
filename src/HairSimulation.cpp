@@ -65,6 +65,7 @@ void HairSimulation::draw() {
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float)*6, (void *) (sizeof(float)*3));
 
+
     glLineWidth(1.0f);
     glDrawArrays(GL_LINES, 0, particle_pos_and_color.size()/6);
 }
