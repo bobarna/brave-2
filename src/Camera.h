@@ -36,10 +36,10 @@ public:
     Camera(vec3 _wEye, vec3 _wLookAt, vec3 _wVup, int windowWidth, int windowHeight);
 
     // View Matrix: translates the center to the origin
-    mat4 V();
+    mat4 V() const;
 
     // Projection Matrix
-    mat4 P();
+    mat4 P() const;
 
     RenderState getState();
 

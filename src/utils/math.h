@@ -193,6 +193,9 @@ inline vec4 operator*(float a, const vec4 &v) {
     return vec4(v.x * a, v.y * a, v.z * a, v.w * a);
 }
 
+// automatic vec4 printing
+std::ostream& operator << (std::ostream& out, const vec4& v);
+
 //---------------------------
 struct mat4 { // row-major matrix 4x4
 //---------------------------
@@ -301,6 +304,9 @@ inline mat4 z_rotation_matrix(float angle) {
             0.f, 0.f, 0.f, 1.f
     );
 }
+
+// automatic mat4 printing
+std::ostream& operator << (std::ostream& out, const mat4& v);
 
 
 #endif //BRAVE2_MATH_H

@@ -11,6 +11,8 @@
 #include "utils/other/stb_image_write.h"
 #include "utils/save_image.h"
 #include "Shader.h"
+#include "Camera.h"
+#include "HairSimulationObject.h"
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
@@ -186,18 +188,45 @@ int main(int argc, char **argv) {
 
     // Initialize
     Initialize();
-    vec3 head_center(0.0f, 0.55f, 1.0f);
-//    HairSimulation hair_simulation(head_center, 400, 30, 0.025f);
-    HairSimulation hair_simulation(head_center, 200, 30, 0.025f);
 
-//    vec3 center(0, 0, 1.0f);
-//    HairSimulation hair_simulation(center, 1, 20, 0.02f);
 
     int image_nr = 0;
     double time_elapsed;
 
-    Shader basicShader;
-    basicShader.use();
+    Shader* basicShader = new Shader();
+    basicShader->use();
+
+    Camera camera(vec3(0, 0, 8), // Camera position (wEye)
+                  vec3(0, 0, 0), // wLookat
+                  vec3(0, 1, 0), // wVup
+                  WIDTH, HEIGHT);
+
+    vec3 head_center(0.0f, 0.55f, 1.0f);
+    size_t nr_sims = 200;
+    size_t nr_segments = 30;
+    float l_seg = 0.025f;
+    auto hair_simulation = new HairSimulation(head_center, nr_sims, nr_segments, l_seg);
+
+    mat4 M(1.0f, 0.0f, 0.0f, 0.0f,
+           0.0f, 1.0f, 0.0f, 0.0f,
+           0.0f, 0.0f, 1.0f, 0.0f,
+           0.0f, 0.0f, 0.0f, 1.0f);
+
+    mat4 V = camera.getState().V;
+    mat4 P = camera.getState().P;
+    mat4 MVP = M*V*P;
+    std::cout << "M: " << std::endl << M << std::endl;
+    std::cout << "V: " << std::endl << V << std::endl;
+    std::cout << "P: " << std::endl << P << std::endl;
+    std::cout << "MVP: " << std::endl << MVP << std::endl;
+    glUniformMatrix4fv(glGetUniformLocation(basicShader->ID, "MVP"), 1, GL_TRUE, MVP);
+
+    mat4 value;
+    glGetUniformfv(basicShader->ID, glGetUniformLocation(basicShader->ID, "MVP"), (float*)&value);
+
+    std::cout << "Returned from GPU:" << std::endl << value << std::endl;
+
+    HairSimulationObject hairSim(basicShader, hair_simulation);
 
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
@@ -225,7 +254,7 @@ int main(int argc, char **argv) {
 
         // reset all external forces if gravity was toggled
         if(reset_external_forces || !dragging) {
-            force_generated += -hair_simulation.get_external_forces();
+            force_generated += -hair_simulation->get_external_forces();
             if(gravityOn)
                 force_generated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
             reset_external_forces = false;
@@ -237,13 +266,13 @@ int main(int argc, char **argv) {
             force_generated.y != 0.0f ||
             force_generated.z != 0.0f)
         {
-            hair_simulation.add_force_to_all_sims(force_generated);
+            hair_simulation->add_force_to_all_sims(force_generated);
             // ... and reset the force generated
             force_generated = vec3(0,0,0);
         }
 
-        hair_simulation.update((float)delta_time);
-        hair_simulation.draw();
+        hair_simulation->update((float)delta_time);
+        hair_simulation->draw();
 
         if (capturing) {
             glPointSize(20.0f);
