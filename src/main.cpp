@@ -196,12 +196,12 @@ int main(int argc, char **argv) {
     Shader* basicShader = new Shader();
     basicShader->use();
 
-    Camera camera(vec3(0, 0, 8), // Camera position (wEye)
-                  vec3(0, 0, 0), // wLookat
+    Camera camera(vec3(0, -0.2f, 1), // Camera position (wEye)
+                  vec3(0, -.2f, 0), // wLookat
                   vec3(0, 1, 0), // wVup
                   WIDTH, HEIGHT);
 
-    vec3 headCenter(0.0f, 0.55f, 1.0f);
+    vec3 headCenter(0.0f, 0.0f, 0.0f);
     size_t nrSims = 200;
     size_t nrSegments = 30;
     float lSeg = 0.025f;
@@ -226,7 +226,7 @@ int main(int argc, char **argv) {
 
     std::cout << "Returned from GPU:" << std::endl << value << std::endl;
 
-    HairSimulationObject hairSim(basicShader, hairSimulation);
+//    HairSimulationObject hairSim(basicShader, hairSimulation);
 
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {

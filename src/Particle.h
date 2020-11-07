@@ -5,7 +5,7 @@
 
 class Particle {
 public:
-    Particle(vec3 pos, float w): pos(pos), tmp_pos(pos), w(w), v(0.0f) {
+    Particle(vec3 pos, float w, vec3 c): pos(pos), tmp_pos(pos), w(w), v(0.0f), color(c) {
 
     };
     vec3 pos;
@@ -14,6 +14,8 @@ public:
     float w; // inverse mass of the particle
 
     vec3 v; //velocity
+
+    vec3 color;
 
     /** gets the particle's mass
      *

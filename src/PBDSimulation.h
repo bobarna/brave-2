@@ -5,16 +5,35 @@
 #include "utils/util.h"
 #include "Particle.h"
 #include "LinesGeometry.h"
-#include "PBD_Strand.h"
+//#include "PBD_Strand.h"
 
 class PBDSimulation : public LinesGeometry {
+    void solve_distance_constraint(Particle *p1, Particle *p2, float dist);
+
+    void solve_bending_constraint(Particle *p1, Particle *p2, float dist);
+
+    void solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3);
 public:
+    //// mid-point of the head
     vec3 head;
-    size_t nrSims;
+
+    //// number of hair strands to be placed on the head
+    size_t nrStrands;
+
+    //// how many segments a strand will be sub-divided into
     size_t nrSegments;
+
+    //// length of a segment
     float lSeg;
-    std::vector<PBD_Strand> sims;
+
+    ////
+    std::vector<std::vector<Particle*>> strands;
+
+    ////
     vec3 externalForces;
+
+    ////
+    std::vector<vec3> collisionTriangles;
 
     void addForce(vec3 force);
 
@@ -28,6 +47,7 @@ public:
 
     vec3 getExternalForces() const;
 
+    std::vector<Particle*> CreateStrand(size_t segments, float l, vec3 startPos, vec3 color);
 };
 
 

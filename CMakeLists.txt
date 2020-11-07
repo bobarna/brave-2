@@ -17,7 +17,6 @@ add_executable(${PROJECT_NAME}
         src/utils/save_image.h
         src/Shader.h
         src/LinesGeometry.h
-        src/PBD_Strand.cpp src/PBD_Strand.h
         src/RenderState.h
         src/Camera.h src/Camera.cpp
         src/HairSimulationObject.h src/HairSimulationObject.cpp
