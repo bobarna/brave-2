@@ -1,29 +1,28 @@
-//
-// Created by bobarna on 2020. 11. 06..
-//
-
-#ifndef BRAVE2_LINEOBJECT_H
-#define BRAVE2_LINEOBJECT_H
+#ifndef BRAVE2_HAIRSIMULATIONOBJECT_H
+#define BRAVE2_HAIRSIMULATIONOBJECT_H
 
 
 #include "utils/math.h"
 #include "Shader.h"
 #include "LinesGeometry.h"
+#include "RenderState.h"
+#include "HairSimulation.h"
 
-class LineObject {
+class HairSimulationObject {
     vec3 scale, translation, rotationAxis;
     float rotationAngle;
 
     Shader *shader;
+    HairSimulation* sim;
 
 public:
-    LineObject(Shader *_shader, LinesGeometry* _geometry);
+    HairSimulationObject(Shader *_shader, HairSimulation* _sim);
 
     virtual void SetModelingTransform(mat4 &M, mat4 &Minv);
 
     void Draw(RenderState state);
 
-    virtual void Animate(float tstart, float tend);
+    virtual void Animate(float delta_t);
 
     void Scale(vec3 s);
     void Translate(vec3 t);
@@ -31,4 +30,4 @@ public:
 };
 
 
-#endif //BRAVE2_LINEOBJECT_H
+#endif //BRAVE2_HAIRSIMULATIONOBJECT_H

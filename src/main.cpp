@@ -14,10 +14,12 @@
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
-static float GRAVITY_ABS_VALUE = 0.98f;
+GLFWwindow *window;
+
 bool dragging = false;
 int keyArr[350];
 
+static float GRAVITY_ABS_VALUE = 0.98f;
 vec3 force_generated(0.0f, 0.0f, 0.0f);
 bool gravityOn = true;
 bool reset_external_forces = false;
@@ -154,7 +156,6 @@ int main(int argc, char **argv) {
         std::cerr << "ERROR: could not start GLFW3" << std::endl;
         return 1;
     }
-    GLFWwindow *window;
 
     glfwInit();
     window = glfwCreateWindow(WIDTH, HEIGHT, "Brave-2", NULL, NULL);
@@ -163,6 +164,7 @@ int main(int argc, char **argv) {
         glfwTerminate();
         return 1;
     }
+
     glfwMakeContextCurrent(window);
 
     // start GLEW extension handler
@@ -179,7 +181,6 @@ int main(int argc, char **argv) {
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetMouseButtonCallback(window, MouseClickCallback);
     glfwSetCursorPosCallback(window, MouseMotionCallback);
-
 
     srand(time(NULL));
 
