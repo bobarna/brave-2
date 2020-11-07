@@ -7,7 +7,7 @@
 #include "utils/math.h"
 #include "utils/gl_helper.h"
 
-#include "HairSimulation.h"
+#include "PBDSimulation.h"
 #include "utils/other/stb_image_write.h"
 #include "utils/save_image.h"
 #include "Shader.h"
@@ -22,9 +22,9 @@ bool dragging = false;
 int keyArr[350];
 
 static float GRAVITY_ABS_VALUE = 0.98f;
-vec3 force_generated(0.0f, 0.0f, 0.0f);
+vec3 forceGenerated(0.0f, 0.0f, 0.0f);
 bool gravityOn = true;
-bool reset_external_forces = false;
+bool resetExternalForces = false;
 bool capturing = false;
 
 static void Initialize() {
@@ -76,7 +76,7 @@ static void getForce(char dir, float power = 0.05f) {
             force = power * vec3(.0f, .0f, 1.f);
             break;
     }
-    force_generated += force;
+    forceGenerated += force;
 }
 
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -97,11 +97,11 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
         // gravity
         if (gravityOn) {
             // reset all external forces
-            reset_external_forces = true;
+            resetExternalForces = true;
             gravityOn = false;
             std::cout << "gravity turned OFF" << std::endl;
         } else {
-            reset_external_forces = true;
+            resetExternalForces = true;
             gravityOn = true;
             std::cout << "gravity turned ON" << std::endl;
         }
@@ -137,18 +137,18 @@ struct Mouse {
     }
 };
 
-Mouse prev_mouse_pos(0, 0);
+Mouse prevMousePos(0, 0);
 
 static void MouseMotionCallback(GLFWwindow *window, double x, double y) {
     if (!dragging) {
-        prev_mouse_pos = Mouse(x,y);
+        prevMousePos = Mouse(x, y);
         return;
     }
-    Mouse curr_mouse((float) x, (float) y);
-    vec2 delta_mouse(curr_mouse.x - prev_mouse_pos.x, curr_mouse.y - prev_mouse_pos.y);
-    prev_mouse_pos = curr_mouse;
-    vec3 force((float) delta_mouse.x/1.0f, (float) delta_mouse.y/1.0f, 0.0f);
-    force_generated += force;
+    Mouse currMouse((float) x, (float) y);
+    vec2 deltaMouse(currMouse.x - prevMousePos.x, currMouse.y - prevMousePos.y);
+    prevMousePos = currMouse;
+    vec3 force((float) deltaMouse.x / 1.0f, (float) deltaMouse.y / 1.0f, 0.0f);
+    forceGenerated += force;
 }
 
 
@@ -190,8 +190,8 @@ int main(int argc, char **argv) {
     Initialize();
 
 
-    int image_nr = 0;
-    double time_elapsed;
+    int imageNr = 0;
+    double timeElapsed;
 
     Shader* basicShader = new Shader();
     basicShader->use();
@@ -201,11 +201,11 @@ int main(int argc, char **argv) {
                   vec3(0, 1, 0), // wVup
                   WIDTH, HEIGHT);
 
-    vec3 head_center(0.0f, 0.55f, 1.0f);
-    size_t nr_sims = 200;
-    size_t nr_segments = 30;
-    float l_seg = 0.025f;
-    auto hair_simulation = new HairSimulation(head_center, nr_sims, nr_segments, l_seg);
+    vec3 headCenter(0.0f, 0.55f, 1.0f);
+    size_t nrSims = 200;
+    size_t nrSegments = 30;
+    float lSeg = 0.025f;
+    auto hairSimulation = new PBDSimulation(headCenter, nrSims, nrSegments, lSeg);
 
     mat4 M(1.0f, 0.0f, 0.0f, 0.0f,
            0.0f, 1.0f, 0.0f, 0.0f,
@@ -226,19 +226,19 @@ int main(int argc, char **argv) {
 
     std::cout << "Returned from GPU:" << std::endl << value << std::endl;
 
-    HairSimulationObject hairSim(basicShader, hair_simulation);
+    HairSimulationObject hairSim(basicShader, hairSimulation);
 
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
         // ticking every 24 FPS
         bool tick = false;
 
-        double delta_time = glfwGetTime() - time_elapsed;
-        time_elapsed = glfwGetTime();
+        double deltaTime = glfwGetTime() - timeElapsed;
+        timeElapsed = glfwGetTime();
 
-        if (time_elapsed >= 1.0f / 24.0f) {
+        if (timeElapsed >= 1.0f / 24.0f) {
             glfwSetTime(0.0f);
-            time_elapsed = 0.0f;
+            timeElapsed = 0.0f;
             tick = true;
         }
 
@@ -253,26 +253,26 @@ int main(int argc, char **argv) {
 //        draw();
 
         // reset all external forces if gravity was toggled
-        if(reset_external_forces || !dragging) {
-            force_generated += -hair_simulation->get_external_forces();
+        if(resetExternalForces || !dragging) {
+            forceGenerated += -hairSimulation->getExternalForces();
             if(gravityOn)
-                force_generated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
-            reset_external_forces = false;
+                forceGenerated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
+            resetExternalForces = false;
         }
 
         //if there was force generated...
         // ... add it to the simulation
-        if (force_generated.x != 0.0f ||
-            force_generated.y != 0.0f ||
-            force_generated.z != 0.0f)
+        if (forceGenerated.x != 0.0f ||
+            forceGenerated.y != 0.0f ||
+            forceGenerated.z != 0.0f)
         {
-            hair_simulation->add_force_to_all_sims(force_generated);
+            hairSimulation->addForce(forceGenerated);
             // ... and reset the force generated
-            force_generated = vec3(0,0,0);
+            forceGenerated = vec3(0, 0, 0);
         }
 
-        hair_simulation->update((float)delta_time);
-        hair_simulation->draw();
+        hairSimulation->update((float) deltaTime);
+        hairSimulation->draw();
 
         if (capturing) {
             glPointSize(20.0f);
@@ -284,7 +284,7 @@ int main(int argc, char **argv) {
 
         if (tick && capturing) {
             char path[100];
-            sprintf(path, "../renders/render%04d.bmp", image_nr++);
+            sprintf(path, "../renders/render%04d.bmp", imageNr++);
             saveImage(path, window);
             std::cout << path << ".bmp printed" << std::endl;
         }

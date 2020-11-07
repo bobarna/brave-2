@@ -1,6 +1,6 @@
 #include "HairSimulationObject.h"
 
-HairSimulationObject::HairSimulationObject(Shader *_shader, HairSimulation *_sim) :
+HairSimulationObject::HairSimulationObject(Shader *_shader, PBDSimulation *_sim) :
         scale(vec3(1, 1, 1)), translation(vec3(0, 0, 0)), rotationAxis(0, 0, 1), rotationAngle(0) {
     shader = _shader;
     sim = _sim;

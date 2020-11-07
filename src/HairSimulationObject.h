@@ -6,17 +6,17 @@
 #include "Shader.h"
 #include "LinesGeometry.h"
 #include "RenderState.h"
-#include "HairSimulation.h"
+#include "PBDSimulation.h"
 
 class HairSimulationObject {
     vec3 scale, translation, rotationAxis;
     float rotationAngle;
 
     Shader *shader;
-    HairSimulation* sim;
+    PBDSimulation* sim;
 
 public:
-    HairSimulationObject(Shader *_shader, HairSimulation* _sim);
+    HairSimulationObject(Shader *_shader, PBDSimulation* _sim);
 
     virtual void SetModelingTransform(mat4 &M, mat4 &Minv);
 

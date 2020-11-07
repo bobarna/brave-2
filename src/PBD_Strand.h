@@ -13,6 +13,7 @@ class PBD_Strand {
     size_t n; // number of particles
     float l; // length between each particle
     std::vector<Particle*> particles;
+
     vec3 color; //color of particles
     vec3 start_pos;
     vec3 external_forces;
