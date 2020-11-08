@@ -13,9 +13,24 @@ PBDSimulation::PBDSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, f
     // placing hair on the head
     propagateHead();
 
-    collisionTriangles.emplace_back(0.5, -1, 1);
-    collisionTriangles.emplace_back(0.5, 1, 0);
-    collisionTriangles.emplace_back(0.5, -1, -1);
+    // set up distance constraints on each strand of hair
+    for (auto &strand : strands)
+        for (size_t i = 0; i < strand.size() - 1; i++)
+            constraints.push_back(new DistanceConstraint(strand[i], strand[i + 1], lSeg));
+
+    // set up bending constraint on each strand of hair
+//    for (auto &strand : strands)
+//        for (size_t i = 1; i < strand.size() - 2; i++)
+//            constraints.push_back(new DistanceConstraint(strand[i - 1], strand[i + 1], lSeg * 0.98f, 0.6f));
+
+
+    // set up collision constraint
+//    for (auto &strand: strands)
+//        for (auto p : strand) {
+//            constraints.push_back(new CollisionConstraint(p, 0.5f, -1, 1));
+//            constraints.push_back(new CollisionConstraint(p, 0.5f, 1, 0));
+//            constraints.push_back(new CollisionConstraint(p, 0.5f, -1, -1));
+//        }
 }
 
 void PBDSimulation::propagateHead() {
@@ -46,10 +61,7 @@ void PBDSimulation::update(float dt) {
     for (auto &strand : strands)
         for (auto &p : strand) {
             p->v = p->v + dt * (p->w) * externalForces;
-            // damp velocities
-            // TODO better damping technique: (3.5) https://matthias-research.github.io/pages/publications/posBasedDyn.pdf
             p->v *= .99f;
-
             // calculating temporal positions
             p->tmp_pos = p->pos + dt * p->v;
         }
@@ -57,19 +69,14 @@ void PBDSimulation::update(float dt) {
     // TODO generate collision constraints
 
     // solve constraints
-    size_t num_iter = 3;
+    size_t num_iter = 5;
     for (size_t iter = 0; iter < num_iter; iter++) {
         for (auto &strand: strands) {
             //keep first particle in place
             // TODO position constraint
             strand.at(0)->tmp_pos = strand.at(0)->pos;
-            //distance between subsequent particles should be l
-            for (size_t i = 1; i < strand.size(); i++) {
-                solve_distance_constraint(strand[i - 1], strand[i], lSeg);
-                if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.98f);
-                solve_collision_constraint(strand[i],
-                                           collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]);
-            }
+            for (auto &c : constraints)
+                c->solve();
         }
     }
 

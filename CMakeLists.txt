@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
         src/RenderState.h
         src/Camera.h src/Camera.cpp
         src/HairSimulationObject.h src/HairSimulationObject.cpp
-        )
+        src/Constraint.h)
 
 # opengl
 find_package(OpenGL REQUIRED)

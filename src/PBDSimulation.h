@@ -5,9 +5,12 @@
 #include "utils/util.h"
 #include "Particle.h"
 #include "LinesGeometry.h"
-//#include "PBD_Strand.h"
+#include "Constraint.h"
+
 
 class PBDSimulation : public LinesGeometry {
+    std::vector<Constraint*> constraints;
+
     void solve_distance_constraint(Particle *p1, Particle *p2, float dist);
 
     void solve_bending_constraint(Particle *p1, Particle *p2, float dist);
@@ -26,14 +29,9 @@ public:
     //// length of a segment
     float lSeg;
 
-    ////
     std::vector<std::vector<Particle*>> strands;
 
-    ////
     vec3 externalForces;
-
-    ////
-    std::vector<vec3> collisionTriangles;
 
     void addForce(vec3 force);
 
