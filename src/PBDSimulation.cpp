@@ -29,14 +29,9 @@ void PBDSimulation::propagateHead() {
 
     for (size_t i = 0; i < nrStrands; i++) {
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        vec3 curr_pos(head.x + cosf(currAngle) * r * 1.2, head.y + sinf(currAngle) * r * 1.1, head.z);
+        vec3 curr_pos(head.x + cosf(currAngle) * r * 1.2f, head.y + sinf(currAngle) * r * 1.1f, head.z);
 
-        float normalized_seg_size = lSeg + r * sinf(currAngle) / nrSegments;
-        float l_seg_rand = util::randomOffsetf(normalized_seg_size, lSeg * 0.2f);
-//            float l_seg_rand = util::randomOffsetf(lSeg, 0.0f);
-
-
-        strands.emplace_back(CreateStrand(nrSegments, l_seg_rand, curr_pos, color));
+        strands.emplace_back(CreateStrand(nrSegments, lSeg, curr_pos, color));
         currAngle -= step;
     }
 }
@@ -57,7 +52,7 @@ void PBDSimulation::update(float dt) {
     // TODO generate collision constraints
 
     // solve constraints
-    size_t num_iter = 3;
+    size_t num_iter = 10;
     for (size_t iter = 0; iter < num_iter; iter++) {
         for (auto &strand: strands) {
             //keep first particle in place
@@ -66,7 +61,9 @@ void PBDSimulation::update(float dt) {
             //distance between subsequent particles should be l
             for (size_t i = 1; i < strand.size(); i++) {
                 solve_distance_constraint(strand[i - 1], strand[i], lSeg);
-                if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.98f);
+                if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.9f);
+                if (i < strand.size() - 2 && i > 1)
+                    solve_bending_constraint(strand[i - 2], strand[i + 2], lSeg * 1.9f);
                 solve_collision_constraint(strand[i],
                                            collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]);
             }
@@ -162,8 +159,8 @@ vec3 PBDSimulation::getExternalForces() const {
 
 std::vector<Particle *> PBDSimulation::CreateStrand(size_t n, float l, vec3 startPos, vec3 color) {
     vec3 currPos = startPos;
-
     std::vector<Particle *> currentStrand;
+
     for (size_t i = 0; i < n; i++) {
         // random mass
         // A single strand of hair can weigh between .2 – .5 milligrams,

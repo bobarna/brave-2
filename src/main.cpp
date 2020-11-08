@@ -27,6 +27,13 @@ bool gravityOn = true;
 bool resetExternalForces = false;
 bool capturing = false;
 
+bool aKeyWasPressed = false;
+
+Camera camera(vec3(0, -0.2f, 1), // Camera position (wEye)
+              vec3(0, -.2f, 0), // wLookat
+              vec3(0, 1, 0), // wVup
+              WIDTH, HEIGHT);
+
 static void Initialize() {
     glViewport(0, 0, WIDTH, HEIGHT);
     glMatrixMode(GL_MODELVIEW);
@@ -55,7 +62,7 @@ static void Resize(GLFWwindow *window, int w, int h) {
 }
 
 static void getForce(char dir, float power = 0.05f) {
-    vec3 force;
+    vec3 force(0.0f, 0.0f, 0.0f);
     switch (dir) {
         case 'x':
             force = power * vec3(-1.f, 0.f, .0f);
@@ -75,54 +82,77 @@ static void getForce(char dir, float power = 0.05f) {
         case 'Z':
             force = power * vec3(.0f, .0f, 1.f);
             break;
+        default:
+            break;
     }
     forceGenerated += force;
 }
 
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     if (action != GLFW_RELEASE) return;
-    if (key == GLFW_KEY_X)
-        if (mods && GLFW_MOD_SHIFT)
-            getForce('X');
-        else getForce('x');
-    if (key == GLFW_KEY_Y)
-        if (mods && GLFW_MOD_SHIFT)
-            getForce('Y');
-        else getForce('y');
-    if (key == GLFW_KEY_Z)
-        if (mods && GLFW_MOD_SHIFT)
-            getForce('Z');
-        else getForce('Z');
-    if (key == GLFW_KEY_G) {
-        // gravity
-        if (gravityOn) {
-            // reset all external forces
-            resetExternalForces = true;
-            gravityOn = false;
-            std::cout << "gravity turned OFF" << std::endl;
-        } else {
-            resetExternalForces = true;
-            gravityOn = true;
-            std::cout << "gravity turned ON" << std::endl;
-        }
-    }
-    if (key == GLFW_KEY_C) {
-        if (capturing) {
-            capturing = false;
-            std::cout << "Capturing stopped." << std::endl;
-        } else {
-            capturing = true;
-            std::cout << "Capturing started." << std::endl;
-        }
-    }
+    switch (key) {
+        case GLFW_KEY_X:
+            if (mods && GLFW_MOD_SHIFT)
+                getForce('X');
+            else getForce('x');
+            break;
 
+        case GLFW_KEY_Y:
+            if (mods && GLFW_MOD_SHIFT)
+                getForce('Y');
+            else getForce('y');
+            break;
+
+        case GLFW_KEY_Z:
+            if (mods && GLFW_MOD_SHIFT)
+                getForce('Z');
+            else getForce('z');
+            break;
+
+        case GLFW_KEY_G:
+            //gravity
+            if (gravityOn) {
+                // reset all external forces
+                resetExternalForces = true;
+                gravityOn = false;
+                std::cout << "gravity turned OFF" << std::endl;
+            } else {
+                resetExternalForces = true;
+                gravityOn = true;
+                std::cout << "gravity turned ON" << std::endl;
+            }
+            break;
+
+        case GLFW_KEY_C:
+            if (capturing) {
+                capturing = false;
+                std::cout << "Capturing stopped." << std::endl;
+            } else {
+                capturing = true;
+                std::cout << "Capturing started." << std::endl;
+            }
+            break;
+        case GLFW_KEY_W: camera.Translate(vec3(0.0f, 0.0f, -1.0f)*0.1);
+            break;
+        case GLFW_KEY_S: camera.Translate(vec3(0.0f, 0.0f, 1.0f)*0.1);
+            break;
+        case GLFW_KEY_A: camera.Translate(vec3(-1.0f, 0.0f, 0.0f)*0.1);
+            break;
+        case GLFW_KEY_D: camera.Translate(vec3(1.0f, 0.0f, 0.0f)*0.1);
+            break;
+        case GLFW_KEY_Q: camera.Translate(vec3(0.0f, 1.0f, 0.0f)*0.1);
+            break;
+        case GLFW_KEY_E: camera.Translate(vec3(0.0f, -1.0f, -1.0f)*0.1);
+            break;
+    }
+    aKeyWasPressed = true;
 }
 
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
     switch (button) {
         case GLFW_MOUSE_BUTTON_1:
             dragging = (action == GLFW_PRESS);
-            std::cout << dragging<< std::endl;
+            std::cout << dragging << std::endl;
             break;
     }
 }
@@ -193,13 +223,8 @@ int main(int argc, char **argv) {
     int imageNr = 0;
     double timeElapsed;
 
-    Shader* basicShader = new Shader();
+    Shader *basicShader = new Shader();
     basicShader->use();
-
-    Camera camera(vec3(0, -0.2f, 1), // Camera position (wEye)
-                  vec3(0, -.2f, 0), // wLookat
-                  vec3(0, 1, 0), // wVup
-                  WIDTH, HEIGHT);
 
     vec3 headCenter(0.0f, 0.0f, 0.0f);
     size_t nrSims = 200;
@@ -214,22 +239,23 @@ int main(int argc, char **argv) {
 
     mat4 V = camera.getState().V;
     mat4 P = camera.getState().P;
-    mat4 MVP = M*V*P;
-    std::cout << "M: " << std::endl << M << std::endl;
-    std::cout << "V: " << std::endl << V << std::endl;
-    std::cout << "P: " << std::endl << P << std::endl;
-    std::cout << "MVP: " << std::endl << MVP << std::endl;
+    mat4 MVP = M * V * P;
     glUniformMatrix4fv(glGetUniformLocation(basicShader->ID, "MVP"), 1, GL_TRUE, MVP);
 
-    mat4 value;
-    glGetUniformfv(basicShader->ID, glGetUniformLocation(basicShader->ID, "MVP"), (float*)&value);
-
-    std::cout << "Returned from GPU:" << std::endl << value << std::endl;
 
 //    HairSimulationObject hairSim(basicShader, hairSimulation);
 
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
+        if (aKeyWasPressed) {
+            V = camera.getState().V;
+            P = camera.getState().P;
+            MVP = M * V * P;
+            glUniformMatrix4fv(glGetUniformLocation(basicShader->ID, "MVP"), 1, GL_TRUE, MVP);
+            aKeyWasPressed = false;
+        }
+
+
         // ticking every 24 FPS
         bool tick = false;
 
@@ -253,9 +279,9 @@ int main(int argc, char **argv) {
 //        draw();
 
         // reset all external forces if gravity was toggled
-        if(resetExternalForces || !dragging) {
+        if (resetExternalForces || !dragging) {
             forceGenerated += -hairSimulation->getExternalForces();
-            if(gravityOn)
+            if (gravityOn)
                 forceGenerated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
             resetExternalForces = false;
         }
@@ -264,8 +290,7 @@ int main(int argc, char **argv) {
         // ... add it to the simulation
         if (forceGenerated.x != 0.0f ||
             forceGenerated.y != 0.0f ||
-            forceGenerated.z != 0.0f)
-        {
+            forceGenerated.z != 0.0f) {
             hairSimulation->addForce(forceGenerated);
             // ... and reset the force generated
             forceGenerated = vec3(0, 0, 0);
