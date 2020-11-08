@@ -4,10 +4,10 @@
 #include "utils/math.h"
 #include "utils/util.h"
 #include "Particle.h"
-#include "LinesGeometry.h"
+#include "Geometry.h"
 //#include "PBD_Strand.h"
 
-class PBDSimulation : public LinesGeometry {
+class PBDSimulation : public Geometry {
     void solve_distance_constraint(Particle *p1, Particle *p2, float dist);
 
     void solve_bending_constraint(Particle *p1, Particle *p2, float dist);
@@ -43,9 +43,11 @@ public:
 
     void update(float dt);
 
-    void draw();
+    void Draw();
 
     vec3 getExternalForces() const;
+
+    void resetExternalForces();
 
     std::vector<Particle*> CreateStrand(size_t segments, float l, vec3 startPos, vec3 color);
 };

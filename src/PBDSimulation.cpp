@@ -115,7 +115,7 @@ void PBDSimulation::solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, 
     p->tmp_pos += d_p;
 }
 
-void PBDSimulation::draw() {
+void PBDSimulation::Draw() {
     std::vector<float> particlePosAndColor;
     for (auto &strand : strands)
         for (size_t i = 0; i < strand.size() - 1; ++i) {
@@ -176,4 +176,8 @@ std::vector<Particle *> PBDSimulation::CreateStrand(size_t n, float l, vec3 star
     }
 
     return currentStrand;
+}
+
+void PBDSimulation::resetExternalForces() {
+    externalForces = vec3(0,0,0);
 }

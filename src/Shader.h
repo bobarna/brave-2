@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include "utils/math.h"
+#include "RenderState.h"
 
 struct Shader {
     unsigned int ID;
@@ -76,6 +77,8 @@ struct Shader {
         glUseProgram(ID);
     }
 
+    void Bind(RenderState state);
+
 private:
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
@@ -102,6 +105,10 @@ private:
             }
         }
     }
+
+    void setUniform(const mat4 &mat, const std::string &name);
+
+    int getLocation(const std::string &name) const;
 };
 
 

@@ -1,27 +1,27 @@
-#ifndef BRAVE2_LINESGEOMETRY_H
-#define BRAVE2_LINESGEOMETRY_H
+#ifndef BRAVE2_GEOMETRY_H
+#define BRAVE2_GEOMETRY_H
 
 #include "utils/math.h"
 #include <GL/glew.h>
 
-class LinesGeometry {
+class Geometry {
 protected:
     GLuint vao, vbo;
 public:
 
-    LinesGeometry() {
+    Geometry() {
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
     };
 
-    virtual void draw() = 0;
+    virtual void Draw() = 0;
 
-    ~LinesGeometry() {
+    ~Geometry() {
         glDeleteBuffers(1, &vbo);
         glDeleteVertexArrays(1, &vao);
     };
 };
 
-#endif //BRAVE2_LINESGEOMETRY_H
+#endif //BRAVE2_GEOMETRY_H

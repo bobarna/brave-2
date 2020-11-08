@@ -16,11 +16,11 @@ add_executable(${PROJECT_NAME}
         src/utils/other/stb_image_write.h
         src/utils/save_image.h
         src/Shader.h
-        src/LinesGeometry.h
+        src/Geometry.h
         src/RenderState.h
         src/Camera.h src/Camera.cpp
-        src/HairSimulationObject.h src/HairSimulationObject.cpp
-        )
+        src/Object.h src/Object.cpp
+        src/Scene.cpp src/Scene.h src/Shader.cpp)
 
 # opengl
 find_package(OpenGL REQUIRED)

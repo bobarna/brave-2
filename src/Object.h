@@ -1,22 +1,23 @@
-#ifndef BRAVE2_HAIRSIMULATIONOBJECT_H
-#define BRAVE2_HAIRSIMULATIONOBJECT_H
+#ifndef BRAVE2_OBJECT_H
+#define BRAVE2_OBJECT_H
 
 
 #include "utils/math.h"
 #include "Shader.h"
-#include "LinesGeometry.h"
+#include "Geometry.h"
 #include "RenderState.h"
 #include "PBDSimulation.h"
 
-class HairSimulationObject {
+class Object {
+protected:
     vec3 scale, translation, rotationAxis;
     float rotationAngle;
 
-    Shader *shader;
-    PBDSimulation* sim;
+    Geometry* geometry;
+    Shader* shader;
 
 public:
-    HairSimulationObject(Shader *_shader, PBDSimulation* _sim);
+    Object(Shader *_shader, Geometry* _sim);
 
     virtual void SetModelingTransform(mat4 &M, mat4 &Minv);
 
@@ -29,5 +30,13 @@ public:
     void Rotate(vec3 axis, float angle);
 };
 
+class HairSimObject : public Object {
+public:
+    HairSimObject(Shader *_shader, PBDSimulation *_sim): Object(_shader, _sim){};
+    void ResetExternalForces();
 
-#endif //BRAVE2_HAIRSIMULATIONOBJECT_H
+    void AddForce(vec3 f);
+};
+
+
+#endif //BRAVE2_OBJECT_H

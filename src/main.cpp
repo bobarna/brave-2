@@ -12,7 +12,8 @@
 #include "utils/save_image.h"
 #include "Shader.h"
 #include "Camera.h"
-#include "HairSimulationObject.h"
+#include "Object.h"
+#include "Scene.h"
 
 static int WIDTH = 600;
 static int HEIGHT = 400;
@@ -29,10 +30,7 @@ bool capturing = false;
 
 bool aKeyWasPressed = false;
 
-Camera camera(vec3(0, -0.2f, 1), // Camera position (wEye)
-              vec3(0, -.2f, 0), // wLookat
-              vec3(0, 1, 0), // wVup
-              WIDTH, HEIGHT);
+Scene Scene(WIDTH, HEIGHT);
 
 static void Initialize() {
     glViewport(0, 0, WIDTH, HEIGHT);
@@ -132,17 +130,17 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
                 std::cout << "Capturing started." << std::endl;
             }
             break;
-        case GLFW_KEY_W: camera.Translate(vec3(0.0f, 0.0f, -1.0f)*0.1);
+        case GLFW_KEY_W: Scene.TranslateCamera(vec3(0.0f, 0.0f, -1.0f)*0.1);
             break;
-        case GLFW_KEY_S: camera.Translate(vec3(0.0f, 0.0f, 1.0f)*0.1);
+        case GLFW_KEY_S: Scene.TranslateCamera(vec3(0.0f, 0.0f, 1.0f)*0.1);
             break;
-        case GLFW_KEY_A: camera.Translate(vec3(-1.0f, 0.0f, 0.0f)*0.1);
+        case GLFW_KEY_A: Scene.TranslateCamera(vec3(-1.0f, 0.0f, 0.0f)*0.1);
             break;
-        case GLFW_KEY_D: camera.Translate(vec3(1.0f, 0.0f, 0.0f)*0.1);
+        case GLFW_KEY_D: Scene.TranslateCamera(vec3(1.0f, 0.0f, 0.0f)*0.1);
             break;
-        case GLFW_KEY_Q: camera.Translate(vec3(0.0f, 1.0f, 0.0f)*0.1);
+        case GLFW_KEY_Q: Scene.TranslateCamera(vec3(0.0f, 1.0f, 0.0f)*0.1);
             break;
-        case GLFW_KEY_E: camera.Translate(vec3(0.0f, -1.0f, -1.0f)*0.1);
+        case GLFW_KEY_E: Scene.TranslateCamera(vec3(0.0f, -1.0f, -1.0f)*0.1);
             break;
     }
     aKeyWasPressed = true;
@@ -218,43 +216,14 @@ int main(int argc, char **argv) {
 
     // Initialize
     Initialize();
-
+    Scene.Build();
 
     int imageNr = 0;
     double timeElapsed;
 
-    Shader *basicShader = new Shader();
-    basicShader->use();
-
-    vec3 headCenter(0.0f, 0.0f, 0.0f);
-    size_t nrSims = 200;
-    size_t nrSegments = 30;
-    float lSeg = 0.025f;
-    auto hairSimulation = new PBDSimulation(headCenter, nrSims, nrSegments, lSeg);
-
-    mat4 M(1.0f, 0.0f, 0.0f, 0.0f,
-           0.0f, 1.0f, 0.0f, 0.0f,
-           0.0f, 0.0f, 1.0f, 0.0f,
-           0.0f, 0.0f, 0.0f, 1.0f);
-
-    mat4 V = camera.getState().V;
-    mat4 P = camera.getState().P;
-    mat4 MVP = M * V * P;
-    glUniformMatrix4fv(glGetUniformLocation(basicShader->ID, "MVP"), 1, GL_TRUE, MVP);
-
-
-//    HairSimulationObject hairSim(basicShader, hairSimulation);
 
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
-        if (aKeyWasPressed) {
-            V = camera.getState().V;
-            P = camera.getState().P;
-            MVP = M * V * P;
-            glUniformMatrix4fv(glGetUniformLocation(basicShader->ID, "MVP"), 1, GL_TRUE, MVP);
-            aKeyWasPressed = false;
-        }
-
 
         // ticking every 24 FPS
         bool tick = false;
@@ -275,12 +244,9 @@ int main(int argc, char **argv) {
         // wipe the drawing surface clear
         glClear(GL_COLOR_BUFFER_BIT);
 
-//        glUseProgram(shader_programme);
-//        draw();
-
         // reset all external forces if gravity was toggled
         if (resetExternalForces || !dragging) {
-            forceGenerated += -hairSimulation->getExternalForces();
+            Scene.ResetExternalForces();
             if (gravityOn)
                 forceGenerated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
             resetExternalForces = false;
@@ -291,13 +257,13 @@ int main(int argc, char **argv) {
         if (forceGenerated.x != 0.0f ||
             forceGenerated.y != 0.0f ||
             forceGenerated.z != 0.0f) {
-            hairSimulation->addForce(forceGenerated);
+            Scene.addForce(forceGenerated);
             // ... and reset the force generated
             forceGenerated = vec3(0, 0, 0);
         }
 
-        hairSimulation->update((float) deltaTime);
-        hairSimulation->draw();
+        Scene.Update(deltaTime);
+        Scene.Render();
 
         if (capturing) {
             glPointSize(20.0f);
