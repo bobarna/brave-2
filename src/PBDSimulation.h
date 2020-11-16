@@ -5,7 +5,6 @@
 #include "utils/util.h"
 #include "Particle.h"
 #include "Geometry.h"
-//#include "PBD_Strand.h"
 
 class PBDSimulation : public Geometry {
     void solve_distance_constraint(Particle *p1, Particle *p2, float dist);

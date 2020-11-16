@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
         src/RenderState.h
         src/Camera.h src/Camera.cpp
         src/Object.h src/Object.cpp
-        src/Scene.cpp src/Scene.h src/Shader.cpp)
+        src/Scene.cpp src/Scene.h src/Shader.cpp src/Constants.h src/InputHandler.h src/InputHandler.cpp)
 
 # opengl
 find_package(OpenGL REQUIRED)

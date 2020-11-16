@@ -3,7 +3,6 @@
 
 #include <GL/glew.h>
 
-// TODO should I change my naming?
 #include "math.h"
 
 //---------------------------

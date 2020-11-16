@@ -2,35 +2,30 @@
 #include <GLFW/glfw3.h>
 #include <cstdlib>
 #include <iostream>
-#include <sstream>
 
 #include "utils/math.h"
-#include "utils/gl_helper.h"
 
-#include "PBDSimulation.h"
 #include "utils/other/stb_image_write.h"
 #include "utils/save_image.h"
-#include "Shader.h"
-#include "Camera.h"
-#include "Object.h"
 #include "Scene.h"
+#include "Constants.h"
+#include "InputHandler.h"
 
-static int WIDTH = 600;
-static int HEIGHT = 400;
 GLFWwindow *window;
 
 bool dragging = false;
 int keyArr[350];
 
-static float GRAVITY_ABS_VALUE = 0.98f;
+InputHandler* InputHandler = InputHandler->GetInstance();
+
+
 vec3 forceGenerated(0.0f, 0.0f, 0.0f);
-bool gravityOn = true;
 bool resetExternalForces = false;
 bool capturing = false;
 
-bool aKeyWasPressed = false;
 
 Scene Scene(WIDTH, HEIGHT);
+
 
 static void Initialize() {
     glViewport(0, 0, WIDTH, HEIGHT);
@@ -87,70 +82,18 @@ static void getForce(char dir, float power = 0.05f) {
 }
 
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    if (action != GLFW_RELEASE) return;
-    switch (key) {
-        case GLFW_KEY_X:
-            if (mods && GLFW_MOD_SHIFT)
-                getForce('X');
-            else getForce('x');
-            break;
+    if (action == GLFW_RELEASE)
+        InputHandler->KeyRelease(key);
+    else
+        InputHandler->KeyPress(key);
 
-        case GLFW_KEY_Y:
-            if (mods && GLFW_MOD_SHIFT)
-                getForce('Y');
-            else getForce('y');
-            break;
-
-        case GLFW_KEY_Z:
-            if (mods && GLFW_MOD_SHIFT)
-                getForce('Z');
-            else getForce('z');
-            break;
-
-        case GLFW_KEY_G:
-            //gravity
-            if (gravityOn) {
-                // reset all external forces
-                resetExternalForces = true;
-                gravityOn = false;
-                std::cout << "gravity turned OFF" << std::endl;
-            } else {
-                resetExternalForces = true;
-                gravityOn = true;
-                std::cout << "gravity turned ON" << std::endl;
-            }
-            break;
-
-        case GLFW_KEY_C:
-            if (capturing) {
-                capturing = false;
-                std::cout << "Capturing stopped." << std::endl;
-            } else {
-                capturing = true;
-                std::cout << "Capturing started." << std::endl;
-            }
-            break;
-        case GLFW_KEY_W: Scene.TranslateCamera(vec3(0.0f, 0.0f, -1.0f)*0.1);
-            break;
-        case GLFW_KEY_S: Scene.TranslateCamera(vec3(0.0f, 0.0f, 1.0f)*0.1);
-            break;
-        case GLFW_KEY_A: Scene.TranslateCamera(vec3(-1.0f, 0.0f, 0.0f)*0.1);
-            break;
-        case GLFW_KEY_D: Scene.TranslateCamera(vec3(1.0f, 0.0f, 0.0f)*0.1);
-            break;
-        case GLFW_KEY_Q: Scene.TranslateCamera(vec3(0.0f, 1.0f, 0.0f)*0.1);
-            break;
-        case GLFW_KEY_E: Scene.TranslateCamera(vec3(0.0f, -1.0f, -1.0f)*0.1);
-            break;
-    }
-    aKeyWasPressed = true;
+    InputHandler->SetModifiers(mods);
 }
 
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
     switch (button) {
         case GLFW_MOUSE_BUTTON_1:
             dragging = (action == GLFW_PRESS);
-            std::cout << dragging << std::endl;
             break;
     }
 }
@@ -221,10 +164,8 @@ int main(int argc, char **argv) {
     int imageNr = 0;
     double timeElapsed;
 
-
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
-
         // ticking every 24 FPS
         bool tick = false;
 
@@ -241,14 +182,9 @@ int main(int argc, char **argv) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity(); //load identity matrix
 
-        // wipe the drawing surface clear
-        glClear(GL_COLOR_BUFFER_BIT);
-
         // reset all external forces if gravity was toggled
         if (resetExternalForces || !dragging) {
             Scene.ResetExternalForces();
-            if (gravityOn)
-                forceGenerated += vec3(0.0f, -GRAVITY_ABS_VALUE, 0.0f);
             resetExternalForces = false;
         }
 

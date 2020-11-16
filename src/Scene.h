@@ -1,30 +1,35 @@
 #ifndef BRAVE2_SCENE_H
 #define BRAVE2_SCENE_H
 
-
 #include <vector>
 #include "Camera.h"
 #include "Object.h"
+#include "Constants.h"
+#include "InputHandler.h"
+#include <GLFW/glfw3.h>
 
 class Scene {
     std::vector<Object *> objects;
     std::vector<HairSimObject *> sims;
     Camera camera;
+    InputHandler* inputHandler = InputHandler::GetInstance();
+
+    bool gravityOn = true;
 
 public:
     Scene(int w, int h);
 
     void Build();
-
+    void Update(float delta_t);
     void Render();
 
-    void Update(float delta_t);
-
-    void TranslateCamera(vec3 t);
-
     void ResetExternalForces();
-
     void addForce(vec3 vec3);
+
+    void HandleKeyPress();
+
+    void HandleCameraMove();
+    void TranslateCamera(vec3 t);
 };
 
 

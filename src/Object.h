@@ -34,8 +34,9 @@ class HairSimObject : public Object {
 public:
     HairSimObject(Shader *_shader, PBDSimulation *_sim): Object(_shader, _sim){};
     void ResetExternalForces();
-
     void AddForce(vec3 f);
+
+    void Animate(float delta_t) override;
 };
 
 
