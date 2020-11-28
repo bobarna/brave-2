@@ -7,11 +7,11 @@
 #include <string>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
+
 #include "other/stb_image_write.h"
 
 
-
-void saveImage(const std::string& path, GLFWwindow* w) {
+void saveImage(const std::string &path, GLFWwindow *w) {
     int width, height;
     glfwGetFramebufferSize(w, &width, &height);
     GLsizei nrChannels = 3;

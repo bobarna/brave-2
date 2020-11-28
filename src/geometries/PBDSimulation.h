@@ -13,9 +13,10 @@ class PBDSimulation : public Geometry {
     void solve_bending_constraint(Particle *p1, Particle *p2, float dist);
 
     void solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3);
+
 public:
     //// mid-point of the head
-    HeadObject* head;
+    HeadObject *head;
 
     //// number of hair strands to be placed on the head
     size_t nrStrands;
@@ -27,7 +28,7 @@ public:
     float lSeg;
 
     ////
-    std::vector<std::vector<Particle*>> strands;
+    std::vector<std::vector<Particle *>> strands;
 
     ////
     vec3 externalForces;
@@ -37,7 +38,7 @@ public:
 
     void addForce(vec3 force);
 
-    PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segments, float _l_seg);
+    PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segments, float _l_seg);
 
     void propagateHead();
 
@@ -49,7 +50,7 @@ public:
 
     void resetExternalForces();
 
-    std::vector<Particle*> CreateStrand(size_t segments, float l, vec3 startPos, vec3 color);
+    std::vector<Particle *> CreateStrand(size_t segments, float l, vec3 startPos, vec3 color);
 };
 
 

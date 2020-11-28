@@ -9,6 +9,7 @@
 
 namespace util {
     vec3 getRandomRGBColorAround(vec3 base, vec3 offset);
+
     float randomOffsetf(float base, float offset);
 }
 

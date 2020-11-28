@@ -4,7 +4,7 @@ void PBDSimulation::addForce(vec3 force) {
     externalForces += force;
 }
 
-PBDSimulation::PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) :
+PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segments, float _l_seg) :
         nrStrands(_nr_sims),
         nrSegments(_nr_segments),
         lSeg(_l_seg),
@@ -20,7 +20,7 @@ PBDSimulation::PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segm
 }
 
 void PBDSimulation::propagateHead() {
-    vec3 origin(0,0,0);
+    vec3 origin(0, 0, 0);
     for (size_t i = 0; i < nrStrands; i++) {
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
         strands.emplace_back(CreateStrand(nrSegments, lSeg, origin, color));
@@ -170,5 +170,5 @@ std::vector<Particle *> PBDSimulation::CreateStrand(size_t n, float l, vec3 star
 }
 
 void PBDSimulation::resetExternalForces() {
-    externalForces = vec3(0,0,0);
+    externalForces = vec3(0, 0, 0);
 }

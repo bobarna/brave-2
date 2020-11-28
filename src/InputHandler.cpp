@@ -1,10 +1,9 @@
 #include "InputHandler.h"
 
-InputHandler* InputHandler::singleton_= nullptr;;
+InputHandler *InputHandler::singleton_ = nullptr;;
 
-InputHandler *InputHandler::GetInstance()
-{
-    if(singleton_==nullptr){
+InputHandler *InputHandler::GetInstance() {
+    if (singleton_ == nullptr) {
         singleton_ = new InputHandler();
     }
 

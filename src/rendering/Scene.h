@@ -17,7 +17,7 @@ class Scene {
     Camera camera;
     std::vector<Light> lights;
 
-    InputHandler* inputHandler = InputHandler::GetInstance();
+    InputHandler *inputHandler = InputHandler::GetInstance();
 
     bool gravityOn = true;
 
@@ -25,15 +25,19 @@ public:
     Scene(int w, int h);
 
     void Build();
+
     void Update(float delta_t);
+
     void Render();
 
     void ResetExternalForces();
+
     void addForce(vec3 vec3);
 
     void HandleKeyPress();
 
     void HandleCameraMove();
+
     void TranslateCamera(vec3 t);
 };
 

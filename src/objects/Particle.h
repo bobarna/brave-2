@@ -5,7 +5,7 @@
 
 class Particle {
 public:
-    Particle(vec3 pos, float w, vec3 c): pos(pos), tmp_pos(pos), w(w), v(0.0f), color(c) {
+    Particle(vec3 pos, float w, vec3 c) : pos(pos), tmp_pos(pos), w(w), v(0.0f), color(c) {
 
     };
     vec3 pos;
@@ -23,7 +23,7 @@ public:
      */
     float get_mass() {
         if (w == 0.0f) return -1;
-        return 1/w;
+        return 1 / w;
     }
 };
 

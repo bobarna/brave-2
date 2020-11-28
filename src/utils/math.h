@@ -134,7 +134,7 @@ inline vec3 cross(const vec3 &v1, const vec3 &v2) {
 inline vec3 operator*(float a, const vec3 &v) { return vec3(v.x * a, v.y * a, v.z * a); }
 
 // automatic vec3 printing
-std::ostream& operator << (std::ostream& out, const vec3& v);
+std::ostream &operator<<(std::ostream &out, const vec3 &v);
 
 //--------------------------
 struct vec4 {
@@ -167,18 +167,21 @@ struct vec4 {
     }
 
     vec4 operator+(const vec4 &v) const { return vec4(x + v.x, y + v.y, z + v.z, w + v.w); }
+
     vec4 operator+=(const vec4 &v) {
         (*this) = (*this) + v;
         return *this;
     }
 
     vec4 operator-(const vec4 &v) const { return vec4(x - v.x, y - v.y, z - v.z, w - v.w); }
+
     vec4 operator-=(const vec4 &v) {
         (*this) = (*this) - v;
         return *this;
     }
 
     vec4 operator*(const vec4 &v) const { return vec4(x * v.x, y * v.y, z * v.z, w * v.w); }
+
     vec4 operator*=(const vec4 &v) {
         (*this) = (*this) * v;
         return *this;
@@ -194,7 +197,7 @@ inline vec4 operator*(float a, const vec4 &v) {
 }
 
 // automatic vec4 printing
-std::ostream& operator << (std::ostream& out, const vec4& v);
+std::ostream &operator<<(std::ostream &out, const vec4 &v);
 
 //---------------------------
 struct mat4 { // row-major matrix 4x4
@@ -306,7 +309,7 @@ inline mat4 z_rotation_matrix(float angle) {
 }
 
 // automatic mat4 printing
-std::ostream& operator << (std::ostream& out, const mat4& v);
+std::ostream &operator<<(std::ostream &out, const mat4 &v);
 
 /**
  *  Dnum class
@@ -368,7 +371,6 @@ Dnum<T> Pow(Dnum<T> g, float n) {
 }
 
 typedef Dnum<vec2> Dnum2;
-
 
 
 #endif //BRAVE2_MATH_H

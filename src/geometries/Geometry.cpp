@@ -1,6 +1,6 @@
 #include "Geometry.h"
 
-Geometry::Geometry()  {
+Geometry::Geometry() {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     glGenBuffers(1, &vbo);

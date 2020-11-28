@@ -8,7 +8,7 @@
 class Camera {
 public:
     /// Position of the camera in world coordinates.
-    vec3    wEye;
+    vec3 wEye;
 
     /// Location of the center of the window.
     vec3 wLookAt;

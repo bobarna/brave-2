@@ -9,8 +9,7 @@
  * alternative to constructor and lets clients access the same instance of this
  * class over and over. (Singleton pattern)
  */
-class InputHandler
-{
+class InputHandler {
     // Input handling
     bool aKeyWasPressed;
     bool keyPressed[348] = {false};
@@ -20,15 +19,14 @@ class InputHandler
      * The inputHandler's constructor should always be private to prevent direct
      * construction calls with the `new` operator.
      */
-    InputHandler()
-    {
+    InputHandler() {
         aKeyWasPressed = false;
         modifiers = 0;
-        for(bool & k : keyPressed)
+        for (bool &k : keyPressed)
             k = false;
     }
 
-    static InputHandler* singleton_;
+    static InputHandler *singleton_;
 
 public:
 
@@ -36,6 +34,7 @@ public:
      * Singletons should not be cloneable.
      */
     InputHandler(InputHandler &other) = delete;
+
     /**
      * Singletons should not be assignable.
      */
@@ -52,10 +51,15 @@ public:
     bool IsPressed(int key);
 
     bool IsShiftPressed();
+
     bool IsControlPressed();
+
     bool IsAltPressed();
+
     bool IsSuperPressed();
+
     bool IsCapsLock();
+
     bool IsNumLock();
 
 };

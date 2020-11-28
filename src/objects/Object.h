@@ -32,5 +32,4 @@ public:
 };
 
 
-
 #endif //BRAVE2_OBJECT_H

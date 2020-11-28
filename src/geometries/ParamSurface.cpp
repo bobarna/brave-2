@@ -21,8 +21,8 @@ void ParamSurface::create(int N, int M) {
     nStrips = N;
     for (int i = 0; i < N; i++) {
         for (int j = 0; j <= M; j++) {
-            vtxData.push_back(GenVertexData((float) j / (float)M, (float) i / (float)N));
-            vtxData.push_back(GenVertexData((float) j / (float)M, (float) (i + 1) / (float)N));
+            vtxData.push_back(GenVertexData((float) j / (float) M, (float) i / (float) N));
+            vtxData.push_back(GenVertexData((float) j / (float) M, (float) (i + 1) / (float) N));
         }
     }
     glBufferData(GL_ARRAY_BUFFER, nVtxPerStrip * nStrips * sizeof(VertexData), &vtxData[0], GL_STATIC_DRAW);
@@ -38,11 +38,11 @@ void ParamSurface::create(int N, int M) {
 
 void ParamSurface::Draw() {
     glBindVertexArray(vao);
-    for(unsigned int i = 0; i < nStrips; i++) glDrawArrays(GL_TRIANGLE_STRIP, i * nVtxPerStrip, nVtxPerStrip);
+    for (unsigned int i = 0; i < nStrips; i++) glDrawArrays(GL_TRIANGLE_STRIP, i * nVtxPerStrip, nVtxPerStrip);
 }
 
 Sphere::Sphere() {
-    create(20,20);
+    create(20, 20);
 }
 
 void Sphere::eval(Dnum2 &U, Dnum2 &V, Dnum2 &X, Dnum2 &Y, Dnum2 &Z) {
