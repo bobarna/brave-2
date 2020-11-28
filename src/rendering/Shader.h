@@ -150,6 +150,7 @@ class PhongShader : public Shader {
                            (kd * texColor * cost + material.ks * pow(cosd, material.shininess)) * lights[i].Le;
 			}
 			fragmentColor = vec4(radiance, 1);
+            fragmentColor = vec4(N, 1);
 		}
 	)";
 public:

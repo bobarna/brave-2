@@ -25,8 +25,8 @@ void Scene::Build() {
     Shader *phongShader = new PhongShader();
     Material *headMaterial = new Material;
     headMaterial->kd = vec3(0.6f, 0.2f, .2f);
-    headMaterial->ks = vec3(6, 2, 2);
-    headMaterial->ka = vec3(.1f, .1f, .1f);
+    headMaterial->ks = vec3(.3, .2, .2);
+    headMaterial->ka = vec3(.2f, .2f, .2f);
     headMaterial->shininess = 100;
 
 //    Texture *headTexture = new UniformColorMaterial(.6f, .2f, 0);
@@ -34,22 +34,22 @@ void Scene::Build() {
 
     auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
 
-    headObject->Scale(vec3(.3, .3, .3));
+    headObject->Scale(vec3(.35, .3, .3));
     objects.push_back(headObject);
 
     // Lights
     lights.resize(3);
-    lights[0].wLightPos = vec4(5, 5, 4, 0);    // ideal point -> directional light source
+    lights[0].wLightPos = vec4(0, 1, 0, 0);    // ideal point -> directional light source
     lights[0].La = vec3(0.1f, 0.1f, 1);
-    lights[0].Le = vec3(3, 3, 3);
+    lights[0].Le = vec3(1, 1, 1);
 
-    lights[1].wLightPos = vec4(5, 10, 20, 0);    // ideal point -> directional light source
+    lights[1].wLightPos = vec4(-1, .2, -1, 0);    // ideal point -> directional light source
     lights[1].La = vec3(0.2f, 0.2f, 0.2f);
-    lights[1].Le = vec3(2, 1, 1);
+    lights[1].Le = vec3(5, 3, 2);
 
-    lights[2].wLightPos = vec4(-5, 5, 5, 0);    // ideal point -> directional light source
+    lights[2].wLightPos = vec4(0, 0, -1, 0);    // ideal point -> directional light source
     lights[2].La = vec3(0.1f, 0.1f, 0.1f);
-    lights[2].Le = vec3(2, 2, 2);
+    lights[2].Le = vec3(5, 3, 2);
 }
 
 void Scene::Render() {

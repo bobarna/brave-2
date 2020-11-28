@@ -23,7 +23,6 @@ ParamSurface::VertexData ParamSurface::GenVertexData(float u, float v) {
 void ParamSurface::create(int N, int M) {
     nVtxPerStrip = (M + 1) * 2;
     nStrips = N;
-    std::vector<VertexData> vtxData;    // vertices on the CPU
     for (int i = 0; i < N; i++) {
         for (int j = 0; j <= M; j++) {
             vtxData.push_back(GenVertexData((float) j / (float)M, (float) i / (float)N));

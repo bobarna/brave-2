@@ -7,11 +7,16 @@
 class Geometry {
 protected:
     GLuint vao, vbo;
+
 public:
+
     struct VertexData {
         vec3 position, normal;
         vec2 texcoord;
     };
+
+    std::vector<VertexData> vtxData;    // vertices on the CPU
+
     Geometry() {
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
@@ -36,8 +41,8 @@ const int tessellationLevel = 20;
 
 class ParamSurface : public Geometry {
     unsigned int nVtxPerStrip, nStrips;
-
 public:
+
     ParamSurface();
 
     virtual void eval(Dnum2 &U, Dnum2 &V, Dnum2 &X, Dnum2 &Y, Dnum2 &Z) = 0;
