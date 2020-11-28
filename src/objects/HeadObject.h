@@ -1,6 +1,5 @@
-#ifndef BRAVE2_HEAD_OBJECT_H
-#define BRAVE2_HEAD_OBJECT_H
-
+#ifndef BRAVE2_HEADOBJECT_H
+#define BRAVE2_HEADOBJECT_H
 
 #include "Object.h"
 
@@ -10,4 +9,4 @@ public:
 };
 
 
-#endif //BRAVE2_HEAD_OBJECT_H
+#endif //BRAVE2_HEADOBJECT_H

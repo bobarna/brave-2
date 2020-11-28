@@ -2,11 +2,12 @@
 #define BRAVE2_SCENE_H
 
 #include <vector>
-#include "../objects/PBDSimulation.h"
+#include "../geometries/PBDSimulation.h"
 #include "Camera.h"
 #include "../objects/Object.h"
 #include "../Constants.h"
 #include "../InputHandler.h"
+#include "../objects/HairSimObject.h"
 
 #include <GLFW/glfw3.h>
 

@@ -1,4 +1,7 @@
 #include "Scene.h"
+#include "shaders/BasicShader.h"
+#include "../geometries/ParamSurface.h"
+#include "shaders/PhongShader.h"
 
 Scene::Scene(int w, int h) : camera(vec3(0, -0.2f, 1), // Camera position (wEye)
                                     vec3(0, -.2f, 0), // wLookat
@@ -23,17 +26,16 @@ void Scene::Build() {
     headMaterial->ka = vec3(.2f, .2f, .2f);
     headMaterial->shininess = 100;
 
-//    Texture *headTexture = new UniformColorMaterial(.6f, .2f, 0);
+//    Texture *headTexture = new UniformColorTexture(.6f, .2f, 0);
     Texture *headTexture = new CheckerBoardTexture(10, 10);
 
     auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
-    auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
 
     headObject->Scale(vec3(.35, .3, .3));
     objects.push_back(headObject);
 
-
-    auto simulationObject = new HairSimObject(basicShader, PBDSim);
+    auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
+    auto simulationObject = new HairSimObject(headObject, basicShader, PBDSim);
     sims.push_back(simulationObject);
 
     // Lights

@@ -1,14 +1,10 @@
-#include "Geometry.h"
-
-/**
- * ParamSurface
- */
+#include "ParamSurface.h"
 
 ParamSurface::ParamSurface() {
     nVtxPerStrip = nStrips = 0;
 }
 
-ParamSurface::VertexData ParamSurface::GenVertexData(float u, float v) {
+VertexData ParamSurface::GenVertexData(float u, float v) {
     VertexData vtxData;
     vtxData.texcoord = vec2(u, v);
     Dnum2 X, Y, Z;

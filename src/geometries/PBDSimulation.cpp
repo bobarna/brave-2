@@ -9,8 +9,8 @@ PBDSimulation::PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segm
         nrSegments(_nr_segments),
         lSeg(_l_seg),
         externalForces(.0f, .0f, .0f) {
-    head = _head
 
+    head = _head;
     // placing hair on the head
     propagateHead();
 
@@ -20,20 +20,10 @@ PBDSimulation::PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segm
 }
 
 void PBDSimulation::propagateHead() {
-    srand(time(nullptr));
-    float step = M_PI / nrStrands;
-    float currAngle = M_PI;
-    float r = 0.20f;
-
-    // if there is only one strand, then place it in the middle
-    if (nrStrands == 1) r = 0.0;
-
+    vec3 origin(0,0,0);
     for (size_t i = 0; i < nrStrands; i++) {
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        vec3 curr_pos(head.x + cosf(currAngle) * r * 1.2f, head.y + sinf(currAngle) * r * 1.1f, head.z);
-
-        strands.emplace_back(CreateStrand(nrSegments, lSeg, curr_pos, color));
-        currAngle -= step;
+        strands.emplace_back(CreateStrand(nrSegments, lSeg, origin, color));
     }
 }
 

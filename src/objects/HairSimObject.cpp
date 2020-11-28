@@ -1,5 +1,8 @@
 #include "HairSimObject.h"
 
+HairSimObject::HairSimObject(HeadObject *_head, Shader *_shader, PBDSimulation *_sim) :
+        Object(_shader, _sim), head(_head) {
+}
 
 void HairSimObject::Animate(float delta_t) {
     reinterpret_cast<PBDSimulation *>(geometry)->update(delta_t);

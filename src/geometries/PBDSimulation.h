@@ -1,13 +1,11 @@
 #ifndef BRAVE2_PBDSIMULATION_H
 #define BRAVE2_PBDSIMULATION_H
 
-#include "Object.h"
 #include "../utils/math.h"
 #include "../utils/util.h"
-#include "Particle.h"
+#include "../objects/Particle.h"
 #include "Geometry.h"
-
-class HeadObject;
+#include "../objects/HeadObject.h"
 
 class PBDSimulation : public Geometry {
     void solve_distance_constraint(Particle *p1, Particle *p2, float dist);

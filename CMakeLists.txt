@@ -10,15 +10,19 @@ add_executable(${PROJECT_NAME}
         src/main.cpp
         src/utils/math.h src/utils/math.cpp
         src/utils/util.h src/utils/util.cpp
-        src/objects/PBDSimulation.h src/objects/PBDSimulation.cpp
+        src/geometries/PBDSimulation.h src/geometries/PBDSimulation.cpp
         src/rendering/Camera.h src/rendering/Camera.cpp
         src/objects/Object.h src/objects/Object.cpp
         src/rendering/Scene.cpp
-        src/rendering/Shader.cpp
+        src/rendering/shaders/Shader.cpp
         src/InputHandler.cpp
-        src/objects/Geometry.cpp
+        src/geometries/Geometry.cpp
         src/objects/HairSimObject.cpp
-        src/objects/head_object.cpp)
+        src/objects/HeadObject.cpp
+        src/rendering/shaders/BasicShader.cpp src/rendering/shaders/BasicShader.h
+        src/rendering/shaders/PhongShader.cpp src/rendering/shaders/PhongShader.h
+        src/geometries/ParamSurface.cpp src/geometries/ParamSurface.h
+        src/geometries/VertexData.h src/rendering/materials/Material.cpp src/rendering/materials/Material.h src/rendering/textures/Texture.cpp src/rendering/textures/Texture.h src/rendering/lights/Light.cpp src/rendering/lights/Light.h)
 
 # opengl
 find_package(OpenGL REQUIRED)

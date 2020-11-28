@@ -2,7 +2,8 @@
 #define BRAVE2_OBJECT_H
 
 #include "../utils/math.h"
-#include "Geometry.h"
+#include "../geometries/Geometry.h"
+#include "../rendering/shaders/Shader.h"
 
 class Object {
 protected:

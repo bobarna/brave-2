@@ -1,12 +1,15 @@
 #ifndef BRAVE2_HAIRSIMOBJECT_H
 #define BRAVE2_HAIRSIMOBJECT_H
 
-#include "PBDSimulation.h"
+#include "../geometries/PBDSimulation.h"
+#include "../rendering/shaders/Shader.h"
+#include "Object.h"
+#include "HeadObject.h"
 
 class HairSimObject : public Object {
+    HeadObject *head;
 public:
-    //TODO why can't I refactor this to .cpp file???
-    HairSimObject(Shader *_shader, PBDSimulation *_sim) : Object(_shader, _sim) {};
+    HairSimObject(HeadObject *_head, Shader *_shader, PBDSimulation *_sim);
 
     void ResetExternalForces();
 
@@ -14,7 +17,6 @@ public:
 
     void Animate(float delta_t) override;
 };
-
 
 
 #endif //BRAVE2_HAIRSIMOBJECT_H
