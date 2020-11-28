@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
                   WIDTH, HEIGHT);
 
     vec3 headCenter(0.0f, 0.0f, 0.0f);
-    size_t nrSims = 200;
+    size_t nrSims = 1;
     size_t nrSegments = 30;
     float lSeg = 0.025f;
     auto hairSimulation = new PBDSimulation(headCenter, nrSims, nrSegments, lSeg);

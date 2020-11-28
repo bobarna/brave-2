@@ -9,26 +9,26 @@ struct Constraint {
 };
 
 class DistanceConstraint : public Constraint {
-    Particle *p1;
-    Particle *p2;
+    Particle& p1;
+    Particle& p2;
     float dist;
     float s; // weight of the constraint
 
 public:
-    DistanceConstraint(Particle *p1, Particle *p2, float dist, float s = 1.0f) :
+    DistanceConstraint(Particle& p1, Particle& p2, float dist, float s = 1.0f) :
             p1(p1), p2(p2), dist(dist), s(s) {}
 
     void solve() override {
-        vec3 d_p1 = -(p1->w / (p1->w + p2->w)) *
-                    (length(p1->tmp_pos - p2->tmp_pos) - dist) *
-                    (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
+        vec3 d_p1 = -(p1.w / (p1.w + p2.w)) *
+                    (length(p1.tmp_pos - p2.tmp_pos) - dist) *
+                    (p1.tmp_pos - p2.tmp_pos) / length(p1.tmp_pos - p2.tmp_pos);
 
-        vec3 d_p2 = (p2->w / (p1->w + p2->w)) *
-                    (length(p1->tmp_pos - p2->tmp_pos) - dist) *
-                    (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
+        vec3 d_p2 = (p2.w / (p1.w + p2.w)) *
+                    (length(p1.tmp_pos - p2.tmp_pos) - dist) *
+                    (p1.tmp_pos - p2.tmp_pos) / length(p1.tmp_pos - p2.tmp_pos);
 
-        p1->tmp_pos += s * d_p1;
-        p2->tmp_pos += s * d_p2;
+        p1.tmp_pos += s * d_p1;
+        p2.tmp_pos += s * d_p2;
     }
 };
 

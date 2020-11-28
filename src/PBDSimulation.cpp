@@ -14,9 +14,9 @@ PBDSimulation::PBDSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, f
     propagateHead();
 
     // set up distance constraints on each strand of hair
-    for (auto &strand : strands)
+    for (auto strand : strands)
         for (size_t i = 0; i < strand.size() - 1; i++)
-            constraints.push_back(new DistanceConstraint(strand[i], strand[i + 1], lSeg));
+            constraints.push_back(new DistanceConstraint(*strand[i], *strand[i + 1], lSeg));
 
     // set up bending constraint on each strand of hair
 //    for (auto &strand : strands)
