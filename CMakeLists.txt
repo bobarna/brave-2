@@ -10,17 +10,15 @@ add_executable(${PROJECT_NAME}
         src/main.cpp
         src/utils/math.h src/utils/math.cpp
         src/utils/util.h src/utils/util.cpp
-        src/utils/gl_helper.h
-        src/objects/Particle.h
         src/objects/PBDSimulation.h src/objects/PBDSimulation.cpp
-        src/utils/other/stb_image_write.h
-        src/utils/save_image.h
-        src/rendering/Shader.h
-        src/objects/Geometry.h
-        src/rendering/RenderState.h
         src/rendering/Camera.h src/rendering/Camera.cpp
         src/objects/Object.h src/objects/Object.cpp
-        src/rendering/Scene.cpp src/rendering/Scene.h src/rendering/Shader.cpp src/Constants.h src/InputHandler.h src/InputHandler.cpp src/objects/Geometry.cpp)
+        src/rendering/Scene.cpp
+        src/rendering/Shader.cpp
+        src/InputHandler.cpp
+        src/objects/Geometry.cpp
+        src/objects/HairSimObject.cpp
+        src/objects/head_object.cpp)
 
 # opengl
 find_package(OpenGL REQUIRED)

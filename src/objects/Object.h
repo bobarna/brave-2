@@ -1,11 +1,8 @@
 #ifndef BRAVE2_OBJECT_H
 #define BRAVE2_OBJECT_H
 
-#include "PBDSimulation.h"
 #include "../utils/math.h"
-#include "../rendering/Shader.h"
 #include "Geometry.h"
-#include "../rendering/RenderState.h"
 
 class Object {
 protected:
@@ -33,18 +30,6 @@ public:
     void Rotate(vec3 axis, float angle);
 };
 
-class HairSimObject : public Object {
-public:
-    //TODO why can't I refactor this to .cpp file???
-    HairSimObject(Shader *_shader, PBDSimulation *_sim) : Object(_shader, _sim) {};
-    void ResetExternalForces();
-    void AddForce(vec3 f);
-    void Animate(float delta_t) override;
-};
 
-class HeadObject : public Object {
-public:
-    HeadObject(Shader *_shader, Geometry *_geometry, Material *_material, Texture *_texture);
-};
 
 #endif //BRAVE2_OBJECT_H

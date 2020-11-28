@@ -7,6 +7,8 @@
 #include "Particle.h"
 #include "Geometry.h"
 
+class HeadObject;
+
 class PBDSimulation : public Geometry {
     void solve_distance_constraint(Particle *p1, Particle *p2, float dist);
 
