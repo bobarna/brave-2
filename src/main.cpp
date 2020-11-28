@@ -7,7 +7,7 @@
 
 #include "utils/other/stb_image_write.h"
 #include "utils/save_image.h"
-#include "Scene.h"
+#include "rendering/Scene.h"
 #include "Constants.h"
 #include "InputHandler.h"
 
@@ -198,6 +198,8 @@ int main(int argc, char **argv) {
             forceGenerated = vec3(0, 0, 0);
         }
 
+
+        //TODO guarantee dt to be infinitesimal
         Scene.Update(deltaTime);
         Scene.Render();
 

@@ -1,7 +1,7 @@
 #ifndef BRAVE2_PARTICLE_H
 #define BRAVE2_PARTICLE_H
 
-#include "utils/math.h"
+#include "../utils/math.h"
 
 class Particle {
 public:

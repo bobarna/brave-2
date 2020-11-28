@@ -3,15 +3,17 @@
 
 #include <vector>
 #include "Camera.h"
-#include "Object.h"
-#include "Constants.h"
-#include "InputHandler.h"
+#include "../objects/Object.h"
+#include "../Constants.h"
+#include "../InputHandler.h"
 #include <GLFW/glfw3.h>
 
 class Scene {
     std::vector<Object *> objects;
     std::vector<HairSimObject *> sims;
     Camera camera;
+    std::vector<Light> lights;
+
     InputHandler* inputHandler = InputHandler::GetInstance();
 
     bool gravityOn = true;

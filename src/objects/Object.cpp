@@ -1,9 +1,11 @@
 #include "Object.h"
 
-Object::Object(Shader *_shader, Geometry *_geometry) :
+Object::Object(Shader *_shader, Geometry *_geometry, Material *_material, Texture *_texture) :
         scale(vec3(1, 1, 1)), translation(vec3(0, 0, 0)), rotationAxis(0, 0, 1), rotationAngle(0) {
     shader = _shader;
     geometry = _geometry;
+    material = _material;
+    texture = _texture;
 }
 
 void Object::SetModelingTransform(mat4 &M, mat4 &Minv) {
@@ -18,6 +20,8 @@ void Object::Draw(RenderState state) {
     state.M = M;
     state.Minv = Minv;
     state.MVP = state.M * state.V * state.P;
+    state.material = material;
+    state.texture = texture;
     shader->Bind(state);
     geometry->Draw();
 }

@@ -11,7 +11,6 @@
  */
 class InputHandler
 {
-
     // Input handling
     bool aKeyWasPressed;
     bool keyPressed[348] = {false};

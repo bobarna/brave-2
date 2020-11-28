@@ -2,7 +2,7 @@
 #define BRAVE2_CAMERA_H
 
 
-#include "utils/math.h"
+#include "../utils/math.h"
 #include "RenderState.h"
 
 class Camera {

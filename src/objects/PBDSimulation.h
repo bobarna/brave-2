@@ -1,8 +1,8 @@
 #ifndef BRAVE2_PBDSIMULATION_H
 #define BRAVE2_PBDSIMULATION_H
 
-#include "utils/math.h"
-#include "utils/util.h"
+#include "../utils/math.h"
+#include "../utils/util.h"
 #include "Particle.h"
 #include "Geometry.h"
 
