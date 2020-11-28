@@ -30,7 +30,7 @@ void Object::Animate(float delta_t) {
 }
 
 void HairSimObject::Animate(float delta_t) {
-    reinterpret_cast<PBDSimulation*>(geometry) -> update(delta_t);
+    reinterpret_cast<PBDSimulation *>(geometry)->update(delta_t);
 }
 
 void Object::Scale(vec3 s) {
@@ -47,11 +47,13 @@ void Object::Rotate(vec3 axis, float angle) {
 }
 
 void HairSimObject::ResetExternalForces() {
-    reinterpret_cast<PBDSimulation*>(geometry)->resetExternalForces();
+    reinterpret_cast<PBDSimulation *>(geometry)->resetExternalForces();
 
 }
 
 void HairSimObject::AddForce(vec3 f) {
-    reinterpret_cast<PBDSimulation*>(geometry)->addForce(f);
+    reinterpret_cast<PBDSimulation *>(geometry)->addForce(f);
 }
 
+HeadObject::HeadObject(Shader *_shader, Geometry *_geometry, Material *_material, Texture *_texture) :
+        Object(_shader, _geometry, _material, _texture) {}

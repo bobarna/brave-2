@@ -4,12 +4,13 @@ void PBDSimulation::addForce(vec3 force) {
     externalForces += force;
 }
 
-PBDSimulation::PBDSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) :
-        head(_head),
+PBDSimulation::PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segments, float _l_seg) :
         nrStrands(_nr_sims),
         nrSegments(_nr_segments),
         lSeg(_l_seg),
         externalForces(.0f, .0f, .0f) {
+    head = _head
+
     // placing hair on the head
     propagateHead();
 

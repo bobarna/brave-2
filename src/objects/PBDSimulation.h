@@ -1,6 +1,7 @@
 #ifndef BRAVE2_PBDSIMULATION_H
 #define BRAVE2_PBDSIMULATION_H
 
+#include "Object.h"
 #include "../utils/math.h"
 #include "../utils/util.h"
 #include "Particle.h"
@@ -14,7 +15,7 @@ class PBDSimulation : public Geometry {
     void solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3);
 public:
     //// mid-point of the head
-    vec3 head;
+    HeadObject* head;
 
     //// number of hair strands to be placed on the head
     size_t nrStrands;
@@ -36,7 +37,7 @@ public:
 
     void addForce(vec3 force);
 
-    PBDSimulation(vec3 _head, size_t _nr_sims, size_t _nr_segments, float _l_seg);
+    PBDSimulation(HeadObject* _head, size_t _nr_sims, size_t _nr_segments, float _l_seg);
 
     void propagateHead();
 

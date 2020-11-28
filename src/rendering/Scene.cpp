@@ -12,14 +12,8 @@ void Scene::Build() {
     size_t nrSegments = 30;
     float lSeg = 0.025f;
 
-    auto PBDSim = new PBDSimulation(headCenter, nrSims, nrSegments, lSeg);
-
     Shader *basicShader = new BasicShader();
     basicShader->Bind(camera.getState());
-
-    auto simulationObject = new HairSimObject(basicShader, PBDSim);
-
-    sims.push_back(simulationObject);
 
     auto sphere = new Sphere();
     Shader *phongShader = new PhongShader();
@@ -33,9 +27,14 @@ void Scene::Build() {
     Texture *headTexture = new CheckerBoardTexture(10, 10);
 
     auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
+    auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
 
     headObject->Scale(vec3(.35, .3, .3));
     objects.push_back(headObject);
+
+
+    auto simulationObject = new HairSimObject(basicShader, PBDSim);
+    sims.push_back(simulationObject);
 
     // Lights
     lights.resize(3);
