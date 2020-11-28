@@ -16,6 +16,8 @@ public:
 
     virtual void Draw() = 0;
 
+    virtual VertexData GetVertexDataByUV(float u, float v) {throw std::bad_exception();};
+
     ~Geometry();
 };
 

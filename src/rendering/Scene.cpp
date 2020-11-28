@@ -3,14 +3,13 @@
 #include "../geometries/ParamSurface.h"
 #include "shaders/PhongShader.h"
 
-Scene::Scene(int w, int h) : camera(vec3(0, -0.2f, 1), // Camera position (wEye)
-                                    vec3(0, -.2f, 0), // wLookat
+Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye)
+                                    vec3(0, -.15f, 0), // wLookat
                                     vec3(0, 1, 0), // wVup
                                     w, h) {
 }
 
 void Scene::Build() {
-    vec3 headCenter(0.0f, 0.0f, 0.0f);
     size_t nrSims = 200;
     size_t nrSegments = 30;
     float lSeg = 0.025f;
@@ -31,7 +30,7 @@ void Scene::Build() {
 
     auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
 
-    headObject->Scale(vec3(.35, .3, .3));
+    headObject->Scale(vec3(.15, .1, .1));
     objects.push_back(headObject);
 
     auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
@@ -44,11 +43,11 @@ void Scene::Build() {
     lights[0].La = vec3(0.1f, 0.1f, 1);
     lights[0].Le = vec3(1, 1, 1);
 
-    lights[1].wLightPos = vec4(-1, .2, -1, 0);    // ideal point -> directional light source
+    lights[1].wLightPos = vec4(-1, .2, 1, 0);    // ideal point -> directional light source
     lights[1].La = vec3(0.2f, 0.2f, 0.2f);
     lights[1].Le = vec3(5, 3, 2);
 
-    lights[2].wLightPos = vec4(0, 0, -1, 0);    // ideal point -> directional light source
+    lights[2].wLightPos = vec4(0, 0, 1, 0);    // ideal point -> directional light source
     lights[2].La = vec3(0.1f, 0.1f, 0.1f);
     lights[2].Le = vec3(5, 3, 2);
 }

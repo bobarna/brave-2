@@ -87,7 +87,7 @@ class PhongShader : public Shader {
                            (kd * texColor * cost + materials.ks * pow(cosd, materials.shininess)) * lights[i].Le;
 			}
 			fragmentColor = vec4(radiance, 1);
-            fragmentColor = vec4(N, 1);
+            fragmentColor = vec4(texcoord.xy, 0, 1);
 		}
 	)";
 public:

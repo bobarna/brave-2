@@ -8,4 +8,6 @@ struct VertexData {
     vec2 texcoord;
 };
 
+std::ostream &operator<<(std::ostream &out, const VertexData &vD);
+
 #endif //BRAVE2_VERTEXDATA_H

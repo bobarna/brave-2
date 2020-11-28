@@ -1,3 +1,4 @@
+#include <random>
 #include "PBDSimulation.h"
 
 void PBDSimulation::addForce(vec3 force) {
@@ -20,10 +21,27 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
 }
 
 void PBDSimulation::propagateHead() {
-    vec3 origin(0, 0, 0);
+
+//    for(float u = .0f; u <= 1.f; u+=.05f)
+//        for(float v = .0f; v <= 1.f; v+=.05f)
+//            std::cout << head->GetVertexDataByUV(u, v) << std::endl;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(.3, .95);
+
     for (size_t i = 0; i < nrStrands; i++) {
+        float currU = dis(gen);
+        float currV = dis(gen);
+        VertexData currPos = head->GetVertexDataByUV(currU, currV);
+        while(currPos.normal.y < .0f){
+            currU = dis(gen);
+            currV = dis(gen);
+            currPos = head->GetVertexDataByUV(currU, currV);
+        }
+
+        std::cout << vec2(currU, currV) << " -> "<< currPos <<std::endl;
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        strands.emplace_back(CreateStrand(nrSegments, lSeg, origin, color));
+        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1,-1,1), color));
     }
 }
 
