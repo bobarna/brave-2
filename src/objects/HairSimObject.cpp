@@ -10,7 +10,6 @@ void HairSimObject::Animate(float delta_t) {
 
 void HairSimObject::ResetExternalForces() {
     reinterpret_cast<PBDSimulation *>(geometry)->resetExternalForces();
-
 }
 
 void HairSimObject::AddForce(vec3 f) {

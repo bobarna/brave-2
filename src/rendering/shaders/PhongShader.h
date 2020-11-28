@@ -1,4 +1,3 @@
-
 #ifndef BRAVE2_PHONGSHADER_H
 #define BRAVE2_PHONGSHADER_H
 

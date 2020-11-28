@@ -15,7 +15,7 @@ add_executable(${PROJECT_NAME}
         src/objects/Object.h src/objects/Object.cpp
         src/rendering/Scene.cpp
         src/rendering/shaders/Shader.cpp
-        src/InputHandler.cpp
+        src/utils/InputHandler.cpp
         src/geometries/Geometry.cpp
         src/objects/HairSimObject.cpp
         src/objects/HeadObject.cpp

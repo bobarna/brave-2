@@ -1,7 +1,3 @@
-//
-// Created by bobarna on 2020. 11. 28..
-//
-
 #include "PhongShader.h"
 
 void PhongShader::Bind(RenderState state) {

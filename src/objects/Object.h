@@ -14,7 +14,6 @@ protected:
     Shader *shader;
     Material *material;
     Texture *texture;
-
 public:
     Object(Shader *_shader, Geometry *_sim, Material *_material = nullptr, Texture *_texture = nullptr);
 

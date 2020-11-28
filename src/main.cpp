@@ -9,7 +9,7 @@
 #include "utils/save_image.h"
 #include "rendering/Scene.h"
 #include "Constants.h"
-#include "InputHandler.h"
+#include "utils/InputHandler.h"
 
 GLFWwindow *window;
 
