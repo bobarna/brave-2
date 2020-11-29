@@ -16,7 +16,9 @@ public:
 
     virtual void Draw() = 0;
 
-    virtual VertexData GetVertexDataByUV(float u, float v) { throw std::bad_exception(); };
+    virtual VertexData GetVertexDataByUV(float u, float v) {
+        return vtxData[std::rand()%vtxData.size()];
+    };
 
     ~Geometry();
 };

@@ -15,16 +15,18 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
     // placing hair on the head
     propagateHead();
 
-    collisionTriangles.emplace_back(0.5, -1, 1);
-    collisionTriangles.emplace_back(0.5, 1, 0);
-    collisionTriangles.emplace_back(0.5, -1, -1);
+    //TODO optimize this, it's smelly code right now
+    std::vector<VertexData> vtxData = head->getGeometry()->vtxData;
+    // %4 == 0, these should be guaranteed to be triangles + the normal vector of the face
+    for (size_t i = 0; i < vtxData.size(); i += 3) {
+        collisionTriangles.emplace_back(vtxData[i].position);
+        collisionTriangles.emplace_back(vtxData[i + 1].position);
+        collisionTriangles.emplace_back(vtxData[i + 2].position);
+    }
+
 }
 
 void PBDSimulation::propagateHead() {
-
-//    for(float u = .0f; u <= 1.f; u+=.05f)
-//        for(float v = .0f; v <= 1.f; v+=.05f)
-//            std::cout << head->GetVertexDataByUV(u, v) << std::endl;
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dis(.3, .95);
@@ -33,15 +35,11 @@ void PBDSimulation::propagateHead() {
         float currU = dis(gen);
         float currV = dis(gen);
         VertexData currPos = head->GetVertexDataByUV(currU, currV);
-        while (currPos.normal.y < .0f) {
+        while (currPos.normal.y > .0f) {
             currU = dis(gen);
             currV = dis(gen);
             currPos = head->GetVertexDataByUV(currU, currV);
         }
-
-#ifdef DEBUG_UV
-        std::cout << vec2(currU, currV) << " -> "<< currPos <<std::endl;
-#endif
 
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
         strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1, -1, 1), color));
@@ -76,8 +74,12 @@ void PBDSimulation::update(float dt) {
                 if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.9f);
                 if (i < strand.size() - 2 && i > 1)
                     solve_bending_constraint(strand[i - 2], strand[i + 2], lSeg * 1.9f);
-                solve_collision_constraint(strand[i],
-                                           collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]);
+//                for (size_t currTriangle = 0; currTriangle < collisionTriangles.size(); currTriangle += 3)
+//                    solve_collision_constraint(strand[i],
+//                                               collisionTriangles[currTriangle],
+//                                               collisionTriangles[currTriangle + 1],
+//                                               collisionTriangles[currTriangle + 2]
+//                    );
             }
         }
     }
@@ -118,7 +120,7 @@ void PBDSimulation::solve_bending_constraint(Particle *p1, Particle *p2, float d
 }
 
 void PBDSimulation::solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3) {
-    vec3 n = normalize(cross(q1 - q3, q1 - q2));
+    vec3 n = normalize(cross(q1 - q2, q3 - q2));
 
     if (dot(p->tmp_pos - q1, n) < 0) return;
 
