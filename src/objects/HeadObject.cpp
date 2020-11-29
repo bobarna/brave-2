@@ -13,7 +13,10 @@ VertexData HeadObject::GetVertexDataByUV(float u, float v) {
     vD.position = vec3(WP.x, WP.y, WP.z);
     vD.normal = vec3(WN.x, WN.y, WN.z);
 
+#ifdef DEBUG_UV
     std::cout << vD << std::endl;
+#endif
+
     return vD;
 }
 

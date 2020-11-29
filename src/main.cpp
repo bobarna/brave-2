@@ -18,7 +18,6 @@ int keyArr[350];
 
 InputHandler *InputHandler = InputHandler->GetInstance();
 
-
 vec3 forceGenerated(0.0f, 0.0f, 0.0f);
 bool resetExternalForces = false;
 bool capturing = false;

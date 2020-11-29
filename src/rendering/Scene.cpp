@@ -2,6 +2,7 @@
 #include "shaders/BasicShader.h"
 #include "../geometries/ParamSurface.h"
 #include "shaders/PhongShader.h"
+#include "../utils/OBJReader.h"
 
 Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye)
                                     vec3(0, -.15f, 0), // wLookat
@@ -9,10 +10,20 @@ Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye
                                     w, h) {
 }
 
+
+
 void Scene::Build() {
     size_t nrSims = 200;
     size_t nrSegments = 30;
     float lSeg = 0.025f;
+
+    std::vector<vec3> objVertices;
+    std::vector<vec2> objUvs;
+    std::vector<vec3> objNormals;
+    std::string objPath = "data/sphere.obj";
+    OBJReader objReader(objPath, objVertices, objUvs, objNormals);
+
+
 
     Shader *basicShader = new BasicShader();
     basicShader->Bind(camera.getState());

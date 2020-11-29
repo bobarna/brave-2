@@ -39,7 +39,10 @@ void PBDSimulation::propagateHead() {
             currPos = head->GetVertexDataByUV(currU, currV);
         }
 
+#ifdef DEBUG_UV
         std::cout << vec2(currU, currV) << " -> "<< currPos <<std::endl;
+#endif
+
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
         strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1,-1,1), color));
     }
