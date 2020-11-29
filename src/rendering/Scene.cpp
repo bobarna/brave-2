@@ -43,7 +43,7 @@ void Scene::Build() {
 
     auto testObject =
             new Object(phongShader,
-                       new ObjGeometry("../data/plane.obj"),
+                       new ObjGeometry("../data/susanne.obj"),
                        headMaterial,
                        headTexture);
 
