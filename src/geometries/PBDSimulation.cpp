@@ -33,7 +33,7 @@ void PBDSimulation::propagateHead() {
         float currU = dis(gen);
         float currV = dis(gen);
         VertexData currPos = head->GetVertexDataByUV(currU, currV);
-        while(currPos.normal.y < .0f){
+        while (currPos.normal.y < .0f) {
             currU = dis(gen);
             currV = dis(gen);
             currPos = head->GetVertexDataByUV(currU, currV);
@@ -44,7 +44,7 @@ void PBDSimulation::propagateHead() {
 #endif
 
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1,-1,1), color));
+        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1, -1, 1), color));
     }
 }
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "math.h"
+#include "../geometries/VertexData.h"
 
 class OBJReader {
     std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
@@ -15,8 +16,7 @@ class OBJReader {
     std::ifstream is;
 
 public:
-    OBJReader(const std::string &filePath, std::vector<vec3> &vertices, std::vector<vec2> &uvs,
-              std::vector<vec3> &normals);
+    OBJReader(const std::string &filePath, std::vector<VertexData>& out_vtxData);
 
     void readData();
 

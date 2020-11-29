@@ -3,6 +3,7 @@
 #include "../geometries/ParamSurface.h"
 #include "shaders/PhongShader.h"
 #include "../utils/OBJReader.h"
+#include "../geometries/ObjGeometry.h"
 
 Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye)
                                     vec3(0, -.15f, 0), // wLookat
@@ -11,18 +12,10 @@ Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye
 }
 
 
-
 void Scene::Build() {
     size_t nrSims = 200;
     size_t nrSegments = 30;
     float lSeg = 0.025f;
-
-    std::vector<vec3> objVertices;
-    std::vector<vec2> objUvs;
-    std::vector<vec3> objNormals;
-    std::string objPath = "data/sphere.obj";
-    OBJReader objReader(objPath, objVertices, objUvs, objNormals);
-
 
 
     Shader *basicShader = new BasicShader();
@@ -42,11 +35,19 @@ void Scene::Build() {
     auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
 
     headObject->Scale(vec3(.15, .1, .1));
-    objects.push_back(headObject);
+//    objects.push_back(headObject);
 
     auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
     auto simulationObject = new HairSimObject(headObject, basicShader, PBDSim);
-    sims.push_back(simulationObject);
+//    sims.push_back(simulationObject);
+
+    auto testObject =
+            new Object(phongShader,
+                       new ObjGeometry("../data/test.obj"),
+                       headMaterial,
+                       headTexture);
+
+    objects.push_back(testObject);
 
     // Lights
     lights.resize(3);

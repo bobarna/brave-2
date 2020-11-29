@@ -1,7 +1,6 @@
 #include "OBJReader.h"
 
-OBJReader::OBJReader(const std::string &filePath, std::vector<vec3> &out_vertices, std::vector<vec2> &out_uvs,
-                     std::vector<vec3> &out_normals) : is(filePath) {
+OBJReader::OBJReader(const std::string &filePath, std::vector<VertexData> &out_vtxData) : is(filePath) {
 
     if (!is) {
         std::cerr << "Can't open OBJ file: " << filePath << std::endl;
@@ -9,17 +8,12 @@ OBJReader::OBJReader(const std::string &filePath, std::vector<vec3> &out_vertice
     }
 
     readData();
-    if (is.fail())
-        std::cerr << filePath << std::endl;
 
+    for (auto curr: out_vtxData)
+        std::cout << curr << std::endl;
     for (unsigned int i : vertexIndices)
-        out_vertices.push_back(temp_vertices[i - 1]);
+        out_vtxData.emplace_back(temp_vertices[i - 1], temp_normals[i - 1], temp_uvs[i - 1]);
 
-    for (unsigned int i : uvIndices)
-        out_uvs.push_back(temp_uvs[i - 1]);
-
-    for (unsigned int i : normalIndices)
-        out_normals.push_back(temp_normals[i - 1]);
 
 }
 
@@ -48,7 +42,6 @@ void OBJReader::readData() {
             std::getline(is, lineType);
             // output rest of the line
             std::cerr << " " << lineType << std::endl;
-            is.setstate(std::iostream::failbit);
         }
     }
 }

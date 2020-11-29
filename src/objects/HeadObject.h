@@ -6,6 +6,7 @@
 class HeadObject : public Object {
 public:
     HeadObject(Shader *_shader, Geometry *_geometry, Material *_material, Texture *_texture);
+
     VertexData GetVertexDataByUV(float u, float v);
 };
 
