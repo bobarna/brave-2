@@ -8,10 +8,10 @@
 #include "../geometries/VertexData.h"
 
 class OBJReader {
-    std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
+    std::vector<unsigned int> vertexIndices, normalIndices, uvIndices;
     std::vector<vec3> temp_vertices;
-    std::vector<vec2> temp_uvs;
     std::vector<vec3> temp_normals;
+    std::vector<vec2> temp_uvs;
 
     std::ifstream is;
 

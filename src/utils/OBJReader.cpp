@@ -14,7 +14,6 @@ OBJReader::OBJReader(const std::string &filePath, std::vector<VertexData> &out_v
     for (unsigned int i : vertexIndices)
         out_vtxData.emplace_back(temp_vertices[i - 1], temp_normals[i - 1], temp_uvs[i - 1]);
 
-
 }
 
 void OBJReader::readData() {
@@ -71,9 +70,9 @@ void OBJReader::readFaceLine() {
 // Face
     std::string v1, v2, v3;
     unsigned int v[3], uv[3], n[3];
-    is >> v[0] >> chlit('/') >> v[1] >> chlit('/') >> v[2];
-    is >> uv[0] >> chlit('/') >> uv[1] >> chlit('/') >> uv[2];
-    is >> n[0] >> chlit('/') >> n[1] >> chlit('/') >> n[2];
+    is >> v[0] >> chlit('/') >> uv[0] >> chlit('/') >> n[0];
+    is >> v[1] >> chlit('/') >> uv[1] >> chlit('/') >> n[1];
+    is >> v[2] >> chlit('/') >> uv[2] >> chlit('/') >> n[2];
     if (is.fail()) {
         std::cerr << "can't read face data from OBJ file" << std::endl;
         throw std::exception();
