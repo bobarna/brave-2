@@ -24,26 +24,26 @@ void Scene::Build() {
     auto sphere = new Sphere();
     Shader *phongShader = new PhongShader();
     Material *headMaterial = new Material;
-    headMaterial->kd = vec3(0.6f, 0.2f, .2f);
-    headMaterial->ks = vec3(.3, .2, .2);
+    headMaterial->kd = vec3(0.5f, 0.3f, .3f);
+    headMaterial->ks = vec3(.1, .05, .05);
     headMaterial->ka = vec3(.2f, .2f, .2f);
-    headMaterial->shininess = 100;
+    headMaterial->shininess = 20;
 
-//    Texture *headTexture = new UniformColorTexture(.6f, .2f, 0);
-    Texture *headTexture = new CheckerBoardTexture(10, 10);
+    Texture *headTexture = new UniformColorTexture(.6f, .2f, 0);
+//    Texture *headTexture = new CheckerBoardTexture(1, 0);
 
     auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
 
     headObject->Scale(vec3(.15, .1, .1));
-//    objects.push_back(headObject);
+    objects.push_back(headObject);
 
     auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
     auto simulationObject = new HairSimObject(headObject, basicShader, PBDSim);
-//    sims.push_back(simulationObject);
+    sims.push_back(simulationObject);
 
     auto testObject =
             new Object(phongShader,
-                       new ObjGeometry("../data/susanne.obj"),
+                       new ObjGeometry("../data/plane.obj"),
                        headMaterial,
                        headTexture);
 
@@ -67,8 +67,9 @@ void Scene::Build() {
 void Scene::Render() {
     RenderState state = camera.getState();
     state.lights = lights;
-    for (auto *o: objects) o->Draw(state);
+
     for (auto *so: sims) so->Draw(state);
+    for (auto *o: objects) o->Draw(state);
 }
 
 //delta_t is infinitesimal

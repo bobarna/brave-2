@@ -29,6 +29,7 @@ Scene Scene(WIDTH, HEIGHT);
 static void Initialize() {
     glViewport(0, 0, WIDTH, HEIGHT);
     glMatrixMode(GL_MODELVIEW);
+    glDepthMask(GL_TRUE);
     glLoadIdentity();
     glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
 }

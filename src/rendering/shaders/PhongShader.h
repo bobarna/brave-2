@@ -72,7 +72,7 @@ class PhongShader : public Shader {
 		void main() {
 			vec3 N = normalize(wNormal);
 			vec3 V = normalize(wView);
-			if (dot(N, V) < 0) N = -N;	// prepare for one-sided surfaces like Mobius or Klein
+//			if (dot(N, V) < 0) N = -N;	// prepare for one-sided surfaces like Mobius or Klein
 			vec3 texColor = texture(diffuseTexture, texcoord).rgb;
 			vec3 ka = materials.ka * texColor;
 			vec3 kd = materials.kd * texColor;
@@ -87,7 +87,7 @@ class PhongShader : public Shader {
                            (kd * texColor * cost + materials.ks * pow(cosd, materials.shininess)) * lights[i].Le;
 			}
 			fragmentColor = vec4(radiance, 1);
-            fragmentColor = vec4(texcoord.xy, 0, 1);
+//            fragmentColor = vec4(N, 1);
 		}
 	)";
 public:
