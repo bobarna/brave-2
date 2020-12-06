@@ -29,15 +29,16 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
 void PBDSimulation::propagateHead() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(.3, .95);
+    std::uniform_real_distribution<float> dis(.01, .99);
 
     for (size_t i = 0; i < nrStrands; i++) {
         float currU = dis(gen);
         float currV = dis(gen);
         VertexData currPos = head->GetVertexDataByUV(currU, currV);
-        while (currPos.normal.y > .0f) {
+        while (currPos.normal.y > .0f && !currPos.valid) {
             currU = dis(gen);
             currV = dis(gen);
+            std::cout << currU << " " << currV << std::endl;
             currPos = head->GetVertexDataByUV(currU, currV);
         }
 

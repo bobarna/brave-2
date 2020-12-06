@@ -2,14 +2,15 @@
 #define BRAVE2_HEADOBJECT_H
 
 #include "Object.h"
+#include "../geometries/ObjGeometry.h"
 
 class HeadObject : public Object {
 public:
-    HeadObject(Shader *_shader, Geometry *_geometry, Material *_material, Texture *_texture);
+    HeadObject(Shader *_shader, ObjGeometry *_geometry, Material *_material, Texture *_texture);
 
     VertexData GetVertexDataByUV(float u, float v);
 
-    Geometry* getGeometry();
+    ObjGeometry* getGeometry();
 };
 
 
