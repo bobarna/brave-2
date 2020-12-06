@@ -1,11 +1,10 @@
 #ifndef BRAVE2_PARAMSURFACE_H
 #define BRAVE2_PARAMSURFACE_H
 
-
 #include "Geometry.h"
 
 //TODO put this in a better place
-const int tessellationLevel = 20;
+const int tessellationLevel = 10;
 
 /**
  * ParamSurface
@@ -24,6 +23,8 @@ public:
     void create(int N = tessellationLevel, int M = tessellationLevel);
 
     void Draw();
+
+    VertexData GetVertexDataByUV(float u, float v) override;
 };
 
 /**

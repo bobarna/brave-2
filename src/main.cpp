@@ -18,7 +18,6 @@ int keyArr[350];
 
 InputHandler *InputHandler = InputHandler->GetInstance();
 
-
 vec3 forceGenerated(0.0f, 0.0f, 0.0f);
 bool resetExternalForces = false;
 bool capturing = false;
@@ -30,6 +29,8 @@ Scene Scene(WIDTH, HEIGHT);
 static void Initialize() {
     glViewport(0, 0, WIDTH, HEIGHT);
     glMatrixMode(GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
     glLoadIdentity();
     glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
 }

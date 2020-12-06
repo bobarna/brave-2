@@ -11,5 +11,5 @@ for path in pathlib.Path(".").iterdir():
         old_extension = path.suffix
         directory = path.parent
         new_name = old_name + ".bmp"
-        
+
         path.rename(pathlib.Path(directory, new_name))

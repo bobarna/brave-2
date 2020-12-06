@@ -64,6 +64,8 @@ inline vec2 normalize(const vec2 &v) { return v * (1 / length(v)); }
 
 inline vec2 operator*(float a, const vec2 &v) { return vec2(v.x * a, v.y * a); }
 
+// automatic vec2 printing
+std::ostream &operator<<(std::ostream &out, const vec2 &v);
 
 //--------------------------
 struct vec3 {

@@ -31,7 +31,9 @@ mat4 Camera::P() const {
 }
 
 void Camera::Translate(vec3 dir) {
-    wEye += dir;
+    vec3 forward = dir * vec3(0, 0, 1.f);
+
+    wEye = normalize(wEye + dir) * length(wEye) + forward;
 }
 
 RenderState Camera::getState() {

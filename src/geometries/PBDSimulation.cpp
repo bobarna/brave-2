@@ -1,3 +1,4 @@
+#include <random>
 #include "PBDSimulation.h"
 
 void PBDSimulation::addForce(vec3 force) {
@@ -20,23 +21,24 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
 }
 
 void PBDSimulation::propagateHead() {
-    srand(time(nullptr));
-    vec3 head(0,0,0);
-    float step = M_PI / nrStrands;
-    float currAngle = M_PI;
-    float r = 0.20f;
-
-    // if there is only one strand, then place it in the middle
-    if (nrStrands == 1) r = 0.0;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(.01, .99);
 
     for (size_t i = 0; i < nrStrands; i++) {
+        float currU = dis(gen);
+        float currV = dis(gen);
+        VertexData currPos = head->GetVertexDataByUV(currU, currV);
+        while (currPos.normal.y > .0f && !currPos.valid) {
+            currU = dis(gen);
+            currV = dis(gen);
+            std::cout << currU << " " << currV << std::endl;
+            currPos = head->GetVertexDataByUV(currU, currV);
+        }
+
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        vec3 curr_pos(head.x + cosf(currAngle) * r * 1.2f, head.y + sinf(currAngle) * r * 1.1f, head.z);
-
-        strands.emplace_back(CreateStrand(nrSegments, lSeg, curr_pos, color));
-        currAngle -= step;
+        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1, -1, 1), color));
     }
-
 }
 
 void PBDSimulation::update(float dt) {

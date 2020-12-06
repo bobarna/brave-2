@@ -16,6 +16,11 @@ public:
 
     virtual void Draw() = 0;
 
+    virtual VertexData GetVertexDataByUV(float u, float v) {
+        //TODO fix this horrible quick stuff
+        return vtxData[std::rand()%vtxData.size()];
+    };
+
     ~Geometry();
 };
 

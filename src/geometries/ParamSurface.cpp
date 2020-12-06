@@ -41,8 +41,12 @@ void ParamSurface::Draw() {
     for (unsigned int i = 0; i < nStrips; i++) glDrawArrays(GL_TRIANGLE_STRIP, i * nVtxPerStrip, nVtxPerStrip);
 }
 
+VertexData ParamSurface::GetVertexDataByUV(float u, float v) {
+    return GenVertexData(u, v);
+}
+
 Sphere::Sphere() {
-    create(20, 20);
+    create(tessellationLevel, tessellationLevel);
 }
 
 void Sphere::eval(Dnum2 &U, Dnum2 &V, Dnum2 &X, Dnum2 &Y, Dnum2 &Z) {
