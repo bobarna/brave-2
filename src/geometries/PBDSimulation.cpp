@@ -15,9 +15,9 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
     // placing hair on the head
     propagateHead();
 
-    collisionTriangles.emplace_back(0.5, -1, 1);
-    collisionTriangles.emplace_back(0.5, 1, 0);
-    collisionTriangles.emplace_back(0.5, -1, -1);
+    collisionTriangles.emplace_back(0.15, -1, 1);
+    collisionTriangles.emplace_back(0.15, 1, 0);
+    collisionTriangles.emplace_back(0.15, -1, -1);
 }
 
 void PBDSimulation::propagateHead() {
