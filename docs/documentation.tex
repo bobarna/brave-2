@@ -12,6 +12,11 @@
 % painint TODOs red    
 \newcommand\TODO[1]{\textcolor{red}{\emph{TODO #1}}}
 
+% for line break inside table cells
+% t c or b for desired vertical alignment
+\newcommand{\specialcell}[2][t]{%
+  \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+
 %% end of the preamble, start of the body of the document source.
 \begin{document}
 
@@ -32,8 +37,18 @@
 \email{borcsok.barnabas@simonyi.bme.hu}
 \affiliation{%
   \institution{Budapest University of Technology and Economics}
-  \city{Budapest}
-  \country{Hungary}
+  \city{}
+  \country{}
+}
+
+\author{Dr. Szécsi László}
+\email{Advisor}
+\affiliation{%
+    \institution{Budapest University of Technology and Economics}
+    \city{}
+    \country{}
+    \department[0]{Computer Graphics Group}
+    \department[1]{Department of Control Engineering and Information Technology}
 }
 
 
@@ -91,6 +106,8 @@
 %% This command processes the author and affiliation and title
 %% information and builds the first part of the formatted document.
 \maketitle
+\renewcommand{\shortauthors}{Barnabás Börcsök}
+
 
 \section{Introduction}
 In the 5th semester of their undergrad studies, BSc students from Budapest
@@ -150,11 +167,58 @@ The Dynamic Follow-The-Leader method outlined in \TODO{reference article}
 
 \subsection{OBJ Reader}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-malesuada, quam in pulvinar varius, metus nunc fermentum urna, id
-sollicitudin purus odio sit amet enim. Aliquam ullamcorper eu ipsum
-vel mollis. Curabitur quis dictum nisl. Phasellus vel semper risus, et
-lacinia dolor. Integer ultricies commodo sem nec semper.
+An OBJ reader utility was implemented as part of the project. As the OBJ file
+format \footnote{http://paulbourke.net/dataformats/obj/} describes a wide range
+of properties for objects. The present OBJ reader handles only the subset of
+these describtion options needed for the project. Lines containing other type of
+object descriptions were ignored, resulting in a successful file read if
+possible.
+
+\begin{table}[htb]
+    \caption{Supported OBJ Data Types} 
+    \label{tab:objdatatypes}
+    % \begin{minipage}{\columnwidth}
+        \begin{center}
+            \begin{tabular}{ll}
+                % \toprule
+                Type of data & Format\\
+                Comment & \# \verb|comment|\\
+                Geometric vertex data & \verb|v x y z| \\
+                Texture coordinates & \verb|vt u v| \\
+                Vertex normals &\verb|vn i j k| \\
+                Triangular faces &
+                \specialcell{\texttt{f v1/vt1/vn1}\\\texttt{v2/vt2/vn2
+                v3/vt3/vn3}}\\
+                % \bottomrule
+            \end{tabular}
+        \end{center}
+    % \end{minipage}
+\end{table}
+
+\newcommand{\vFootNote}{\footnote{The obj file format allows for a w coordinate
+(also called the weight) for describing rational curves and surfaces. The
+default value of \textit{w} is 1.0. My implementation handles only the
+assignment \textit{x}, \textit{y} and \textit{z} values.}}
+
+\newcommand{\vtFootNote}{\footnote{The obj file format allows for 3D texture
+coordinates as well, but this implementation handles only 2D texture
+coordinates.}}
+
+\newcommand{\fFootNote}{\footnote{The obj file format allows for face
+definitions far beyond only triangles, although this implementation handles only
+face definitions of the above format.}}
+
+\begin{itemize}
+    \item ``\verb|v x y z|'' defines a vertex with position (x, y, z).\vFootNote 
+    \item ``\verb|vt u v|'' defines a 2D texture coordinate with position (u,
+        v).\vtFootNote 
+    \item ``\verb|vn i j k|'' specifies a normal vector with components i, j and
+        k.  
+    \item ``\verb|f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3|'' Specifies a face with the
+        given indices. For the first vertex, the \textit{v1}th previously
+        defined vertex position is used, the \textit{vt1}th texture coordinate
+        and \textit{vn1}th normal vector is used.\fFootNote
+\end{itemize}
 
 \subsection{Recording the simulation on-the-fly}
 
