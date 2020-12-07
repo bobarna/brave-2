@@ -5,3 +5,5 @@ Makefile
 !CMakeLists.txt
 build
 *.mp4
+renders/*.png
+renders/*.bmp
