@@ -89,6 +89,12 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
         InputHandler->KeyPress(key);
 
     InputHandler->SetModifiers(mods);
+
+    if (action == GLFW_RELEASE && key == GLFW_KEY_C) {
+        if (capturing) capturing = false;
+        else capturing = true;
+    }
+
 }
 
 static void MouseClickCallback(GLFWwindow *window, int button, int action, int mods) {
@@ -204,13 +210,14 @@ int main(int argc, char **argv) {
         Scene.Update(deltaTime);
         Scene.Render();
 
-        if (capturing) {
-            glPointSize(20.0f);
-            glBegin(GL_POINTS);
-            glColor3f(200.0f, 0.0f, 0.0f);
-            glVertex3f(-0.8f, -0.8f, 1.0f);
-            glEnd();
-        }
+        // big red dot in lower left corner
+//        if (capturing) {
+//            glPointSize(20.0f);
+//            glBegin(GL_POINTS);
+//            glColor3f(200.0f, 0.0f, 0.0f);
+//            glVertex3f(-0.8f, -0.8f, 1.0f);
+//            glEnd();
+//        }
 
         if (tick && capturing) {
             char path[100];
