@@ -660,8 +660,7 @@
 \or % sigchi-a
 \fi
 \setlength\normalparindent{\parindent}
-\def\copyrightpermissionfootnoterule{\kern-3\p@
-  \hrule \@width \columnwidth \kern 2.6\p@}
+\def\copyrightpermissionfootnoterule{}
 \RequirePackage{manyfoot}
 \SelectFootnoteRule[2]{copyrightpermission}
 \DeclareNewFootnote{authorsaddresses}
@@ -1264,8 +1263,7 @@
   \global\@ACM@journal@bibstripfalse
 }
 \if@ACM@journal\else
-\acmConference[Conference'17]{ACM Conference}{July 2017}{Washington,
-  DC, USA}%
+\acmConference[]{}{}{}%
 \fi
 \def\acmBooktitle#1{\gdef\@acmBooktitle{#1}}
 \acmBooktitle{Proceedings of \acmConference@name
@@ -1410,11 +1408,11 @@
   July\or August\or September\or October\or November\or
   December\fi~\@acmYear}
 \def\acmPrice#1{\def\@acmPrice{#1}}
-\acmPrice{15.00}
+\acmPrice{}
 \def\acmSubmissionID#1{\def\@acmSubmissionID{#1}}
 \acmSubmissionID{}
 \def\acmISBN#1{\def\@acmISBN{#1}}
-\acmISBN{978-x-xxxx-xxxx-x/YY/MM}
+\acmISBN{}
 \def\acmDOI#1{\def\@acmDOI{#1}}
 \acmDOI{10.1145/nnnnnnn.nnnnnnn}
 \newif\if@ACM@badge
@@ -1608,7 +1606,7 @@
 \def\@copyrightowner{%
   \ifcase\acm@copyrightmode\relax % none
   \or % acmcopyright
-  Association for Computing Machinery.
+  % Association for Computing Machinery.
   \or % acmlicensed
   Copyright held by the owner/author(s). Publication rights licensed to
   ACM\@.
@@ -1642,20 +1640,20 @@
   IW3C2 (International World Wide Web Conference Committee), published
   under Creative Commons CC-BY-NC-ND~4.0 License.
   \fi}
-\def\@formatdoi#1{\url{https://doi.org/#1}}
+\def\@formatdoi#1{}
 \def\@copyrightpermission{%
   \ifcase\acm@copyrightmode\relax % none
   \or % acmcopyright
-   Permission to make digital or hard copies of all or part of this
-   work for personal or classroom use is granted without fee provided
-   that copies are not made or distributed for profit or commercial
-   advantage and that copies bear this notice and the full citation on
-   the first page. Copyrights for components of this work owned by
-   others than ACM must be honored. Abstracting with credit is
-   permitted. To copy otherwise, or republish, to post on servers or to
-   redistribute to lists, requires prior specific permission
-   and\hspace*{.5pt}/or  a fee. Request permissions from
-   permissions@acm.org.
+   % Permission to make digital or hard copies of all or part of this
+   % work for personal or classroom use is granted without fee provided
+   % that copies are not made or distributed for profit or commercial
+   % advantage and that copies bear this notice and the full citation on
+   % the first page. Copyrights for components of this work owned by
+   % others than ACM must be honored. Abstracting with credit is
+   % permitted. To copy otherwise, or republish, to post on servers or to
+   % redistribute to lists, requires prior specific permission
+   % and\hspace*{.5pt}/or  a fee. Request permissions from
+   % permissions@acm.org.
   \or % acmlicensed
    Permission to make digital or hard copies of all or part of this
    work for personal or classroom use is granted without fee provided
@@ -1822,7 +1820,7 @@
   \fi
   \if@ACM@nonacm\else\footnotetextcopyrightpermission{%
     \if@ACM@authordraft
-        \raisebox{-2ex}[\z@][\z@]{\makebox[0pt][l]{\large\bfseries
+        \raisebox{0ex}[\z@][\z@]{\makebox[0pt][l]{\large\bfseries
             Unpublished working draft. Not for distribution.}}%
        \color[gray]{0.9}%
     \fi
@@ -1832,7 +1830,7 @@
     \fi
     \if@ACM@manuscript\else
        \if@ACM@journal@bibstrip\else % Print the conference information
-         {\itshape \acmConference@shortname, \acmConference@date, \acmConference@venue}\par
+         {\itshape \acmConference@shortname \acmConference@date \acmConference@venue}\par
        \fi
     \fi
     \if@printcopyright
@@ -1853,9 +1851,9 @@
             \emph{\@acmBooktitle}%
           \fi
           \ifx\@acmDOI\@empty
-          .
+          
           \else
-            , \@formatdoi{\@acmDOI}.
+             \@formatdoi{\@acmDOI}.
           \fi\\
         \else
           \if@ACM@nonacm\else
@@ -1864,7 +1862,7 @@
               \ifx\@acmPrice\@empty\else\ \$\@acmPrice\fi\\
               \@formatdoi{\@acmDOI}%
             \else % Conference
-              \ifx\@acmISBN\@empty\else ACM~ISBN~\@acmISBN
+              \ifx\@acmISBN\@empty\else \@acmISBN
               \ifx\@acmPrice\@empty.\else\dots\$\@acmPrice\fi\\\fi
               \ifx\@acmDOI\@empty\else\@formatdoi{\@acmDOI}\fi%
             \fi
@@ -2431,12 +2429,12 @@
        \@acmVolume, \@acmNumber \@article@string (\@acmPubDate),
        \ref{TotPages}~\@pages@word.
     \else
-       In \textit{\@acmBooktitle}%
-       \ifx\@acmEditors\@empty\textit{.}\else
-         \andify\@acmEditors\textit{, }\@acmEditors~\@editorsAbbrev.%
-       \fi\
-       ACM, New York, NY, USA%
-         \@article@string\unskip, \ref{TotPages}~\@pages@word.
+       % In \textit{\@acmBooktitle}%
+       % \ifx\@acmEditors\@empty\textit{.}\else
+       %   \andify\@acmEditors\textit{, }\@acmEditors~\@editorsAbbrev.%
+       % \fi\
+       % ACM, New York, NY, USA%
+       %   \@article@string\unskip, \ref{TotPages}~\@pages@word.
     \fi
   \fi
   \ifx\@acmDOI\@empty\else\@formatdoi{\@acmDOI}\fi
