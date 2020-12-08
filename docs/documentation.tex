@@ -17,13 +17,14 @@
 \newcommand{\specialcell}[2][t]{%
   \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
 
+
 %% end of the preamble, start of the body of the document source.
 \begin{document}
 
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title[Hair Simulation]{Hair simulation using Position Based Dynamics}
+\title[Hair Simulation]{Simulation of Curly Hair}
 \subtitle{5th semester Project Laboratory report}
 
 %%
@@ -69,7 +70,7 @@
     of acceptable quality both in terms of look and performance. Multiple
     approaches were considered before arriving at a Position Based Dynamics
     based solution. The simulation was implemented in C++ with the Open Graphics
-    Library (OpenGL \footnote{\url{http://www.opengl.org}})
+    Library (OpenGL \footnote{\url{http://www.opengl.org}}). 
 \end{abstract}
 
 %%%
@@ -121,6 +122,10 @@ The first of this paper reflects this, giving an overview of considered methods,
 and other possible routes that could have been taken to implement hair
 simulation.
 
+
+The implementation and all of the code mentioned is avaiable at
+\url{http://git.sch.bme.hu/bobarna/brave-2}.
+
 \section{Overview of considered methods}
 
 There were mainly three methods considered, two of them being substantially
@@ -128,17 +133,33 @@ different:
 
 
 \subsection{Mass Spring System}
-The whole idea of doing hair simulation as my project laboratory came from
-\TODO{reference Pixar article and Khan Academy video} 
+The whole idea of doing hair simulation as my project laboratory came after
+reading \citet{PixarPaper}. They outline a method for the artistic simulation of
+curly hair for use in their film production. The method was featured in the 2012
+movie Brave.
 
-\begin{verbatim}
-  \documentclass[STYLE]{acmart}
-\end{verbatim}
+This approach models the hair as a chain of particles with given mass, each
+connected via springs. This results in a mass-spring system, which is then
+modelled by considering well-known physics formula's such as Newton's second law
+of motion (``$F=m*a$'', and Hooke's Law, which states that the force ($F$)
+needed to extend or compress a spring by some distance ($x$) scales linearly with
+respect to that distance. The paper by \citet{PixarPaper} created an elaborate
+system of springs, with additional core springs making the simulation stable
+and resulting in the desired look and feel.
 
-\subsection{Position Based Dynamics}
+The \citet{PixarPaper} paper also features great further readings in their
+citations, which gives a great glimpse into related previous works.
+
+The main characteristic of this approach is that a Mass Spring System deals with
+forces, and tries to stay true to the laws of physics. This will not be the case
+with Position Based Dynamics.
+
+\subsection{Position Based Dynamics (PBD)}
+\citet{UmenhofferSimulation}
+Position Based Dynamics (PBD) 
 
 
-\subsection{Follow the Leader}
+\subsection{Follow the Leader (FTL)}
 The Dynamic Follow-The-Leader method outlined in \TODO{reference article}
 
 
@@ -168,7 +189,7 @@ The Dynamic Follow-The-Leader method outlined in \TODO{reference article}
 \subsection{OBJ Reader}
 
 An OBJ reader utility was implemented as part of the project. As the OBJ file
-format \footnote{http://paulbourke.net/dataformats/obj/} describes a wide range
+format \footnote{\url{http://paulbourke.net/dataformats/obj/}} describes a wide range
 of properties for objects. The present OBJ reader handles only the subset of
 these describtion options needed for the project. Lines containing other type of
 object descriptions were ignored, resulting in a successful file read if
@@ -187,8 +208,8 @@ possible.
                 Texture coordinates & \verb|vt u v| \\
                 Vertex normals &\verb|vn i j k| \\
                 Triangular faces &
-                \specialcell{\texttt{f v1/vt1/vn1}\\\texttt{v2/vt2/vn2
-                v3/vt3/vn3}}\\
+                \specialcell{\texttt{f v1/vt1/vn1
+                v2/vt2/vn2}\\\multicolumn{1}{r}{\texttt{... v3/vt3/vn3}}}\\
                 % \bottomrule
             \end{tabular}
         \end{center}
@@ -198,7 +219,7 @@ possible.
 \newcommand{\vFootNote}{\footnote{The obj file format allows for a w coordinate
 (also called the weight) for describing rational curves and surfaces. The
 default value of \textit{w} is 1.0. My implementation handles only the
-assignment \textit{x}, \textit{y} and \textit{z} values.}}
+assignment of \textit{x}, \textit{y} and \textit{z} values.}}
 
 \newcommand{\vtFootNote}{\footnote{The obj file format allows for 3D texture
 coordinates as well, but this implementation handles only 2D texture
@@ -215,18 +236,35 @@ face definitions of the above format.}}
     \item ``\verb|vn i j k|'' specifies a normal vector with components i, j and
         k.  
     \item ``\verb|f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3|'' Specifies a face with the
-        given indices. For the first vertex, the \textit{v1}th previously
-        defined vertex position is used, the \textit{vt1}th texture coordinate
-        and \textit{vn1}th normal vector is used.\fFootNote
+        given indices. For the first vertex, the \textit{v1}st previously
+        defined vertex position is used, the \textit{vt1}st texture coordinate
+        and \textit{vn1}st normal vector is used.\fFootNote
 \end{itemize}
 
-\subsection{Recording the simulation on-the-fly}
 
-Etiam commodo feugiat nisl pulvinar pellentesque. Etiam auctor sodales
-ligula, non varius nibh pulvinar semper. Suspendisse nec lectus non
-ipsum convallis congue hendrerit vitae sapien. Donec at laoreet
-eros. Vivamus non purus placerat, scelerisque diam eu, cursus
-ante. Etiam aliquam tortor auctor efficitur mattis.
+\subsection{Recording the simulation on-the-fly}
+A recording utility was made to work in tandem with the application. In essence,
+the rendered images are written into \texttt{bmp} or \texttt{png} files if the
+capturing is on. In the
+implementation\footnote{\url{https://git.sch.bme.hu/bobarna/brave-2}}, toggling
+the capturing is mapped to the \texttt{C} key.
+
+
+For handling the export of the rendered image into files, the
+stb\_image\_write.h\footnote{\url{https://github.com/nothings/stb/blob/master/stb\_image\_write.h}}
+single-file public domain library was used. 
+
+
+The program outputs the image files in the \texttt{renders} folder at 24 FPS,
+with the naming convention renderXXXX[.bmp/.png], where XXXX is the number of
+the frame with left-padded zeroes.
+
+
+After the image files are written, the user can start the
+\texttt{make\_video.sh} script to assemble the \texttt{output.mp4} and delete
+all the rendered frames. This script uses the free and open-sorce ffmpeg command
+line utility\footnote{\url{https://ffmpeg.org/}}
+
 
 
 \end{document}
