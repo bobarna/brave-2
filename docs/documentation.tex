@@ -151,17 +151,90 @@ The \citet{PixarPaper} paper also features great further readings in their
 citations, which gives a great glimpse into related previous works.
 
 The main characteristic of this approach is that a Mass Spring System deals with
-forces, and tries to stay true to the laws of physics. This will not be the case
+forces, and tries to stay true to the laws of physics. It accounts for internal 
+and external forces from which accelerations are computed based on Newton's 
+second law of motion. A time integration method is then used to update the
+velocities and finally the positions of the particles. This will not be the case
 with Position Based Dynamics.
 
 \subsection{Position Based Dynamics (PBD)}
-\citet{UmenhofferSimulation}
-Position Based Dynamics (PBD) 
+
+The paper by \citet{MullerPBD} presents an approach that omits the velocity as
+well as the force layer of the then-present popular approaches for simulation
+methods of dynamic systems in computer graphics.
+
+Position Based Dynamics (PBD) -- as its name suggests -- works with the position
+of particles. A big advantage of such a system lies in its controllability, and
+the easy reducability of overshooting problems present in force based systems.
+Another favorable aspect is that PBD methods are generally easier with the maths
+and somewhat easier to implement in terms of the needed mathematical and
+physical background needed to grasp its inner workings. In addition, -- as it
+works directly with the position of particles -- collision constraints can be
+handled easily and penetrations can be resolved completely by projecting points
+onto the penetrated surface. Although such measures can only be applied on the
+expanse of physical accuracy, position based dynamics being only a ``good
+enough'' approximation of how objects behave in real life.
+
+Chapter 2 of the paper by \citet{UmenhofferSimulation} builds on the
+\citet{MullerPBD} paper and gives a concise overview of the position based
+dynamics method, and goes on to show the type of constraints that can be applied
+to control to behaviour of such a system -- which is present in both papers.
 
 
-\subsection{Follow the Leader (FTL)}
-The Dynamic Follow-The-Leader method outlined in \TODO{reference article}
+\subsection{Follow-the-Leader (FTL)}
+The Dynamic Follow-The-Leader (FTL) method outlined in \citet{FTLHair} focuses
+on the fast simulation of hair and fur on animated characters. The sheer number
+of computation needed for simulating thousands of hair strands, each consisting
+of numerous particles presents a big challenge. Also, as each strand is
+inextensible, it is not trivial to come up with an algorithm that does its job
+in feasible time. 
 
+As it will be covered later in this article, the already introduced PBD method
+needs multiple iterations per frame in order to keep the system from stretching
+and becoming unstable. The FTL method by \citet{FTLHair} presents a method that
+takes only a single iteration through the particles of each hair strand per
+frame to achieve the desired results.
+
+As this sounds fascinating, and cuts the computation time needed substantially,
+in the early stages of my project, I implemented the FTL method alongside PBD.
+It \textit{works}, and is fast, although due to the iteration count being one,
+when greater forces are being applied to the system, a substantial amount of
+stretching was introduced to the system. As it seemed in comparison that the
+``basic'' PBD method yielded the same -- or even more accurate -- results, and
+it was feasible to allow myself to use multiple iterations per frame, I did
+not further investigate if there could have been improvements made to my
+implementation to eliminate the stretching in the presence of greater forces.
+
+\section{Results}
+
+\section{Conclusion}
+After investigating and trying out multiple methods to simulate hair, we arrived
+at the Position Based Dynamics (PBD) method. An overview of the PBD method, and
+an introduction to the constraint types used in our implementation was given.
+An implementation was made in C++ and OpenGL, which easily simulates the hair
+strands in real time, although the limit of the real-time nature can easily be
+surpassed when adding thousands of strands with hundreds of particles.
+
+\section{Further Work}
+As this was part only of a semester-long Project Laboratory course, a great deal
+of time was dedicated in the early stages of the project to investigate and
+explore the subject area. This left only a sub-optimal time for implementing all
+desired aspects of the simulation.
+
+\begin{itemize}
+    \item Hair-hair collisions
+        \begin{itemize}
+    \item 
+\end{itemize}
+    \item Refinement and proper customizability of the propagation of hair
+        strands on the Head Object. 
+        \begin{itemize}
+                \item A drawable texture map is considered for the ability to
+                    tell the simulation where to put the hair strands on the
+                    surface of the hair.
+        \end{itemize}
+    \item 
+\end{itemize}
 
 %%
 %% The acknowledgments section is defined using the "acks" environment

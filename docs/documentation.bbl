@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{2}
+\begin{thebibliography}{4}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -57,6 +57,38 @@
 \showDOI{\tempurl}
 \newblock
 \shownote{\url{http://graphics.pixar.com/library/CurlyHairB/paper.pdf}.}
+
+
+\bibitem[\protect\citeauthoryear{M\"{u}ller, Heidelberger, Hennix, and
+  Ratcliff}{M\"{u}ller et~al\mbox{.}}{2007}]%
+        {MullerPBD}
+\bibfield{author}{\bibinfo{person}{Matthias M\"{u}ller}, \bibinfo{person}{Bruno
+  Heidelberger}, \bibinfo{person}{Marcus Hennix}, {and} \bibinfo{person}{John
+  Ratcliff}.} \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{Position Based Dynamics}.
+\newblock \bibinfo{journal}{\emph{J. Vis. Comun. Image Represent.}}
+  \bibinfo{volume}{18}, \bibinfo{number}{2} (\bibinfo{date}{April}
+  \bibinfo{year}{2007}), \bibinfo{pages}{109–118}.
+\newblock
+\showISSN{1047-3203}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/j.jvcir.2007.01.005}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Müller, Kim, and Chentanez}{Müller
+  et~al\mbox{.}}{2012}]%
+        {FTLHair}
+\bibfield{author}{\bibinfo{person}{Matthias Müller}, \bibinfo{person}{Tae
+  Kim}, {and} \bibinfo{person}{Nuttapong Chentanez}.}
+  \bibinfo{year}{2012}\natexlab{}.
+\newblock \showarticletitle{Fast Simulation of Inextensible Hair and Fur}.
+\newblock \bibinfo{journal}{\emph{VRIPHYS 2012 - 9th Workshop on Virtual
+  Reality Interactions and Physical Simulations}}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.2312/PE/vriphys/vriphys12/039-044}
+\showDOI{\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Umenhoffer, Marschal, and Suti}{Umenhoffer
