@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{4}
+\begin{thebibliography}{6}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -89,6 +89,32 @@
 \urldef\tempurl%
 \url{https://doi.org/10.2312/PE/vriphys/vriphys12/039-044}
 \showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Petrovic, Henne, and Pixar}{Petrovic
+  et~al\mbox{.}}{2006}]%
+        {PixarVolumetricHair}
+\bibfield{author}{\bibinfo{person}{L. Petrovic}, \bibinfo{person}{M. Henne},
+  {and} \bibinfo{person}{John~Anderson Pixar}.}
+  \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{Volumetric Methods for Simulation and Rendering of
+  Hair}.
+\newblock
+\urldef\tempurl%
+\url{https://graphics.pixar.com/library/Hair/paper.pdf}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Rapp}{Rapp}{2014}]%
+        {RappRealTime}
+\bibfield{author}{\bibinfo{person}{M. Rapp}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Real-Time Hair Rendering}.
+\newblock
+\urldef\tempurl%
+\url{http://markusrapp.de/wordpress/wp-content/uploads/hair/MarkusRapp-MasterThesis-RealTimeHairRendering.pdf}
+\showURL{%
+\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Umenhoffer, Marschal, and Suti}{Umenhoffer
