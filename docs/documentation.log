@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  8 DEC 2020 01:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  8 DEC 2020 15:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -945,7 +945,7 @@ File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-<teaser.png, id=51, 602.25pt x 401.5pt>
+<teaser.png, id=63, 602.25pt x 401.5pt>
 File: teaser.png Graphic file (type png)
 <use teaser.png>
 Package pdftex.def Info: teaser.png  used on input line 109.
@@ -984,6 +984,9 @@ Overfull \hbox (5.12202pt too wide) in paragraph at lines 109--109
 [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
  <./teaser.png>]
+Underfull \vbox (badness 7667) has occurred while \output is active []
+
+ [2.2]
 Processing 'acks' comment.
 \openout3 = `comment.cut'.
 
@@ -991,47 +994,53 @@ Processing 'acks' comment.
 Straight input of comment.cut. (./comment.cut) (./documentation.bbl
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 8.0pt on input line 49.
+LaTeX Info: Redefining \tempurl on input line 75.
+LaTeX Info: Redefining \tempurl on input line 90.
 )
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 20
-6.
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 27
+9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 206.
+(Font)              scaled to size 10.0pt on input line 279.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [2.2]
-Overfull \hbox (11.38634pt too wide) in paragraph at lines 258--261
+
+Overfull \hbox (11.38634pt too wide) in paragraph at lines 331--334
 \T1/LinuxLibertineT-TLF/m/n/10 (-20) at 24 FPS, with the nam-ing con-ven-tion r
 en-derXXXX[.bmp/.png],
  []
 
 
-Overfull \hbox (3.58836pt too wide) in paragraph at lines 263--267
+Overfull \hbox (3.58836pt too wide) in paragraph at lines 336--340
 \T1/zi4/m/n/10 make_video.sh \T1/LinuxLibertineT-TLF/m/n/10 (-20) script to as-
 sem-ble the \T1/zi4/m/n/10 output.mp4 \T1/LinuxLibertineT-TLF/m/n/10 (-20) and 
 delete
  []
 
+
+Package balance Warning: You have called \balance in second column
+(balance)                Columns might not be balanced.
+
 [3.3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 270.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 270.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 343.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 343.
  (./documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 270.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 270.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 343.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 343.
 Package rerunfilecheck Info: File `documentation.out' has not changed.
-(rerunfilecheck)             Checksum: 65AB89341A630399D97F71DAD998CCBB;1840.
+(rerunfilecheck)             Checksum: DBF0C13B581DE0E363C522F5DE55ECDB;2153.
  ) 
 Here is how much of TeX's memory you used:
- 19060 strings out of 481239
- 286199 string characters out of 5920377
- 587324 words of memory out of 5000000
- 33588 multiletter control sequences out of 15000+600000
- 657494 words of font info for 203 fonts, out of 8000000 for 9000
+ 19112 strings out of 481239
+ 287292 string characters out of 5920377
+ 588528 words of memory out of 5000000
+ 33600 multiletter control sequences out of 15000+600000
+ 660874 words of font info for 227 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  63i,15n,100p,804b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/
@@ -1050,10 +1059,10 @@ ublic/libertine/LinLibertineTBI.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/libertine/LinLibertineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/newtx/txmiaX.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx
 /txsys.pfb>
-Output written on documentation.pdf (3 pages, 429889 bytes).
+Output written on documentation.pdf (3 pages, 437482 bytes).
 PDF statistics:
- 173 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 36462 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 197 PDF objects out of 1000 (max. 8388607)
+ 166 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 36486 words of extra memory for PDF output out of 42996 (max. 10000000)
 
