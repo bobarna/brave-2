@@ -1,0 +1,75 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{2}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Iben, Meyer, Petrovic, Soares, Anderson, and
+  Witkin}{Iben et~al\mbox{.}}{2013}]%
+        {PixarPaper}
+\bibfield{author}{\bibinfo{person}{Hayley Iben}, \bibinfo{person}{Mark Meyer},
+  \bibinfo{person}{Lena Petrovic}, \bibinfo{person}{Olivier Soares},
+  \bibinfo{person}{John Anderson}, {and} \bibinfo{person}{Andrew Witkin}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Artistic Simulation of Curly Hair}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 12th ACM SIGGRAPH/Eurographics
+  Symposium on Computer Animation}} (Anaheim, California)
+  \emph{(\bibinfo{series}{SCA '13})}. \bibinfo{publisher}{Association for
+  Computing Machinery}, \bibinfo{address}{New York, NY, USA},
+  \bibinfo{pages}{63–71}.
+\newblock
+\showISBNx{9781450321327}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/2485895.2485913}
+\showDOI{\tempurl}
+\newblock
+\shownote{\url{http://graphics.pixar.com/library/CurlyHairB/paper.pdf}.}
+
+
+\bibitem[\protect\citeauthoryear{Umenhoffer, Marschal, and Suti}{Umenhoffer
+  et~al\mbox{.}}{2016}]%
+        {UmenhofferSimulation}
+\bibfield{author}{\bibinfo{person}{Tam{\'a}s Umenhoffer},
+  \bibinfo{person}{Art{\'u}r~M. Marschal}, {and} \bibinfo{person}{P{\'e}ter
+  Suti}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Simulation methods for elastic and fluid
+  materials}.
+\newblock
+\newblock
+\shownote{\url{http://cg.iit.bme.hu/~umitomi/publications/GRAFGEO2016_PhysicsSimulators.pdf}.}
+
+
+\end{thebibliography}
