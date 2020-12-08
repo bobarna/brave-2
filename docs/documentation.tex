@@ -223,15 +223,21 @@ desired aspects of the simulation.
 
 \begin{itemize}
     \item Hair-hair collisions
-        \begin{itemize}
-    \item 
-\end{itemize}
+        \begin{itemize} 
+            \item As it is computationally extensive to simulate each particle
+                colliding with all of the other particles, a particle density
+                field could be used. One such method of grouping hair particles
+                and their corresponding velocities into a 3D voxel grid is
+                outlined in the \cite{PixarVolumetricHair} paper, which was also
+                utilized in the \citet{FTLHair} paper for handling hair-hair
+                collisions.
+        \end{itemize}
     \item Refinement and proper customizability of the propagation of hair
         strands on the Head Object. 
         \begin{itemize}
-                \item A drawable texture map is considered for the ability to
-                    tell the simulation where to put the hair strands on the
-                    surface of the hair.
+            \item A drawable texture map is considered for the ability to
+                tell the simulation where to put the hair strands on the
+                surface of the hair.
         \end{itemize}
     \item 
 \end{itemize}
