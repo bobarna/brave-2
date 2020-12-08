@@ -17,6 +17,8 @@
 \newcommand{\specialcell}[2][t]{%
   \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
 
+\usepackage[]{algorithm2e}
+\usepackage{algorithmic}
 
 %% end of the preamble, start of the body of the document source.
 \begin{document}
@@ -141,14 +143,11 @@ movie Brave.
 This approach models the hair as a chain of particles with given mass, each
 connected via springs. This results in a mass-spring system, which is then
 modelled by considering well-known physics formula's such as Newton's second law
-of motion (``$F=m*a$'', and Hooke's Law, which states that the force ($F$)
-needed to extend or compress a spring by some distance ($x$) scales linearly with
+of motion $F=m*a$, and Hooke's Law, which states that the force $F$
+needed to extend or compress a spring by some distance $x$ scales linearly with
 respect to that distance. The paper by \citet{PixarPaper} created an elaborate
 system of springs, with additional core springs making the simulation stable
 and resulting in the desired look and feel.
-
-The \citet{PixarPaper} paper also features great further readings in their
-citations, which gives a great glimpse into related previous works.
 
 The main characteristic of this approach is that a Mass Spring System deals with
 forces, and tries to stay true to the laws of physics. It accounts for internal 
@@ -156,7 +155,6 @@ and external forces from which accelerations are computed based on Newton's
 second law of motion. A time integration method is then used to update the
 velocities and finally the positions of the particles. This will not be the case
 with Position Based Dynamics.
-
 \subsection{Position Based Dynamics (PBD)}
 
 The paper by \citet{MullerPBD} presents an approach that omits the velocity as
@@ -182,7 +180,7 @@ to control to behaviour of such a system -- which is present in both papers.
 
 
 \subsection{Follow-the-Leader (FTL)}
-The Dynamic Follow-The-Leader (FTL) method outlined in \citet{FTLHair} focuses
+The Dynamic Follow-the-Leader (FTL) method outlined in \citet{FTLHair} focuses
 on the fast simulation of hair and fur on animated characters. The sheer number
 of computation needed for simulating thousands of hair strands, each consisting
 of numerous particles presents a big challenge. Also, as each strand is
@@ -205,7 +203,64 @@ it was feasible to allow myself to use multiple iterations per frame, I did
 not further investigate if there could have been improvements made to my
 implementation to eliminate the stretching in the presence of greater forces.
 
+
+\section{Simulation of a Single Hair Strand}
+
+\subsection{A Particle}
+
+We model an $S$ hair strand as a chain of $P$ particles and a set of $C$
+constraints. Each particle $p \in [1,\ldots,N]$ has three atributes: mass ($m_p$), position
+($\boldsymbol{x_p}$) and velocity ($\boldsymbol{v_p}$). 
+
+A constraint $c \in [1,\ldots,C]$ with cardinality $n_c$ is a function $C_c
+: \mathbb{R} ^{3n_c} \mapsto \mathbb{R}$. It operates on a set of indices $\{i_1,\ldots
+i_{n_c}\}, i_k \in [1,...,P]$. The constraint funtion also has a stiffnes
+parameter $k_c \in [0...1]$ and a type of either \emph{equality} or
+\emph{inequality}.
+
+Constraint $c$ with type \emph{equality} is satisfied if
+$C_c(\boldsymbol{x}_{p_1},\ldots, \boldsymbol{x}_{p_{n_j}})=0$. If its type is
+\emph{inequality}, then it is satisfied if $C_c(\boldsymbol{x}_{p_1}, \ldots,
+\boldsymbol{x}_{p_{n_c}}) \geq 0$. The stiffness parameter $k_c$ defines the
+strength of the constraint in a range from zero to one.
+
+Given these notations, the algorithm works in the following way:
+
+\begin{algorithm}
+    \caption{pseudo code for the PBD simulation}
+    \label{alg:pseudoPBD}
+    \begin{algorithmic}
+        \IF {$i \geq maxval$}
+            \STATE asd
+        \ENDIF
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{verbatim}
+    class Particle {
+        vec3 pos;
+        vec3 tmp;
+        float w;
+        vec3 v;
+        vec3 color;
+    }
+\end{verbatim}
+
+\section{Putting Hair on the Head}
+
+
+
 \section{Results}
+The implementation is available at \url{git.sch.bme.hu/bobarna/brave-2}. The
+program is able to handle up to around 500 individual hair strands, each
+consisting of around 30 particles in real time. With the implemented OBJ reader,
+it is possible to achieve diverse visual results in no time. The 
+
+An example result shown in figure \TODO{include figure}, and can be seen in the
+supplementary videos \TODO{Google Drive (?) link with the videos}.
+
+An 8-minute-video was made to supplement this writing. It is accessible at
+\TODO{link to 8-minute video}
 
 \section{Conclusion}
 After investigating and trying out multiple methods to simulate hair, we arrived
@@ -213,34 +268,60 @@ at the Position Based Dynamics (PBD) method. An overview of the PBD method, and
 an introduction to the constraint types used in our implementation was given.
 An implementation was made in C++ and OpenGL, which easily simulates the hair
 strands in real time, although the limit of the real-time nature can easily be
-surpassed when adding thousands of strands with hundreds of particles.
+surpassed when adding around a thousand strands each with more than 30
+particles.
 
-\section{Further Work}
+\section{Future Work}
 As this was part only of a semester-long Project Laboratory course, a great deal
 of time was dedicated in the early stages of the project to investigate and
 explore the subject area. This left only a sub-optimal time for implementing all
 desired aspects of the simulation.
 
-\begin{itemize}
-    \item Hair-hair collisions
-        \begin{itemize} 
-            \item As it is computationally extensive to simulate each particle
-                colliding with all of the other particles, a particle density
-                field could be used. One such method of grouping hair particles
-                and their corresponding velocities into a 3D voxel grid is
-                outlined in the \cite{PixarVolumetricHair} paper, which was also
-                utilized in the \citet{FTLHair} paper for handling hair-hair
-                collisions.
-        \end{itemize}
-    \item Refinement and proper customizability of the propagation of hair
-        strands on the Head Object. 
-        \begin{itemize}
-            \item A drawable texture map is considered for the ability to
-                tell the simulation where to put the hair strands on the
-                surface of the hair.
-        \end{itemize}
-    \item 
-\end{itemize}
+\subsection{Hair-hair collisions}
+As it is computationally extensive to simulate each particle colliding with all
+of the other particles, a particle density field could be used. One such method
+of grouping hair particles and their corresponding velocities into a 3D voxel
+grid is outlined in the \citet{PixarVolumetricHair} paper, which was also
+utilized in the \citet{FTLHair} paper for handling hair-hair collisions.
+
+\subsection{Refinement and proper customizability of the propagation of hair
+strands on the head object.} 
+A drawable texture map is considered for the ability to tell the simulation
+where to put the hair strands on the surface of the head.
+
+\subsection{Better customizability}
+In the current implementation there is no way to properly customize the look and
+feel of the hair without accessing the source code. A possible improvement could
+be to read material and texture data for the hair from the OBJ file. Another
+huge improvement could be to set the constraints in real time, giving the user
+much better control of the hair. Other properties, such as length of the hair
+segments and color of the hair could be set as well.
+
+\subsection{Halton sequence for randomizing hair positions}
+In the current implementation, a standard C++ random number generator is
+utilized. Utilizing a low-discrepancy number sequence for randomizing hair
+strand positions would be an improvement.
+
+\subsection{Rendering}
+This semester left no time to try out different methods for rendering and
+visualizing the hair. The current implementation connects the individual
+particles with GL\_LINES, resulting in a sub-optimal visual experience. Offline
+(e.g. ray-tracing) methods could utilize the current simulation method. 
+The paper by \citet{RappRealTime} discusses the real-time aspect of hair
+rendering in great detail, supplemented with a broad discussion on different
+parts of the (OpenGL) rendering pipeline that could be utilized.
+
+\subsection{Moving to the GPU}
+The current implementation runs solely on the CPU. A big leap forward would be
+the utilization of the GPU. Compute shaders for computations are considered. The
+paper by \citet{UmenhofferSimulation} discusses a parametrization of the
+different constraint solves, although as they work on the same dataset, some
+computation problems are present during the parellelization of the
+problem.
+
+Tesselation and geometry shaders could be utilized for the rendering and display
+of the particles, resulting in a far better image with the same simulation
+method and properties.
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
@@ -343,7 +424,6 @@ After the image files are written, the user can start the
 \texttt{make\_video.sh} script to assemble the \texttt{output.mp4} and delete
 all the rendered frames. This script uses the free and open-sorce ffmpeg command
 line utility\footnote{\url{https://ffmpeg.org/}}
-
 
 
 \end{document}
