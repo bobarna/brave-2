@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  9 DEC 2020 14:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  9 DEC 2020 17:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1002,7 +1002,7 @@ File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-<teaser.png, id=99, 602.25pt x 401.5pt>
+<teaser.png, id=123, 602.25pt x 401.5pt>
 File: teaser.png Graphic file (type png)
 <use teaser.png>
 Package pdftex.def Info: teaser.png  used on input line 113.
@@ -1078,42 +1078,44 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2.2]
 LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 25
-4.
+3.
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 254.
+(Font)              scaled to size 10.0pt on input line 253.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 7.0pt on input line 254.
+(Font)              scaled to size 7.0pt on input line 253.
 
-Overfull \hbox (18.40462pt too wide) in paragraph at lines 280--280
+Overfull \hbox (18.40462pt too wide) in paragraph at lines 279--279
 [][]|[]\T1/zi4/m/n/10 projectConstraints($\OML/nxlmi/m/it/10 C[]; [] ; C[]; par
 ticles$\T1/zi4/m/n/10 ) 
  []
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.0pt on input line 280.
+(Font)              scaled to size 7.0pt on input line 279.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 8.0pt on input line 285.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 8.0pt on input line 291.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 6.2pt on input line 291.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 8.0pt on input line 295.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 8.0pt on input line 329.
-[3.3] Processing 'acks' comment.
+(Font)              scaled to size 8.0pt on input line 284.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3.3]
+[4.4] Processing 'acks' comment.
 \openout3 = `comment.cut'.
 
  Comment 'acks' writing to comment.cut.
-Straight input of comment.cut. (./comment.cut) (./documentation.bbl
+Straight input of comment.cut. (./comment.cut)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+(./documentation.bbl
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 8.0pt on input line 49.
 LaTeX Info: Redefining \tempurl on input line 75.
 LaTeX Info: Redefining \tempurl on input line 90.
 LaTeX Info: Redefining \tempurl on input line 104.
@@ -1124,31 +1126,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--118
 / MarkusRapp -[] MasterThesis -[]
  []
 
-)
-Overfull \hbox (18.1797pt too wide) in paragraph at lines 493--496
-[]\T1/LinuxLibertineT-TLF/m/n/8 (-20) For han-dling the ex-port of the ren-dere
-d im-age into files, the stb_image_write.h[][][][][]
+) [5.5]
+Overfull \hbox (11.38634pt too wide) in paragraph at lines 616--619
+\T1/LinuxLibertineT-TLF/m/n/10 (-20) at 24 FPS, with the nam-ing con-ven-tion r
+en-derXXXX[.bmp/.png],
  []
 
 
-Package balance Warning: You have called \balance in second column
-(balance)                Columns might not be balanced.
+Overfull \hbox (3.58836pt too wide) in paragraph at lines 621--625
+\T1/zi4/m/n/10 make_video.sh \T1/LinuxLibertineT-TLF/m/n/10 (-20) script to as-
+sem-ble the \T1/zi4/m/n/10 output.mp4 \T1/LinuxLibertineT-TLF/m/n/10 (-20) and 
+delete
+ []
 
-[4.4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 509.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 509.
+[6.6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 627.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 627.
  (./documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 509.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 509.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 627.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 627.
 Package rerunfilecheck Info: File `documentation.out' has not changed.
-(rerunfilecheck)             Checksum: 86A066FEE8792F691364A237681A9047;4299.
+(rerunfilecheck)             Checksum: 5358B6976FE170B963D3406982B99A3E;5151.
  ) 
 Here is how much of TeX's memory you used:
- 20413 strings out of 481239
- 309446 string characters out of 5920377
- 618195 words of memory out of 5000000
- 34693 multiletter control sequences out of 15000+600000
- 717829 words of font info for 368 fonts, out of 8000000 for 9000
+ 20377 strings out of 481239
+ 308691 string characters out of 5920377
+ 618628 words of memory out of 5000000
+ 34670 multiletter control sequences out of 15000+600000
+ 697072 words of font info for 334 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  63i,19n,100p,804b,588s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}{/us
@@ -1162,24 +1167,23 @@ vips/libertine/lbtn_76gpa5.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/l
 ibertine/lbtn_nh77jq.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/inco
 nsolata/Inconsolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 newtx/LibertineMathBMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ne
-wtx/LibertineMathBMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/new
-tx/LibertineMathBMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newt
-x/LibertineMathMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/L
-ibertineMathMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Lib
-ertineMathMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Liber
-tineMathRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinB
-iolinumT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLib
-ertineT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibe
-rtineTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibe
-rtineTBI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLib
-ertineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLib
-ertineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on documentation.pdf (4 pages, 572023 bytes).
+wtx/LibertineMathBMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/new
+tx/LibertineMathMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/
+LibertineMathMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Li
+bertineMathMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Libe
+rtineMathRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/Lin
+BiolinumT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLi
+bertineT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLib
+ertineTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLib
+ertineTBI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLi
+bertineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLi
+bertineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on documentation.pdf (6 pages, 579210 bytes).
 PDF statistics:
- 328 PDF objects out of 1000 (max. 8388607)
- 278 compressed objects within 3 object streams
- 75 named destinations out of 1000 (max. 500000)
- 45262 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 368 PDF objects out of 1000 (max. 8388607)
+ 317 compressed objects within 4 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 41726 words of extra memory for PDF output out of 42996 (max. 10000000)
 
