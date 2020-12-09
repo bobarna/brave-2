@@ -17,6 +17,9 @@
 \newcommand{\specialcell}[2][t]{%
   \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
 \usepackage[ruled, linesnumbered]{algorithm2e}
 % \usepackage{algorithmic}
 \renewcommand{\b}{\boldsymbol}
@@ -413,6 +416,39 @@ The final corrections are:
     (\lvert \b{p_1} - \b{p_2} \rvert - d) 
     \frac{\b{p_1} - \b{p_2}}{\lvert \b{p_1} - \b{p_2} \rvert}
 \end{align*}
+
+\begin{figure}
+    % \rule{\columnwidth}{0.05em}
+    \caption{Projection of the distance constraint $C(\b{p_1}, \b{p_2}) = \lvert \b{p_1}
+    - \b{p_2} \rvert - d$. The corrections $\Delta \b{p_i}$ are weighted according
+    to the inverse masses $w_i = 1/m_i$.}
+    \begin{tikzpicture}
+        
+        \draw[-] (-3,0)--(4,2);
+         
+        % p1 in lower left
+        \fill[black] (-3,0) circle (0.7ex);
+        \draw (-3,0) node[below=1ex]{$\b{p_1}$};
+        \draw (-3,0) node[left=1ex]{$m_1$};
+
+        \draw[-Latex] (-3,0.2) -- (-1,0.77);
+        \draw (-2,0.3) node[above=1ex]{$\b{\Delta \b{p_1}}$};
+        
+        % p2 in upper right
+        \fill[black] (4,2) circle (0.7ex);
+        \draw (4,2) node[below=1ex]{$\b{p_2}$};
+        \draw (4,2) node[right=1ex]{$m_2$};
+
+        \draw[Latex-] (1,1.343) -- (4,2.2);
+        \draw (2.5,1.6) node[above=1ex]{$\b{\Delta \b{p_1}}$};
+
+        % middle
+        \draw[line width=0.5em] (-1,0.76) -- (1,1.333);
+        \draw (0,1.0465) node[above=1ex]{$d$};
+        
+    \end{tikzpicture}
+    % \rule{\columnwidth}{0.05em}
+\end{figure}
 
 Since the type of the Distance Constraint is \emph{equality}, the projection is
 straight forward: we move both by $\b{p_1}$ and $\b{p_2}$ by $\Delta \b{p_1}$ and
