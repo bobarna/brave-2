@@ -17,19 +17,23 @@
 \newcommand{\specialcell}[2][t]{%
   \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
 
-  \usepackage[ruled, linesnumbered]{algorithm2e}
+\usepackage[ruled, linesnumbered]{algorithm2e}
 % \usepackage{algorithmic}
-  \renewcommand{\b}{\boldsymbol}
+\renewcommand{\b}{\boldsymbol}
+
+\setlength{\parskip}{0.2em}
 
 %% end of the preamble, start of the body of the document source.
 \begin{document}
+% don't allow lines to overflow their columns
+% \sloppy
 
 % \renewcommand{\@algocf@capt@plain}{top} % formerly {bottom}
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
 \title[Hair Simulation]{Simulation of Curly Hair}
-\subtitle{5th semester Project Laboratory report}
+\subtitle{5th Semester Project Laboratory Report}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -41,19 +45,22 @@
 % \authornote{BSc student}
 \email{borcsok.barnabas@simonyi.bme.hu}
 \affiliation{%
-  \institution{Budapest University of Technology and Economics}
+  \institution{}%Budapest University of Technology and Economics}
   \city{}
   \country{}
 }
 
-\author{Dr. Szécsi László}
+\author{Dr. László Szécsi}
 \email{Advisor}
 \affiliation{%
-    \institution{Budapest University of Technology and Economics}
+    % \institution{Budapest University of Technology and Economics}
+    % \city{}
+    % \country{}
+    % \department[0]{Computer Graphics Group}
+    % \department[1]{Department of Control Engineering and Information Technology}
+    \institution{}
     \city{}
     \country{}
-    \department[0]{Computer Graphics Group}
-    \department[1]{Department of Control Engineering and Information Technology}
 }
 
 
@@ -209,7 +216,7 @@ implementation to eliminate the stretching in the presence of greater forces.
 \section{Position Based Simulation}
 
 \subsection{Algorithm Overview}
-
+\label{section:algorithmOverview}
 We model an $S$ hair strand as a chain of $N$ particles and a set of $M$
 constraints. Each particle $p \in [1,\ldots,N]$ has three atributes: mass ($m_p$), position
 ($\boldsymbol{x_p}$) and velocity ($\boldsymbol{v_p}$). 
@@ -228,7 +235,6 @@ strength of the constraint in a range from zero to one.
 
 Given these notations, the algorithm works in the following way:
 
-\TODO{decide about syntax: array of particles (OOP) or array of v, x and m?}
 \begin{algorithm}
     \caption{pseudo code for the PBD simulation}\label{alg:pbd}
 
@@ -317,8 +323,8 @@ used. In our case, simply applying a $k_s$ damping coefficient with value
 between $98\%$ to $99.9\%$ seemed to be a good enough solution.
 
 The initial constraints $C_1, \ldots, C_M$ are fixed throughout the simulation.
-In addition to these initial constraints, line \lineRef{13} generates additional
-$M_coll$ collisition constrants. These change from time step to time step. The
+In addition to these initial constraints, line \lineRefSingle{13} generates additional
+$M_{coll}$ collisition constrants. These change from time step to time step. The
 projection step in line \lineRefSingle{16} considers both the fixed and the
 collision constraints. Our implementation does not yet utilize this opportunity
 to dynamicaly generate collision constraints. This is one of the possible future
@@ -345,13 +351,29 @@ speeds up convergence significantly, because pressure waves can propagate
 throught the chain of particles in a single solver step, and effect which is
 dependent on the order in which constraints are solved. 
 
-In our hair simulation case, we solve the distance constraints putting the hair
-particles at the desired distance from each other starting at the scalp, and
-moving outwards from there.
+In our hair simulation case, we solve the distance constraints by putting the
+hair particles at the desired distance from each other starting at the scalp,
+and moving outwards from there.
 
-\TODO{do constraint projection appendix}
+For projecting the constraints, we utilize the method proposed by
+\citet{MullerPBD}. The details of computing the desired delta positions are
+explained in the Appendix \ref{appendix:ConstraintProjection}
+\nameref{appendix:ConstraintProjection}. An example derivation is given in
+Section \ref{section:DistanceConstraint} \nameref{section:DistanceConstraint}.
 
-\subsection{Distance Constraint}
+There are several ways of incorporating the stiffness parameter. The simplest
+-- and the way we chose to utilize -- is simply multiplying the $\Delta \b{p}$
+correction by the $k \in [0 \ldots 1]$ stiffness paramter. For multiple
+iteration loops of the solver, the effect of $k$ becomes non-linear. The
+reamining error after $n_s$ solver iterations is $\Delta \b{p}(1-k)^{n_s}$.
+\citet{MullerPBD} proposes to multiply the corrections not by $k$ directly, but
+by $k' = 1 - (1-k)^{1/n_s}$. With this transformation, the error becomes $\Delta
+\b{p}(1-k')^{n_s} = \Delta\b{p}(1-k)$, and thus linearly dependent on $k$ and
+independent of $n_s$. The resulting stiffness is still dependent on the time
+step of the simulation. Real time environments typically use fixed time steps in
+which case this dependency is not problematic.
+
+\subsection{Distance Constraint} \label{section:DistanceConstraint}
 One of the most basic constraint is the Distance Constraint, forcing two given
 particles $d$ distance apart. It is an \emph{equality} type constraint, meaning
 that it is satisfied if $C_{distance} = 0$.
@@ -359,26 +381,29 @@ that it is satisfied if $C_{distance} = 0$.
 \begin{equation} \label{eq:distance_constraint}
 C_{distance}(\b{p_1},\b{p_2}) = \lvert \b{p_1} - \b{p_2} \rvert - d
 \end{equation}
-
-Looking for $\Delta \b{p_1}$ and $\Delta \b{p_2}$ corrections such that 
-
+We are looking for $\Delta \b{p_1}$ and $\Delta \b{p_2}$ corrections such that 
 $$
-C_{distance}(\b{p_1}+\Delta \b{p_1}, \b{p_2}+\Delta \b{p_2}) = 0
+C_{distance}(\b{p_1}+\Delta \b{p_1}, \b{p_2}+\Delta \b{p_2}) = 0.
 $$
 
-, we follow the method proposed by \citet{MullerPBD} (see appendix \TODO{reference
-appendix}). The derivatives with respect to the points are 
+In finding the desired delta values to satisfy the constraint, we follow the
+method proposed by \citet{MullerPBD} \emph{(see Appendix
+ \nameref{appendix:ConstraintProjection})}.
 
+The derivatives with respect to the positions are
 \begin{align*}
     \nabla_{\b{p_1}} C_{distance}(\b{p_1}, \b{p_2}) &= \b{n} \\\\
     \nabla_{\b{p_2}} C_{distance}(\b{p_1}, \b{p_2}) &= -\b{n} \\\\
-    \b{n} = \frac{\b{p_1}-\b{p_2}}{\lvert \b{p_1}-\b{p_2} \rvert}
+    \b{n} = \frac{\b{p_1}-\b{p_2}}{\lvert \b{p_1}-\b{p_2} \rvert}.
 \end{align*}
-
 This makes the scaling factor 
-$s = \frac{\lvert \b{p_1} - \b{p_2}\rvert - d}{w_1 + w_2}$, and the final corrections
-are:
-
+\begin{align*}
+    s &= \frac{C(\b{p_1},\b{p_2})}
+{w_1 \lvert \nabla_{p_1}C(\b{p_1}, \b{p_2})\rvert ^ 2 + w_2 \lvert
+\nabla_{p_2}C(\b{p_1}, \b{p_2})\rvert ^ 2}\\\\
+    &= \frac{\lvert \b{p_1} - \b{p_2}\rvert - d}{w_1 + w_2}.
+\end{align*}
+The final corrections are:
 \begin{align*}
     \Delta \b{p_1} &= - \frac{w_1}{w_1 + w_2}
     (\lvert \b{p_1} - \b{p_2} \rvert - d) 
@@ -389,27 +414,46 @@ are:
     \frac{\b{p_1} - \b{p_2}}{\lvert \b{p_1} - \b{p_2} \rvert}
 \end{align*}
 
-\TODO{Add figure illustrating these calculations}
-
 Since the type of the Distance Constraint is \emph{equality}, the projection is
 straight forward: we move both by $\b{p_1}$ and $\b{p_2}$ by $\Delta \b{p_1}$ and
 $\Delta \b{p_2}$ respectively.
 
-\subsection{Bending Constraint}
+\subsection{Bending Constraint} \label{section:bendingConstraint}
+\citet{UmenhofferSimulation} uses the PBD technique to simulate cloth materials.
+They utilize the bending constraint to define the bending resistance of the
+material, giving it an extra stiffness. Their goal with the Bending Constraint
+is to keep an initial angle between adjacent triangles formed by particles. They
+offer the $C(p_1,p_2,p_3,p_4) = arccos(n_1 \cdot n_2) - \phi _0$ constraint,
+where $n_1$ and $n_2$ are the normal vectors of the triangles, and $p_2 - p_1$
+forms the common side of the two triangles. The $\phi _0$ angle is measured
+between the normals of the two triangles.
 
+At first, we thought about implementing something similar for our project, but
+then simplified the ``Bending Constraint'' for our use-case to essentially
+ distance constraints $C_{distance}(p_{i-1}, p_{i+i})~for~i\in[1 \ldots
+n_{particles}-1]$ of the same hair strand with the $d$ distance paramter of the
+being lower than the $d$ parameter of other $C_distance$ constraints keeping the
+particles a given $l_{seg}$ distance apart from each other, and assigning
+a lower $k_{bending}$ stiffness parameter.
+
+This idea could be further developed when considering other $(p_j,p_k)$ pairs
+and different distances between them.
+
+\TODO{add figure demonstrating the different bending constraint}
 
 \subsection{Collision Constraint}
-Collision constraint can appear and disappear in each simulation step
-(in \lineRef{12}{14} of Algorithm \ref{alg:pbd}). For a moving particle $\b{p}$
-and points $\b{q_1}, \b{q_2}, \b{q_3}$ forming a triangle with normal $\b{n}$,
-the collision constraint is
+One huge advantage of the position based approach is how simply collision
+handling can be realized. In each simulation step $M_{coll}$ collision
+constraints are generated in the \lineRef{12}{14} lines of Algorithm
+\ref{alg:pbd}. For a moving particle $\b{p}$ and points $\b{q_1}, \b{q_2},
+\b{q_3}$ forming a triangle with normal $\b{n}$, the collision constraint is
 
 $$
-C(\b{p}, \b{q_1}, \b{q_2}, \b{q_3}) = (\b{p}-\b{q_1})\cdot \b{n} \geq 0
+C_{collision}(\b{p}, \b{q_1}, \b{q_2}, \b{q_3}) = (\b{p}-\b{q_1})\cdot \b{n} \geq 0
 $$
 
-, where we check whether $\b{p}$ lies on the desirable side of the given
-surface, by requiring that the magnitude of the vector from an arbitrary point
+, where we check whether $\b{p}$ lies on the desired side of the given
+surface. We require that the magnitude of the vector from an arbitrary point
 on the surface to $\b{p}$ projected onto the normal vector be greater than 0 by
 utilizing the dot product operation.
 \TODO{is this explanation too much?}
@@ -423,12 +467,32 @@ $$
 This formula moves the particle along the triangle normal exactly to the
 triangle's surface. 
 
-\section{Implementation}
-After introducing the general position based dynamics simulation method, we will
-dive into the specifics we settled with for our implementation for simulating
-hair.
+\subsection{Position Constraint}
+Maybe the most straight-forward constraint is the Position Constraint, given as:
+\begin{align*}
+    C_{collision}(\b{p}) &= \lvert \b{p} - \b{p_{goal}} \rvert = 0
+    \\
+    \Delta \b{p} &= \b{p_{goal}} - \b{p}
+\end{align*}
 
-\subsection{Data:}
+Moving the $\b{p}$ particle to the $\b{p_{goal}}$ position.
+
+We utilize the Position Constraint for keeping the first particle in each strand
+on the surface of the head.
+
+
+\section{Implementation}
+After introducing the general position based dynamics simulation method, we dive
+into the specifics we settled on for our hair simulation.
+
+The code is available at \url{http://git.sch.bme.hu/bobarna/brave-2}.
+
+\subsection{Datastructures}
+
+The properties of particles introduced in chapter
+\ref{section:algorithmOverview}
+\nameref{section:algorithmOverview} got an additional color property. This is
+decision was made so hair with a gradient color could be simulated.
 
 \begin{verbatim}
     class Particle {
@@ -440,14 +504,49 @@ hair.
     }
 \end{verbatim}
 
-\section{Putting Hair on the Head}
+The strands are stored as a vector of vector of Particles. It is practical to
+keep related data packed right after each other in the memory for improving the
+performance of operations and function calls.
 
+
+\subsection{Constraints}
+A \texttt{Constraint} class with an abstract \texttt{solve()} method was
+implemented, storing each derived constraint class \emph{(e.g.
+PositionConstraint, BendingConstraint)} in a heterogen
+collection and calling each overriden \texttt{solve()} method when projecting
+the constraints in the iteration loop (line \lineRefSingle{16} of Algorithm
+\ref{alg:pbd}).
+
+This implementation proved to be not fast enough, lagging even with low particle
+counts. We could not discover the cause of this increased computing time, and
+decided to settle on another solution. Instead of the above mentioned, we
+store only the parameters that constraints operate on, and the simulation calls
+the relevant solve functions with these stored parameters.
+
+
+\subsection{Putting the Hair in the Hair Simulation}
+The $PBDSimulation$ class handles the simulation and rendering of the hair. It
+takes a $HeadObject$ and propagates hairstrands starting from its surface. Each
+strands first particle is fixed in place with a $PositionConstraint$, not
+letting it move away from the scalp.
+
+The geometry of the $HeadObject$ is read from an \texttt{OBJ} file. (\emph{See
+the Appendix \ref{section:appendixOBJ} \nameref{section:appendixOBJ}}.)
+
+The hair strands are propagated throughout the surface of the $HeadObject$ by
+proposing random $(\b{u}, \b{v}) \in [0 \ldots 1] \times [0 \ldots 1]$
+coordinates and settling on them if they satisfy requirements for the position
+of the hair -- like the corresponding face in world coordinates has an upward
+pointing normal vector. This propagation of strands on the surface of the head
+could be improved, as pointed out in sections
+\nameref{section:futureCustomization} and \nameref{section:futureHalton}.
+ 
 
 \section{Results}
 The implementation is available at \url{git.sch.bme.hu/bobarna/brave-2}. The
 program is able to handle up to around 500 individual hair strands, each
 consisting of around 30 particles in real time. With the implemented OBJ reader,
-it is possible to achieve diverse visual results in no time. The 
+it is possible to achieve diverse visual results in no time.
 
 An example result shown in figure \TODO{include figure}, and can be seen in the
 supplementary videos \TODO{Google Drive (?) link with the videos}.
@@ -472,7 +571,7 @@ of time was dedicated in the early stages of the project to investigate and
 explore the subject area. This left only a sub-optimal time for implementing all
 desired aspects of the simulation.
 
-\subsection{Hair-hair collisions}
+\subsection{Hair-hair Collisions}
 \label{subsec:future_work_collision}
 As it is computationally extensive to simulate each particle colliding with all
 of the other particles, a particle density field could be used. One such method
@@ -482,10 +581,26 @@ utilized in the \citet{FTLHair} paper for handling hair-hair collisions.
 Such a method could be used to dynamically generate collision constraints in
 line \lineRefSingle{13} of Algorithm~\ref{alg:pbd}.
 
-\subsection{Refinement and proper customizability of the propagation of hair
-strands on the head object.} 
+\subsection{Bending Constraint Improvements}
+As already mentioned in Section \ref{section:bendingConstraint}
+\nameref{section:bendingConstraint}, a huge improvement could be made by
+improving the bending constraint either by further exploring the possibilities
+of defining different distance constraints between pairs of particles.
+
+An alternative route could be to explore the possibility of a different type of
+bending constraint, for example by keeping a given angle between chunks of
+subsequent particles.
+
+\subsection{More and better customization} 
+\label{section:futureCustomization}
 A drawable texture map is considered for the ability to tell the simulation
 where to put the hair strands on the surface of the head.
+
+The \texttt{OBJ} reader could also be further developed into reading material,
+texture and/or color data for the objects.
+
+A common interface for importing and exporting different hairstyles could be
+developed.
 
 \subsection{Better customizability}
 In the current implementation there is no way to properly customize the look and
@@ -496,6 +611,7 @@ much better control of the hair. Other properties, such as length of the hair
 segments and color of the hair could be set as well.
 
 \subsection{Sequence for randomizing hair positions}
+\label{section:futureHalton}
 In the current implementation, a standard C++ random number generator is
 utilized. Utilizing a low-discrepancy number sequence such as the Halton
 sequence for randomizing hair strand positions would be an improvement.
@@ -512,7 +628,7 @@ parts of the (OpenGL) rendering pipeline that could be utilized.
 \subsection{Moving to the GPU}
 The current implementation runs solely on the CPU. A big leap forward would be
 the utilization of the GPU. Compute shaders for computations are considered. The
-paper by \citet{UmenhofferSimulation} discusses a parametrization of the
+paper by \citet{UmenhofferSimulation} discusses a parallelization of the
 different constraint solves, although as they work on the same dataset, some
 computation problems are present during the parellelization of the
 problem.
@@ -542,16 +658,21 @@ method and properties.
 %% If your work has an appendix, this is the place to put it.
 \appendix
 
+\section{Constraint Projection} \label{appendix:ConstraintProjection}
+asd
+
+
 \section{Supplementary development}
 
 \subsection{OBJ Reader}
+\label{section:appendixOBJ}
 
 An OBJ reader utility was implemented as part of the project. As the OBJ file
 format \footnote{\url{http://paulbourke.net/dataformats/obj/}} describes a wide range
-of properties for objects. The present OBJ reader handles only the subset of
-these describtion options needed for the project. Lines containing other type of
-object descriptions were ignored, resulting in a successful file read if
-possible.
+of properties for objects, our OBJ reader handles only the subset of
+these description options -- those that are needed for the project. Not
+supported line types were simply ignored, still resulting in
+a successful file read if possible.
 
 \begin{table}[htb]
     \caption{Supported OBJ Data Types} 
