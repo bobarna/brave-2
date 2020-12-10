@@ -33,10 +33,10 @@ void Scene::Build() {
 //    Texture *headTexture = new CheckerBoardTexture(1, 0);
 
 //    auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
-    auto headObject = new HeadObject(phongShader, new ObjGeometry("../data/susanne.obj"), headMaterial, headTexture);
+    auto headObject = new HeadObject(phongShader, new ObjGeometry("../data/sphere.obj"), headMaterial, headTexture);
 
     headObject->Scale(vec3(.35, .35, .35));
-    objects.push_back(headObject);
+    /* objects.push_back(headObject); */
 
     auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
     auto simulationObject = new HairSimObject(headObject, basicShader, PBDSim);
