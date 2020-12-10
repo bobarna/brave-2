@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  10 DEC 2020 22:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  11 DEC 2020 00:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1283,11 +1283,11 @@ File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-<teaser.png, id=142, 602.25pt x 401.5pt>
-File: teaser.png Graphic file (type png)
-<use teaser.png>
-Package pdftex.def Info: teaser.png  used on input line 128.
-(pdftex.def)             Requested size: 505.89pt x 337.27606pt.
+<teaser_redhead.png, id=142, 444.91219pt x 297.36093pt>
+File: teaser_redhead.png Graphic file (type png)
+<use teaser_redhead.png>
+Package pdftex.def Info: teaser_redhead.png  used on input line 128.
+(pdftex.def)             Requested size: 505.89pt x 338.11926pt.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 12.0pt on input line 128.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
@@ -1324,7 +1324,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
- <./teaser.png>]
+ <./teaser_redhead.png>]
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
 (Font)              scaled to size 10.0pt on input line 230.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
@@ -1380,7 +1380,10 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 7.0pt on input line 293.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 (Font)              scaled to size 8.0pt on input line 298.
-[2.2]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2.2]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3.3]
@@ -1437,7 +1440,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 625--625
  / drive / folders / 1n79xSokrBe2lKQixX _
  []
 
-[6.6] Processing 'acks' comment.
+
+Underfull \vbox (badness 3919) has occurred while \output is active []
+
+ [6.6]
+Processing 'acks' comment.
 \openout3 = `comment.cut'.
 
  Comment 'acks' writing to comment.cut.
@@ -1485,8 +1492,8 @@ Package rerunfilecheck Info: File `documentation.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  30722 strings out of 481239
- 535825 string characters out of 5920377
- 819874 words of memory out of 5000000
+ 535873 string characters out of 5920377
+ 819887 words of memory out of 5000000
  44731 multiletter control sequences out of 15000+600000
  724208 words of font info for 377 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
@@ -1518,7 +1525,7 @@ tineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txexs.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on documentation.pdf (8 pages, 624343 bytes).
+Output written on documentation.pdf (8 pages, 627309 bytes).
 PDF statistics:
  467 PDF objects out of 1000 (max. 8388607)
  403 compressed objects within 5 object streams

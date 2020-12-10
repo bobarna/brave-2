@@ -13,9 +13,9 @@ Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye
 
 
 void Scene::Build() {
-    size_t nrSims = 200;
-    size_t nrSegments = 30;
-    float lSeg = 0.025f;
+    size_t nrSims = 250;
+    size_t nrSegments = 45;
+    float lSeg = 0.02f;
 
 
     Shader *basicShader = new BasicShader();
@@ -24,16 +24,16 @@ void Scene::Build() {
     auto sphere = new Sphere();
     Shader *phongShader = new PhongShader();
     Material *headMaterial = new Material;
-    headMaterial->kd = vec3(0.5f, 0.5f, 0.5f);
-    headMaterial->ks = vec3(.7f, .7f, .7f);
-    headMaterial->ka = vec3(.15f, .15f, .15f);
-    headMaterial->shininess = 10;
+    headMaterial->kd = vec3(.8f, 0.8f, 0.8f);
+    headMaterial->ks = vec3(.5f, .5f, .5f);
+    headMaterial->ka = vec3(1.f, 1.f, 1.f);
+    headMaterial->shininess = 100;
 
-    Texture *headTexture = new UniformColorTexture(.25f, .25f, .35f);
+    Texture *headTexture = new UniformColorTexture(.49f, .8666f, .78f);
 //    Texture *headTexture = new CheckerBoardTexture(1, 0);
 
 //    auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
-    auto headObject = new HeadObject(phongShader, new ObjGeometry("../data/susanne.obj"), headMaterial, headTexture);
+    auto headObject = new HeadObject(phongShader, new ObjGeometry("../data/sphere.obj"), headMaterial, headTexture);
 
     headObject->Scale(vec3(.35, .35, .35));
     objects.push_back(headObject);
@@ -51,18 +51,18 @@ void Scene::Build() {
 //    objects.push_back(testObject);
 
     // Lights
-    lights.resize(1);
+    lights.resize(3);
     lights[0].wLightPos = vec4(0.0f, 3.0f, 1.5f, 0);    // ideal point -> directional light source
-    lights[0].La = vec3(3.0f, 3.0f, 3.0f);
+    lights[0].La = vec3(0.0f, 7.0f, 7.0f);
     lights[0].Le = vec3(1, 1, 1);
 
-//    lights[1].wLightPos = vec4(2.0f, 3.0f, 1.0f, 0);    // ideal point -> directional light source
-//    lights[1].La = vec3(0.2f, 0.2f, 0.2f);
-//    lights[1].Le = vec3(1, 1, 1);
+    lights[1].wLightPos = vec4(2.0f, 3.0f, 1.0f, 0);    // ideal point -> directional light source
+    lights[1].La = vec3(0.f, 3.5f, 3.5f);
+    lights[1].Le = vec3(1, 1, 1);
 
-//    lights[2].wLightPos = vec4(0, 0, 1, 0);    // ideal point -> directional light source
-//    lights[2].La = vec3(0.1f, 0.1f, 0.1f);
-//    lights[2].Le = vec3(1, 1, 1);
+    lights[2].wLightPos = vec4(0, 0, 1, 0);    // ideal point -> directional light source
+    lights[2].La = vec3(0.f, 3.5f, 3.5f);
+    lights[2].Le = vec3(1, 1, 1);
 }
 
 void Scene::Render() {
