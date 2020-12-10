@@ -5,7 +5,7 @@
 #include "../utils/OBJReader.h"
 #include "../geometries/ObjGeometry.h"
 
-Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye)
+Scene::Scene(int w, int h) : camera(vec3(0, 0, .9), // Camera position (wEye)
                                     vec3(0, -.15f, 0), // wLookat
                                     vec3(0, 1, 0), // wVup
                                     w, h) {
