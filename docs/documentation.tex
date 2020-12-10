@@ -24,6 +24,11 @@
 % \usepackage{algorithmic}
 \renewcommand{\b}{\boldsymbol}
 
+%Path relative to the main .tex file 
+% path to the images folder
+\graphicspath{{./img/}}
+\usepackage{subcaption}
+
 \setlength{\parskip}{0.2em}
 
 %% end of the preamble, start of the body of the document source.
@@ -419,6 +424,7 @@ The final corrections are:
 
 \begin{figure}
     % \rule{\columnwidth}{0.05em}
+    \label{fig:dist_constr_proj}
     \caption{Projection of the distance constraint $C(\b{p_1}, \b{p_2}) = \lvert \b{p_1}
     - \b{p_2} \rvert - d$. The corrections $\Delta \b{p_i}$ are weighted according
     to the inverse masses $w_i = 1/m_i$.}
@@ -473,9 +479,39 @@ particles a given $l_{seg}$ distance apart from each other, and assigning
 a lower $k_{bending}$ stiffness parameter.
 
 This idea could be further developed when considering other $(p_j,p_k)$ pairs
-and different distances between them.
+and different distances between them. Figure \ref{fig:bendingConstraint}
+illustrates some example variety in the behaviour of chain of particles under
+different bending constraints.
 
-\TODO{add figure demonstrating the different bending constraint}
+\newcommand{\simulationDetails}[3]{\emph{$nr_{seg}=#1$, $l_{seg}=#2$, $k=#3$}}
+\begin{figure*}
+    \caption{Different distance and particle pairing definitions yield
+    significantly different results. Particle masses were slightly randomized
+    for a variance between strands. In each below simulation, $nr_{seg}$
+    particles of length $l_{seg}$ were generated. Distance constraints acting as
+    bending constraints had a stiffness parameter $k$. Distance
+    constraints responsible for keeping the particles $l_{seg}$ distance apart
+    always had a $k_{pos}=1$ stiffness parameter.}
+    \label{fig:bendingConstraint}
+    \begin{subfigure}{.5\linewidth}
+        \caption{\simulationDetails{120}{0.005}{0.6}}
+        \includegraphics[width=\linewidth]{bend_con_10Sim_120Seg_0.005lSeg.png}
+    \end{subfigure}%
+    \begin{subfigure}{.5\linewidth}
+        \caption{\simulationDetails{60}{0.01}{0.6}}
+    \includegraphics[width=\linewidth]{bend_con_10Sim_60Seg_0.01lSeg.png}
+    \end{subfigure}%
+    \par\medskip
+    \begin{subfigure}{.5\linewidth}
+        \caption{\simulationDetails{30}{0.02}{0.6}}
+    \includegraphics[width=\linewidth]{bend_con_10Sim_30Seg_0.02lSeg.png}
+    \end{subfigure}%
+    \begin{subfigure}{.5\linewidth}
+        \caption{A distance constraint between the first and last particles
+        were given. \simulationDetails{40}{0.015}{0.8}}
+    \includegraphics[width=\linewidth]{bend_con_first_last_10Sim_40Seg_0.015lSeg.png}
+    \end{subfigure}%
+\end{figure*}
 
 \subsection{Collision Constraint}
 One huge advantage of the position based approach is how simply collision
@@ -492,7 +528,6 @@ $$
 surface. We require that the magnitude of the vector from an arbitrary point
 on the surface to $\b{p}$ projected onto the normal vector be greater than 0 by
 utilizing the dot product operation.
-\TODO{is this explanation too much?}
 
 The formula for solving the triangle collision constraint is:
 
