@@ -15,9 +15,9 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
     // placing hair on the head
     propagateHead();
 
-    collisionTriangles.emplace_back(0.15, -1, 1);
-    collisionTriangles.emplace_back(0.15, 1, 0);
-    collisionTriangles.emplace_back(0.15, -1, -1);
+    /* collisionTriangles.emplace_back(0.15, -1, 1); */
+    /* collisionTriangles.emplace_back(0.15, 1, 0); */
+    /* collisionTriangles.emplace_back(0.15, -1, -1); */
 }
 
 void PBDSimulation::propagateHead() {
@@ -69,8 +69,8 @@ void PBDSimulation::update(float dt) {
                 if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.9f);
                 if (i < strand.size() - 2 && i > 1)
                     solve_bending_constraint(strand[i - 2], strand[i + 2], lSeg * 1.9f);
-                solve_collision_constraint(strand[i],
-                                           collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]);
+                /* solve_collision_constraint(strand[i], */
+                /*                            collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]); */
             }
         }
     }
@@ -106,8 +106,8 @@ void PBDSimulation::solve_bending_constraint(Particle *p1, Particle *p2, float d
                 (length(p1->tmp_pos - p2->tmp_pos) - dist) *
                 (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
 
-    p1->tmp_pos += 0.6 * d_p1;
-    p2->tmp_pos += 0.6 * d_p2;
+    p1->tmp_pos += 0.4 * d_p1;
+    p2->tmp_pos += 0.4 * d_p2;
 }
 
 void PBDSimulation::solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, vec3 &q3) {

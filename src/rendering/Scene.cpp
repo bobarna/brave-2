@@ -13,7 +13,7 @@ Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye
 
 
 void Scene::Build() {
-    size_t nrSims = 200;
+    size_t nrSims = 1;
     size_t nrSegments = 30;
     float lSeg = 0.025f;
 
@@ -36,7 +36,7 @@ void Scene::Build() {
     auto headObject = new HeadObject(phongShader, new ObjGeometry("../data/susanne.obj"), headMaterial, headTexture);
 
     headObject->Scale(vec3(.35, .35, .35));
-    objects.push_back(headObject);
+    /* objects.push_back(headObject); */
 
     auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
     auto simulationObject = new HairSimObject(headObject, basicShader, PBDSim);
