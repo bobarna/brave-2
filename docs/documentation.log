@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  10 DEC 2020 18:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  10 DEC 2020 21:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1432,10 +1432,12 @@ Class acmart Warning: A possible image without description on input line 514.
 [4.4] [5.5 <./img/bend_con_10Sim_120Seg_0.005lSeg.png> <./img/bend_con_10Sim_60
 Seg_0.01lSeg.png> <./img/bend_con_10Sim_30Seg_0.02lSeg.png> <./img/bend_con_fir
 st_last_10Sim_40Seg_0.015lSeg.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \hbox (badness 10000) in paragraph at lines 625--625
+[][][][][]$\T1/LinuxBiolinumT-TLF/m/n/8 (+20) h^^]ps : / / drive . google . com
+ / drive / folders / 1n79xSokrBe2lKQixX _
+ []
 
- [6.6]
-Processing 'acks' comment.
+[6.6] Processing 'acks' comment.
 \openout3 = `comment.cut'.
 
  Comment 'acks' writing to comment.cut.
@@ -1453,13 +1455,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--118
  []
 
 )
-Overfull \hbox (11.38634pt too wide) in paragraph at lines 808--811
+Overfull \hbox (11.38634pt too wide) in paragraph at lines 809--812
 \T1/LinuxLibertineT-TLF/m/n/10 (-20) at 24 FPS, with the nam-ing con-ven-tion r
 en-derXXXX[.bmp/.png],
  []
 
 
-Overfull \hbox (3.58836pt too wide) in paragraph at lines 813--817
+Overfull \hbox (3.58836pt too wide) in paragraph at lines 814--818
 \T1/zi4/m/n/10 make_video.sh \T1/LinuxLibertineT-TLF/m/n/10 (-20) script to as-
 sem-ble the \T1/zi4/m/n/10 output.mp4 \T1/LinuxLibertineT-TLF/m/n/10 (-20) and 
 delete
@@ -1473,20 +1475,20 @@ Package balance Warning: You have called \balance in second column
 (balance)                Columns might not be balanced.
 
 [7.7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 819.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 819.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 820.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 820.
  (./documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 819.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 819.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 820.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 820.
 Package rerunfilecheck Info: File `documentation.out' has not changed.
 (rerunfilecheck)             Checksum: 3021049AB3DFF0EFC2B5D39C69F0AB95;5688.
  ) 
 Here is how much of TeX's memory you used:
- 30703 strings out of 481239
- 535555 string characters out of 5920377
- 819570 words of memory out of 5000000
+ 30698 strings out of 481239
+ 535417 string characters out of 5920377
+ 819662 words of memory out of 5000000
  44727 multiletter control sequences out of 15000+600000
- 722879 words of font info for 373 fonts, out of 8000000 for 9000
+ 722235 words of font info for 369 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  63i,18n,100p,804b,719s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}{/us
@@ -1514,10 +1516,10 @@ rtineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibe
 rtineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on documentation.pdf (7 pages, 608164 bytes).
+Output written on documentation.pdf (7 pages, 609498 bytes).
 PDF statistics:
- 429 PDF objects out of 1000 (max. 8388607)
- 371 compressed objects within 4 object streams
- 92 named destinations out of 1000 (max. 500000)
+ 435 PDF objects out of 1000 (max. 8388607)
+ 377 compressed objects within 4 object streams
+ 93 named destinations out of 1000 (max. 500000)
  54590 words of extra memory for PDF output out of 61914 (max. 10000000)
 
