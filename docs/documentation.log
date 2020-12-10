@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  10 DEC 2020 21:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  10 DEC 2020 22:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1454,14 +1454,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--118
 / MarkusRapp -[] MasterThesis -[]
  []
 
-)
-Overfull \hbox (11.38634pt too wide) in paragraph at lines 809--812
+) [7.7]
+Overfull \hbox (11.38634pt too wide) in paragraph at lines 913--916
 \T1/LinuxLibertineT-TLF/m/n/10 (-20) at 24 FPS, with the nam-ing con-ven-tion r
 en-derXXXX[.bmp/.png],
  []
 
 
-Overfull \hbox (3.58836pt too wide) in paragraph at lines 814--818
+Overfull \hbox (3.58836pt too wide) in paragraph at lines 918--922
 \T1/zi4/m/n/10 make_video.sh \T1/LinuxLibertineT-TLF/m/n/10 (-20) script to as-
 sem-ble the \T1/zi4/m/n/10 output.mp4 \T1/LinuxLibertineT-TLF/m/n/10 (-20) and 
 delete
@@ -1474,21 +1474,21 @@ Class acmart Warning: Some images may lack descriptions.
 Package balance Warning: You have called \balance in second column
 (balance)                Columns might not be balanced.
 
-[7.7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 820.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 820.
+[8.8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 924.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 924.
  (./documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 820.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 820.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 924.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 924.
 Package rerunfilecheck Info: File `documentation.out' has not changed.
 (rerunfilecheck)             Checksum: 3021049AB3DFF0EFC2B5D39C69F0AB95;5688.
  ) 
 Here is how much of TeX's memory you used:
- 30698 strings out of 481239
- 535417 string characters out of 5920377
- 819662 words of memory out of 5000000
- 44727 multiletter control sequences out of 15000+600000
- 722235 words of font info for 369 fonts, out of 8000000 for 9000
+ 30722 strings out of 481239
+ 535825 string characters out of 5920377
+ 819874 words of memory out of 5000000
+ 44731 multiletter control sequences out of 15000+600000
+ 724208 words of font info for 377 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  63i,18n,100p,804b,719s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}{/us
@@ -1502,24 +1502,26 @@ vips/libertine/lbtn_76gpa5.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/l
 ibertine/lbtn_nh77jq.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/inco
 nsolata/Inconsolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 newtx/LibertineMathBMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ne
-wtx/LibertineMathBMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/new
-tx/LibertineMathBRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx
-/LibertineMathMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Li
-bertineMathMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Libe
-rtineMathMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Libert
-ineMathRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinBi
-olinumT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibe
-rtineT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLiber
-tineTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLiber
-tineTBI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibe
-rtineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibe
-rtineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on documentation.pdf (7 pages, 609498 bytes).
+wtx/LibertineMathBMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/new
+tx/LibertineMathBMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newt
+x/LibertineMathBRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/
+LibertineMathMI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Lib
+ertineMathMI5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Liber
+tineMathMI7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/Liberti
+neMathRM.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinBio
+linumT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLiber
+tineT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibert
+ineTB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibert
+ineTBI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLiber
+tineTI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLiber
+tineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txexs.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on documentation.pdf (8 pages, 624343 bytes).
 PDF statistics:
- 435 PDF objects out of 1000 (max. 8388607)
- 377 compressed objects within 4 object streams
- 93 named destinations out of 1000 (max. 500000)
+ 467 PDF objects out of 1000 (max. 8388607)
+ 403 compressed objects within 5 object streams
+ 103 named destinations out of 1000 (max. 500000)
  54590 words of extra memory for PDF output out of 61914 (max. 10000000)
 

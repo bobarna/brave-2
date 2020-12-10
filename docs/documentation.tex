@@ -365,7 +365,7 @@ and moving outwards from there.
 
 For projecting the constraints, we utilize the method proposed by
 \citet{MullerPBD}. The details of computing the desired delta positions are
-explained in the Appendix \ref{appendix:ConstraintProjection}
+explained in Appendix \ref{appendix:ConstraintProjection}
 \nameref{appendix:ConstraintProjection}. An example derivation is given in
 Section \ref{section:DistanceConstraint} \nameref{section:DistanceConstraint}.
 
@@ -731,7 +731,111 @@ method and properties.
 \appendix
 
 \section{Constraint Projection} \label{appendix:ConstraintProjection}
-asd
+Projecting a set of points according to a constraint means moving the points
+such that they satisfy the constraint. As we move the points in the
+simulation loop directly, the most important issue is the conservation of linear and
+angular momentum. Let $\Delta \b{p_i}$ be the displacement of particle $i$ by the
+projection. Linear momentum is conserved if 
+
+\begin{equation}
+    \label{eq:linear_momentum}
+    \sum\limits_{i} m_i \Delta \b{p_i} = \b{0},
+\end{equation}
+
+which amounts to conserving the center of mass. Angular momentum is conserved if
+
+\begin{equation}
+    \label{eq:angular_momentum}
+    \sum\limits_{i} \b{r_i} \times m_i \Delta \b{p_i} = 0,
+\end{equation}
+
+where the $\b{r_i}$ are the distances of the $\b{p_i}$ to an arbitrary common
+rotation center. If a projection violates either the preservation of 
+linear or angular momentum, \emph{ghost
+forces} get introduced into the system, which act like external forces dragging
+and rotating the object. However, only internal constraints need to conserve the
+momenta. As we reduce the problem of collision handling to simply moving the
+vertex to a valid point, it is somewhat trivial that for example collision
+constraints are allowed to have global effects on the object.
+
+The method that \citet{MullerPBD} propose conserves both momenta for internal
+constraints. Let us look at a constraint $C$ with cardinality $n$ on the points
+$\b{p_1}, \ldots, \b{p_n}$ with stiffness $k$. We let $\b{p}$ be the
+concatenation $[\b{p_1}^T, \ldots, \b{p_n}^T]^T$. For internal constraints, $C$ is
+independent of translation and rotation, which means that rotating or
+translating the points does not change the value of the constraint function.
+Therefore, the gradient $\nabla_{\b{p}} C$ is the direction of maximal change. If the
+correction $\Delta \b{p}$ is chosen to be along $\nabla C_{\b{p}}$ both momenta
+are automatically conserved if all masses are equal (we handle different masses
+later). Given $\b{p}$ we want to find a correction $\Delta \b{p}$ such that
+$C(\b{p}+\Delta\b{p})=0$. This equation can be approximated by
+
+\begin{equation}
+    C(\b{p}+\Delta\b{p}) \approx C(\b{p}) + \nabla_{\b{p}} C(p)\cdot\Delta
+    p = 0.
+    \label{eq:approximation}
+\end{equation}
+
+Restricting $\Delta \b{p}$ to be in the direction of $\nabla_{\b{p}}C$ means
+choosing a scalar $\lambda$ such that
+
+\begin{equation}
+    \Delta{\b{p}} = \lambda \nabla_{\b{p}}C(\b{p}).
+    \label{eq:restrictingLambda}
+\end{equation}
+
+Substituing Equation \ref{eq:restrictingLambda} into Equation
+\ref{eq:approximation}, solving for $\lambda$ and subsituting back into Equation
+\ref{eq:restrictingLambda} gives us the final formula for $\Delta\b{p}$:
+
+\begin{equation}
+    \Delta \b{p} = - \frac{C(\b{p})}{\lvert \nabla_{\b{p}} C(\b{p})\rvert^2}
+    \nabla_{\b{p}}C(\b{p})
+\end{equation}
+
+which is a regular Newton-Raphson step for the iterative solution of the
+non-linear equation given by a single constraint. For the correction of an
+individual point $\b{p_i}$ we have
+
+\begin{equation}
+    \Delta \b{p_i} = -s\nabla_{\b{p_i}}C(\b{p_1},\ldots,\b{p_n}),
+\end{equation}
+
+where the scaling factor
+
+\begin{equation}
+    s = \frac{C(\b{p_1},\ldots,\b{p_n})}{
+        \sum\limits_{j} \lvert\nabla_{\b{p_j}}C(\b{p_1},\ldots,\b{p_n})\rvert^2
+    }
+\end{equation}
+
+is the same for all points. If the points have individual masses, we weight the
+corrections $\Delta \b{p_i}$ by the inverse masses $w_i = 1/m_i$. In this case
+a point with infinite mass, i.e. $w_i = 0$ for example does not move, just as
+expected. Now Equation \ref{eq:restrictingLambda} is replaced by 
+$$
+\Delta \b{p_i} = \lambda w_i \nabla_{\b{p_i}}C(\b{p})
+$$
+yielding
+
+\begin{equation}
+    s = \frac{
+        C(\b{p_1}, \ldots, \b{p_n})
+    }{
+        \sum\limits_{j}w_j\lvert\nabla_{\b{p_j}}C(\b{p_1},\ldots,\b{p_n})\rvert^2
+    }
+\end{equation}
+
+for the scaling factor and for the final correction 
+
+\begin{equation}
+    \Delta \b{p_i} = -s w_i \nabla_{\b{p_i}}C(\b{p}).
+\end{equation}
+
+
+Section \ref{section:DistanceConstraint} gives an example by considering the
+distance constraint function $C(\b{p_1},\b{p_2}) = \lvert\b{p_1}-\b{p_2}\rvert
+- d$.
 
 
 \section{Supplementary development}
