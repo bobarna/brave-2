@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  11 DEC 2020 00:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.12.8)  13 DEC 2020 19:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1441,7 +1441,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 625--625
  []
 
 
-Underfull \vbox (badness 3919) has occurred while \output is active []
+Underfull \vbox (badness 1062) has occurred while \output is active []
 
  [6.6]
 Processing 'acks' comment.
@@ -1462,13 +1462,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--118
  []
 
 ) [7.7]
-Overfull \hbox (11.38634pt too wide) in paragraph at lines 913--916
+Overfull \hbox (11.38634pt too wide) in paragraph at lines 915--918
 \T1/LinuxLibertineT-TLF/m/n/10 (-20) at 24 FPS, with the nam-ing con-ven-tion r
 en-derXXXX[.bmp/.png],
  []
 
 
-Overfull \hbox (3.58836pt too wide) in paragraph at lines 918--922
+Overfull \hbox (3.58836pt too wide) in paragraph at lines 920--924
 \T1/zi4/m/n/10 make_video.sh \T1/LinuxLibertineT-TLF/m/n/10 (-20) script to as-
 sem-ble the \T1/zi4/m/n/10 output.mp4 \T1/LinuxLibertineT-TLF/m/n/10 (-20) and 
 delete
@@ -1482,20 +1482,20 @@ Package balance Warning: You have called \balance in second column
 (balance)                Columns might not be balanced.
 
 [8.8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 924.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 924.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 926.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 926.
  (./documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 924.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 924.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 926.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 926.
 Package rerunfilecheck Info: File `documentation.out' has not changed.
 (rerunfilecheck)             Checksum: 3021049AB3DFF0EFC2B5D39C69F0AB95;5688.
  ) 
 Here is how much of TeX's memory you used:
- 30722 strings out of 481239
- 535873 string characters out of 5920377
- 819887 words of memory out of 5000000
+ 30725 strings out of 481239
+ 535942 string characters out of 5920377
+ 819972 words of memory out of 5000000
  44731 multiletter control sequences out of 15000+600000
- 724208 words of font info for 377 fonts, out of 8000000 for 9000
+ 724483 words of font info for 379 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  63i,18n,100p,804b,719s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}{/us
@@ -1525,10 +1525,10 @@ tineTZ.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txexs.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on documentation.pdf (8 pages, 627309 bytes).
+Output written on documentation.pdf (8 pages, 627854 bytes).
 PDF statistics:
- 467 PDF objects out of 1000 (max. 8388607)
- 403 compressed objects within 5 object streams
+ 470 PDF objects out of 1000 (max. 8388607)
+ 406 compressed objects within 5 object streams
  103 named destinations out of 1000 (max. 500000)
  54590 words of extra memory for PDF output out of 61914 (max. 10000000)
 
