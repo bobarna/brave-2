@@ -15,9 +15,9 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
     // placing hair on the head
     propagateHead();
 
-    collisionTriangles.emplace_back(0.15, -1, 1);
-    collisionTriangles.emplace_back(0.15, 1, 0);
-    collisionTriangles.emplace_back(0.15, -1, -1);
+    /* collisionTriangles.emplace_back(0.15, -1, 1); */
+    /* collisionTriangles.emplace_back(0.15, 1, 0); */
+    /* collisionTriangles.emplace_back(0.15, -1, -1); */
 }
 
 void PBDSimulation::propagateHead() {
@@ -69,8 +69,8 @@ void PBDSimulation::update(float dt) {
                 if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.9f);
                 if (i < strand.size() - 2 && i > 1)
                     solve_bending_constraint(strand[i - 2], strand[i + 2], lSeg * 1.9f);
-                solve_collision_constraint(strand[i],
-                                           collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]);
+                /* solve_collision_constraint(strand[i], */
+                /*                            collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]); */
             }
         }
     }
