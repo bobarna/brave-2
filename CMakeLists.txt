@@ -37,10 +37,6 @@ link_libraries(${GLFW_LIBRARY_DIRS})
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
-if (WIN32)
-    # nothing now
-endif (WIN32)
-
 target_link_libraries(
         ${PROJECT_NAME}
         glfw
