@@ -14,30 +14,14 @@ PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segm
     head = _head;
     // placing hair on the head
     propagateHead();
-
-    /* collisionTriangles.emplace_back(0.15, -1, 1); */
-    /* collisionTriangles.emplace_back(0.15, 1, 0); */
-    /* collisionTriangles.emplace_back(0.15, -1, -1); */
 }
 
 void PBDSimulation::propagateHead() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(.01, .99);
-
     for (size_t i = 0; i < nrStrands; i++) {
-        float currU = dis(gen);
-        float currV = dis(gen);
-        VertexData currPos = head->GetVertexDataByUV(currU, currV);
-        while (currPos.normal.y > .0f && !currPos.valid) {
-            currU = dis(gen);
-            currV = dis(gen);
-            std::cout << currU << " " << currV << std::endl;
-            currPos = head->GetVertexDataByUV(currU, currV);
-        }
+        vec3 currPos(-.5f, 0.f, 0.003f * (float)i);
 
         vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos.position * vec3(1, -1, 1), color));
+        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos * vec3(1, -1, 1), color));
     }
 }
 
@@ -63,14 +47,13 @@ void PBDSimulation::update(float dt) {
             //keep first particle in place
             // TODO position constraint
             strand.at(0)->tmp_pos = strand.at(0)->pos;
-            //distance between subsequent particles should be l
+
+            // keep the last one fixed as well
+            strand.at(strand.size()-1)->tmp_pos = strand.at(strand.size()-1)->pos;
+
+            //distance between other particles should be l
             for (size_t i = 1; i < strand.size(); i++) {
                 solve_distance_constraint(strand[i - 1], strand[i], lSeg);
-                if (i < strand.size() - 1) solve_bending_constraint(strand[i - 1], strand[i + 1], lSeg * 0.9f);
-                if (i < strand.size() - 2 && i > 1)
-                    solve_bending_constraint(strand[i - 2], strand[i + 2], lSeg * 1.9f);
-                /* solve_collision_constraint(strand[i], */
-                /*                            collisionTriangles[0], collisionTriangles[1], collisionTriangles[2]); */
             }
         }
     }
@@ -155,7 +138,7 @@ void PBDSimulation::Draw() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) (sizeof(float) * 3));
 
     glLineWidth(1.0f);
-    glDrawArrays(GL_LINES, 0, particlePosAndColor.size() / 6);
+    glDrawArrays(GL_POINTS, 0, particlePosAndColor.size() / 6);
 }
 
 vec3 PBDSimulation::getExternalForces() const {
@@ -172,12 +155,12 @@ std::vector<Particle *> PBDSimulation::CreateStrand(size_t n, float l, vec3 star
         // which is 2.0e-7 kg == 10^(-7) kg
         float m = util::randomOffsetf(.35f, .15f);
 
-        // first particle's position is infinite
-        if (i == 0) currentStrand.push_back(new Particle(currPos, 0, color));
+        // first and last particle's position is infinite
+        if (i == 0 || i == n-1) currentStrand.push_back(new Particle(currPos, 0, color));
         else currentStrand.push_back(new Particle(currPos, 1 / m, color));
 
-        // propagate particles downward
-        currPos.y -= l;
+        // propagate particles horizontally
+        currPos.x += l;
     }
 
     return currentStrand;
