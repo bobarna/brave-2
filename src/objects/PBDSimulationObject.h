@@ -1,15 +1,15 @@
-#ifndef BRAVE2_HAIRSIMOBJECT_H
-#define BRAVE2_HAIRSIMOBJECT_H
+#ifndef BRAVE2_PBDSIMULATIONOBJECT_H
+#define BRAVE2_PBDSIMULATIONOBJECT_H
 
 #include "../geometries/PBDSimulation.h"
 #include "../rendering/shaders/Shader.h"
 #include "Object.h"
 #include "HeadObject.h"
 
-class HairSimObject : public Object {
-    HeadObject *head;
+class PBDSimulationObject : public Object {
+
 public:
-    HairSimObject(HeadObject *_head, Shader *_shader, PBDSimulation *_sim);
+    PBDSimulationObject(Shader *_shader, PBDSimulation *_sim);
 
     void ResetExternalForces();
 
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //BRAVE2_HAIRSIMOBJECT_H
+#endif //BRAVE2_PBDSIMULATIONOBJECT_H

@@ -1,7 +1,3 @@
-//
-// Created by bobarna on 2020. 10. 22..
-//
-
 #ifndef BRAVE2_UTIL_H
 #define BRAVE2_UTIL_H
 

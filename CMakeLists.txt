@@ -17,12 +17,14 @@ add_executable(${PROJECT_NAME}
         src/rendering/shaders/Shader.cpp
         src/utils/InputHandler.cpp
         src/geometries/Geometry.cpp
-        src/objects/HairSimObject.cpp
+        src/objects/PBDSimulationObject.cpp
         src/objects/HeadObject.cpp
         src/rendering/shaders/BasicShader.cpp src/rendering/shaders/BasicShader.h
         src/rendering/shaders/PhongShader.cpp src/rendering/shaders/PhongShader.h
         src/geometries/ParamSurface.cpp src/geometries/ParamSurface.h
-        src/geometries/VertexData.h src/rendering/materials/Material.cpp src/rendering/materials/Material.h src/rendering/textures/Texture.cpp src/rendering/textures/Texture.h src/rendering/lights/Light.cpp src/rendering/lights/Light.h src/geometries/VertexData.cpp src/utils/OBJReader.cpp src/utils/OBJReader.h src/geometries/ObjGeometry.cpp src/geometries/ObjGeometry.h)
+        src/geometries/VertexData.h src/rendering/materials/Material.cpp src/rendering/materials/Material.h src/rendering/textures/Texture.cpp src/rendering/textures/Texture.h src/rendering/lights/Light.cpp src/rendering/lights/Light.h src/geometries/VertexData.cpp src/utils/OBJReader.cpp src/utils/OBJReader.h src/geometries/ObjGeometry.cpp src/geometries/ObjGeometry.h
+        src/geometries/SPHSimulation.cpp src/geometries/SPHSimulation.h
+        src/objects/SPHSimulationObject.cpp src/objects/SPHSimulationObject.h)
 
 # opengl
 find_package(OpenGL REQUIRED)

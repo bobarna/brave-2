@@ -1,54 +1,28 @@
 #include "Scene.h"
-#include "shaders/BasicShader.h"
-#include "../geometries/ParamSurface.h"
-#include "shaders/PhongShader.h"
-#include "../utils/OBJReader.h"
-#include "../geometries/ObjGeometry.h"
 
-Scene::Scene(int w, int h) : camera(vec3(0, -.15f, .5), // Camera position (wEye)
-                                    vec3(0, -.15f, 0), // wLookat
+
+Scene::Scene(int w, int h) : camera(vec3(0, 0.f, .5), // Camera position (wEye)
+                                    vec3(0, 0, 0), // wLookat
                                     vec3(0, 1, 0), // wVup
-                                    w, h) {
+                                    w, h)    {
 }
 
-
 void Scene::Build() {
-    size_t nrSims = 250;
-    size_t nrSegments = 30;
-    float lSeg = 0.025f;
-
+    size_t nrSims = 100;
+    size_t nrSegments = 50;
+    float lSeg = 0.006f;
 
     Shader *basicShader = new BasicShader();
     basicShader->Bind(camera.getState());
 
-    auto sphere = new Sphere();
-    Shader *phongShader = new PhongShader();
-    Material *headMaterial = new Material;
-    headMaterial->kd = vec3(.8f, 0.8f, 0.8f);
-    headMaterial->ks = vec3(.5f, .5f, .5f);
-    headMaterial->ka = vec3(1.f, 1.f, 1.f);
-    headMaterial->shininess = 100;
+    auto PBDSim = new PBDSimulation(nrSims, nrSegments, lSeg);
+    auto PBDsimulationObject = new PBDSimulationObject(basicShader, PBDSim);
+    PBDsims.push_back(PBDsimulationObject);
 
-    Texture *headTexture = new UniformColorTexture(.49f, .8666f, .78f);
-//    Texture *headTexture = new CheckerBoardTexture(1, 0);
+    auto SPHSim = new SPHSimulation();
+    auto SPHsimulationObject = new SPHSimulationObject(basicShader, SPHSim);
+    SPHsims.push_back(SPHsimulationObject);
 
-//    auto headObject = new HeadObject(phongShader, sphere, headMaterial, headTexture);
-    auto headObject = new HeadObject(phongShader, new ObjGeometry("../data/susanne.obj"), headMaterial, headTexture);
-
-    headObject->Scale(vec3(.35, .35, .35));
-    objects.push_back(headObject);
-
-    auto PBDSim = new PBDSimulation(headObject, nrSims, nrSegments, lSeg);
-    auto simulationObject = new HairSimObject(headObject, basicShader, PBDSim);
-    sims.push_back(simulationObject);
-
-//    auto testObject =
-//            new Object(phongShader,
-//                       new ObjGeometry("../data/sphere.obj"),
-//                       headMaterial,
-//                       headTexture);
-//
-//    objects.push_back(testObject);
 
     // Lights
     lights.resize(3);
@@ -69,7 +43,8 @@ void Scene::Render() {
     RenderState state = camera.getState();
     state.lights = lights;
 
-    for (auto *so: sims) so->Draw(state);
+    for (auto *so: PBDsims) so->Draw(state);
+    for (auto *so : SPHsims) so->Draw(state);
     for (auto *o: objects) o->Draw(state);
 }
 
@@ -80,7 +55,8 @@ void Scene::Update(float delta_t) {
     HandleKeyPress();
 
     for (Object *o: objects) o->Animate(delta_t);
-    for (HairSimObject *so : sims) so->Animate(delta_t);
+    for (PBDSimulationObject *so : PBDsims) so->Animate(delta_t);
+    for (SPHSimulationObject *so : SPHsims) so->Animate(delta_t);
 }
 
 void Scene::TranslateCamera(vec3 t) {
@@ -88,15 +64,15 @@ void Scene::TranslateCamera(vec3 t) {
 }
 
 void Scene::ResetExternalForces() {
-    for (auto sim : sims)
+    for (auto sim : PBDsims)
         sim->ResetExternalForces();
     if (gravityOn)
-        for (auto sim : sims)
+        for (auto sim : PBDsims)
             sim->AddForce({0, -GRAVITY_ABS_VALUE, 0});
 }
 
 void Scene::addForce(vec3 f) {
-    for (auto sim : sims)
+    for (auto sim : PBDsims)
         sim->AddForce(f);
 }
 

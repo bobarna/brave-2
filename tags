@@ -124,9 +124,9 @@ ARCHITECTURE_ID	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdCXX/CMakeCXXCompil
 ARCHITECTURE_ID	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdCXX/CMakeCXXCompilerId.cpp	519;"	d	file:
 ARCHITECTURE_ID	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdCXX/CMakeCXXCompilerId.cpp	522;"	d	file:
 ARCHITECTURE_ID	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdCXX/CMakeCXXCompilerId.cpp	525;"	d	file:
-AddForce	src/objects/HairSimObject.cpp	/^void HairSimObject::AddForce(vec3 f) {$/;"	f	class:HairSimObject
+AddForce	src/objects/SPHSimulationObject.cpp	/^void SPHSimulationObject::AddForce(vec3 f) {$/;"	f	class:SPHSimulationObject
 Algorithm Overview	docs/documentation.tex	/^\\section{Position Based Simulation}$/;"	u
-Animate	src/objects/HairSimObject.cpp	/^void HairSimObject::Animate(float delta_t) {$/;"	f	class:HairSimObject
+Animate	src/objects/SPHSimulationObject.cpp	/^void SPHSimulationObject::Animate(float delta_t) {$/;"	f	class:SPHSimulationObject
 Animate	src/objects/Object.cpp	/^void Object::Animate(float delta_t) {$/;"	f	class:Object
 Animate	src/rendering/lights/Light.cpp	/^void Light::Animate(float t) {$/;"	f	class:Light
 BRAVE2_BASICSHADER_H	src/rendering/shaders/BasicShader.h	2;"	d
@@ -134,7 +134,7 @@ BRAVE2_CAMERA_H	src/rendering/Camera.h	2;"	d
 BRAVE2_CONSTANTS_H	src/Constants.h	2;"	d
 BRAVE2_GEOMETRY_H	src/geometries/Geometry.h	2;"	d
 BRAVE2_GPUPROGRAM_H	src/utils/GPUProgram.h	2;"	d
-BRAVE2_HAIRSIMOBJECT_H	src/objects/HairSimObject.h	2;"	d
+BRAVE2_PBDSIMULATIONOBJECT_H	src/objects/SPHSimulationObject.h	2;"	d
 BRAVE2_HEADOBJECT_H	src/objects/HeadObject.h	2;"	d
 BRAVE2_INPUTHANDLER_H	src/utils/InputHandler.h	2;"	d
 BRAVE2_LIGHT_H	src/rendering/lights/Light.h	2;"	d
@@ -700,7 +700,7 @@ CheckerBoardTexture	src/rendering/textures/Texture.h	/^class CheckerBoardTexture
 Collision Constraint	docs/documentation.tex	/^\\end{figure*}$/;"	u
 Cos	src/utils/math.h	/^Dnum<T> Cos(Dnum<T> g) { return Dnum<T>(cosf(g.f), -sinf(g.f) * g.d); }$/;"	f
 Cosh	src/utils/math.h	/^Dnum<T> Cosh(Dnum<T> g) { return Dnum<T>(cosh(g.f), sinh(g.f) * g.d); }$/;"	f
-CreateStrand	src/geometries/PBDSimulation.cpp	/^std::vector<Particle *> PBDSimulation::CreateStrand(size_t n, float l, vec3 startPos, vec3 color) {$/;"	f	class:PBDSimulation
+CreateStrand	src/geometries/PBDSimulation.cpp	/^std::vector<Particle *> PBDSimulation::CreateFiber(size_t n, float l, vec3 startPos, vec3 color) {$/;"	f	class:PBDSimulation
 DEC	build/CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c	544;"	d	file:
 DEC	build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp	529;"	d	file:
 DEC	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdC/CMakeCCompilerId.c	544;"	d	file:
@@ -734,8 +734,8 @@ HEX	build/CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c	555;"	d	file:
 HEX	build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp	540;"	d	file:
 HEX	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdC/CMakeCCompilerId.c	555;"	d	file:
 HEX	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdCXX/CMakeCXXCompilerId.cpp	540;"	d	file:
-HairSimObject	src/objects/HairSimObject.cpp	/^HairSimObject::HairSimObject(HeadObject *_head, Shader *_shader, PBDSimulation *_sim) :$/;"	f	class:HairSimObject
-HairSimObject	src/objects/HairSimObject.h	/^class HairSimObject : public Object {$/;"	c
+SPHSimulationObject	src/objects/SPHSimulationObject.cpp	/^SPHSimulationObject::SPHSimulationObject(HeadObject *_head, Shader *_shader, PBDSimulation *_sim) :$/;"	f	class:SPHSimulationObject
+SPHSimulationObject	src/objects/SPHSimulationObject.h	/^class SPHSimulationObject : public Object {$/;"	c
 HandleCameraMove	src/rendering/Scene.cpp	/^void Scene::HandleCameraMove() {$/;"	f	class:Scene
 HandleKeyPress	src/rendering/Scene.cpp	/^void Scene::HandleKeyPress() {$/;"	f	class:Scene
 HeadObject	src/objects/HeadObject.cpp	/^HeadObject::HeadObject(Shader *_shader, ObjGeometry *_geometry, Material *_material, Texture *_texture) :$/;"	f	class:HeadObject
@@ -925,7 +925,7 @@ RM	cmake-build-debug/Makefile	/^RM = \/snap\/clion\/139\/bin\/cmake\/linux\/bin\
 Render	src/rendering/Scene.cpp	/^void Scene::Render() {$/;"	f	class:Scene
 RenderScene	src/main.cpp	/^static void RenderScene(GLFWwindow *window, float delta) {$/;"	f	file:
 RenderState	src/rendering/RenderState.h	/^struct RenderState {$/;"	s
-ResetExternalForces	src/objects/HairSimObject.cpp	/^void HairSimObject::ResetExternalForces() {$/;"	f	class:HairSimObject
+ResetExternalForces	src/objects/SPHSimulationObject.cpp	/^void SPHSimulationObject::ResetExternalForces() {$/;"	f	class:SPHSimulationObject
 ResetExternalForces	src/rendering/Scene.cpp	/^void Scene::ResetExternalForces() {$/;"	f	class:Scene
 Resize	src/main.cpp	/^static void Resize(GLFWwindow *window, int w, int h) {$/;"	f	file:
 Rotate	src/objects/Object.cpp	/^void Object::Rotate(vec3 axis, float angle) {$/;"	f	class:Object
@@ -1096,7 +1096,7 @@ getState	src/rendering/Camera.cpp	/^RenderState Camera::getState() {$/;"	f	class
 get_mass	src/objects/Particle.h	/^    float get_mass() {$/;"	f	class:Particle
 gravityOn	src/rendering/Scene.h	/^    bool gravityOn = true;$/;"	m	class:Scene
 head	src/geometries/PBDSimulation.h	/^    HeadObject *head;$/;"	m	class:PBDSimulation
-head	src/objects/HairSimObject.h	/^    HeadObject *head;$/;"	m	class:HairSimObject
+head	src/objects/SPHSimulationObject.h	/^    HeadObject *head;$/;"	m	class:SPHSimulationObject
 info_arch	build/CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
 info_arch	build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
 info_arch	cmake-build-debug/CMakeFiles/3.17.5/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
@@ -1231,7 +1231,7 @@ other	src/utils/InputHandler.h	/^    InputHandler(InputHandler &other) = delete;
 override	src/geometries/ObjGeometry.h	/^    VertexData GetVertexDataByUV(float u, float v) override;$/;"	m	class:ObjGeometry
 override	src/geometries/ObjGeometry.h	/^    void Draw() override;$/;"	m	class:ObjGeometry
 override	src/geometries/ParamSurface.h	/^    VertexData GetVertexDataByUV(float u, float v) override;$/;"	m	class:ParamSurface
-override	src/objects/HairSimObject.h	/^    void Animate(float delta_t) override;$/;"	m	class:HairSimObject
+override	src/objects/SPHSimulationObject.h	/^    void Animate(float delta_t) override;$/;"	m	class:SPHSimulationObject
 override	src/rendering/shaders/BasicShader.h	/^    void Bind(RenderState state) override;$/;"	m	class:BasicShader
 pos	src/objects/Particle.h	/^    vec3 pos;$/;"	m	class:Particle
 position	src/geometries/VertexData.h	/^    vec3 position, normal;$/;"	m	struct:VertexData
@@ -1268,7 +1268,7 @@ setUniformMaterial	src/rendering/shaders/Shader.cpp	/^void Shader::setUniformMat
 shader	src/objects/Object.h	/^    Shader *shader;$/;"	m	class:Object
 shaderProgramId	src/utils/GPUProgram.h	/^    unsigned int shaderProgramId = 0;$/;"	m	class:GPUProgram
 shininess	src/rendering/materials/Material.h	/^    float shininess;$/;"	m	struct:Material
-sims	src/rendering/Scene.h	/^    std::vector<HairSimObject *> sims;$/;"	m	class:Scene
+PBDsims	src/rendering/Scene.h	/^    std::vector<SPHSimulationObject *> PBDsims;$/;"	m	class:Scene
 singleton_	src/utils/InputHandler.cpp	/^InputHandler *InputHandler::singleton_ = nullptr;;$/;"	m	class:InputHandler	file:
 singleton_	src/utils/InputHandler.h	/^    static InputHandler *singleton_;$/;"	m	class:InputHandler
 solve_bending_constraint	src/geometries/PBDSimulation.cpp	/^void PBDSimulation::solve_bending_constraint(Particle *p1, Particle *p2, float dist) {$/;"	f	class:PBDSimulation

@@ -5,24 +5,20 @@ void PBDSimulation::addForce(vec3 force) {
     externalForces += force;
 }
 
-PBDSimulation::PBDSimulation(HeadObject *_head, size_t _nr_sims, size_t _nr_segments, float _l_seg) :
+PBDSimulation::PBDSimulation(size_t _nr_sims, size_t _nr_segments, float _l_seg) :
         nrStrands(_nr_sims),
         nrSegments(_nr_segments),
         lSeg(_l_seg),
         externalForces(.0f, .0f, .0f) {
 
-    head = _head;
-    // placing hair on the head
-    propagateHead();
-}
-
-void PBDSimulation::propagateHead() {
+    // placing the fibers of the cloth
     for (size_t i = 0; i < nrStrands; i++) {
-        vec3 currPos(-.5f, 0.f, 0.003f * (float)i);
+        vec3 currPos(-0.15f, -0.15f, lSeg*0.5f * (float)i - 0.15);
 
-        vec3 color = util::getRandomRGBColorAround(vec3(222.0f, 101.0f, 32.0f), vec3(40.0f, 20.0f, 20.0f));
-        strands.emplace_back(CreateStrand(nrSegments, lSeg, currPos * vec3(1, -1, 1), color));
+        vec3 color = vec3(0.9f, 0.3f, 0.3f);
+        strands.emplace_back(CreateFiber(nrSegments, lSeg, currPos * vec3(1, -1, 1), color));
     }
+
 }
 
 void PBDSimulation::update(float dt) {
@@ -31,7 +27,6 @@ void PBDSimulation::update(float dt) {
         for (auto &p : strand) {
             p->v = p->v + dt * (p->w) * externalForces;
             // damp velocities
-            // TODO better damping technique: (3.5) https://matthias-research.github.io/pages/publications/posBasedDyn.pdf
             p->v *= .99f;
 
             // calculating temporal positions
@@ -43,17 +38,26 @@ void PBDSimulation::update(float dt) {
     // solve constraints
     size_t num_iter = 10;
     for (size_t iter = 0; iter < num_iter; iter++) {
-        for (auto &strand: strands) {
-            //keep first particle in place
-            // TODO position constraint
-            strand.at(0)->tmp_pos = strand.at(0)->pos;
+        for (size_t s = 0; s < strands.size(); s++) {
+            std::vector<Particle*>& strand = strands.at(s);
 
+            // TODO position constraint
+            //keep first particle in place
+            strand.at(0)->tmp_pos = strand.at(0)->pos;
             // keep the last one fixed as well
             strand.at(strand.size()-1)->tmp_pos = strand.at(strand.size()-1)->pos;
 
             //distance between other particles should be l
             for (size_t i = 1; i < strand.size(); i++) {
                 solve_distance_constraint(strand[i - 1], strand[i], lSeg);
+            }
+
+            // distance constraint for neighboring strands
+            if(s != 0 && s != strands.size() - 1) {
+                std::vector<Particle*>& next_strand = strands.at(s+1);
+                // TODO refactor distance into constant
+                for (size_t i = 1; i < strand.size()-1; i++)
+                    solve_distance_constraint(strand[i], next_strand[i], lSeg);
             }
         }
     }
@@ -77,8 +81,8 @@ void PBDSimulation::solve_distance_constraint(Particle *p1, Particle *p2, float 
                 (length(p1->tmp_pos - p2->tmp_pos) - dist) *
                 (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
 
-    p1->tmp_pos += d_p1;
-    p2->tmp_pos += d_p2;
+    p1->tmp_pos += 0.8*d_p1;
+    p2->tmp_pos += 0.8*d_p2;
 }
 
 void PBDSimulation::solve_bending_constraint(Particle *p1, Particle *p2, float dist) {
@@ -138,14 +142,14 @@ void PBDSimulation::Draw() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) (sizeof(float) * 3));
 
     glLineWidth(1.0f);
-    glDrawArrays(GL_POINTS, 0, particlePosAndColor.size() / 6);
+    glDrawArrays(GL_LINES, 0, particlePosAndColor.size() / 6);
 }
 
 vec3 PBDSimulation::getExternalForces() const {
     return externalForces;
 }
 
-std::vector<Particle *> PBDSimulation::CreateStrand(size_t n, float l, vec3 startPos, vec3 color) {
+std::vector<Particle *> PBDSimulation::CreateFiber(size_t n, float l, vec3 startPos, vec3 color) {
     vec3 currPos = startPos;
     std::vector<Particle *> currentStrand;
 

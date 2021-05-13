@@ -3,8 +3,8 @@
 
 
 #include "../utils/math.h"
-#include "../utils/OBJReader.h"
 #include "../objects/Object.h"
+#include "../utils/OBJReader.h"
 
 
 // This class assumes that the mesh is made up entirely of triangles
