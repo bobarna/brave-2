@@ -9,6 +9,8 @@
 class PBDSimulationObject : public Object {
 
 public:
+    PBDSimulationObject(Shader *_shader, PBDSimulation *_sim, Material* _material, Texture* _texture);
+
     PBDSimulationObject(Shader *_shader, PBDSimulation *_sim);
 
     void ResetExternalForces();

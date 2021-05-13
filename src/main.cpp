@@ -32,7 +32,8 @@ static void Initialize() {
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
     glLoadIdentity();
-    glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
+//    glClearColor(196.0f / 255.0f, 233.0f / 255.0f, 241.0f / 255.0f, 1.0f);
+    glClearColor(1,1,1, 1.0f);
 }
 
 static void Update(GLFWwindow *window, float delta) {

@@ -12,18 +12,6 @@ void Scene::Build() {
     size_t nrSegments = 50;
     float lSeg = 0.006f;
 
-    Shader *basicShader = new BasicShader();
-    basicShader->Bind(camera.getState());
-
-    auto PBDSim = new PBDSimulation(nrSims, nrSegments, lSeg);
-    auto PBDsimulationObject = new PBDSimulationObject(basicShader, PBDSim);
-    PBDsims.push_back(PBDsimulationObject);
-
-    auto SPHSim = new SPHSimulation();
-    auto SPHsimulationObject = new SPHSimulationObject(basicShader, SPHSim);
-    SPHsims.push_back(SPHsimulationObject);
-
-
     // Lights
     lights.resize(3);
     lights[0].wLightPos = vec4(0.0f, 3.0f, 1.5f, 0);    // ideal point -> directional light source
@@ -37,6 +25,20 @@ void Scene::Build() {
     lights[2].wLightPos = vec4(0, 0, 1, 0);    // ideal point -> directional light source
     lights[2].La = vec3(0.f, 3.5f, 3.5f);
     lights[2].Le = vec3(1, 1, 1);
+
+    Shader *basicShader = new BasicShader();
+    basicShader->Bind(camera.getState());
+
+    Shader *phongShader = new PhongShader();
+
+    auto PBDSim = new PBDSimulation(nrSims, nrSegments, lSeg);
+    auto PBDsimulationObject = new PBDSimulationObject(basicShader, PBDSim);
+    PBDsims.push_back(PBDsimulationObject);
+
+    auto SPHSim = new SPHSimulation();
+    auto SPHsimulationObject = new SPHSimulationObject(basicShader, SPHSim);
+    SPHsims.push_back(SPHsimulationObject);
+
 }
 
 void Scene::Render() {

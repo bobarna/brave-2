@@ -3,7 +3,7 @@
 Camera::Camera(vec3 _wEye, vec3 _wLookAt, vec3 _wVup, int windowWidth, int windowHeight) {
     asp = (float) windowWidth / (float) windowHeight;
     fov = 75.0f * (float) M_PI / 180.0f;
-    fp = 0.2f; //TODO is this right??
+    fp = 0.01f; //TODO is this right??
     bp = 10;
 
     wEye = _wEye;

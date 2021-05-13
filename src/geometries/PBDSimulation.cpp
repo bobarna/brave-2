@@ -81,8 +81,8 @@ void PBDSimulation::solve_distance_constraint(Particle *p1, Particle *p2, float 
                 (length(p1->tmp_pos - p2->tmp_pos) - dist) *
                 (p1->tmp_pos - p2->tmp_pos) / length(p1->tmp_pos - p2->tmp_pos);
 
-    p1->tmp_pos += 0.8*d_p1;
-    p2->tmp_pos += 0.8*d_p2;
+    p1->tmp_pos += d_p1;
+    p2->tmp_pos += d_p2;
 }
 
 void PBDSimulation::solve_bending_constraint(Particle *p1, Particle *p2, float dist) {
@@ -109,7 +109,9 @@ void PBDSimulation::solve_collision_constraint(Particle *p, vec3 &q1, vec3 &q2, 
 
 void PBDSimulation::Draw() {
     std::vector<float> particlePosAndColor;
-    for (auto &strand : strands)
+    for (size_t curr_strand = 0; curr_strand < strands.size()-1; curr_strand ++) {
+        auto strand = strands[curr_strand];
+        auto next_strand = strands[curr_strand+1];
         for (size_t i = 0; i < strand.size() - 1; ++i) {
             particlePosAndColor.push_back(strand[i]->pos.x);
             particlePosAndColor.push_back(strand[i]->pos.y);
@@ -124,7 +126,37 @@ void PBDSimulation::Draw() {
             particlePosAndColor.push_back(strand[i + 1]->color.x);
             particlePosAndColor.push_back(strand[i + 1]->color.y);
             particlePosAndColor.push_back(strand[i + 1]->color.z);
+
+            particlePosAndColor.push_back(next_strand[i]->pos.x);
+            particlePosAndColor.push_back(next_strand[i]->pos.y);
+            particlePosAndColor.push_back(next_strand[i]->pos.z);
+            particlePosAndColor.push_back(next_strand[i]->color.x);
+            particlePosAndColor.push_back(next_strand[i]->color.y);
+            particlePosAndColor.push_back(next_strand[i]->color.z);
+
+            particlePosAndColor.push_back(next_strand[i]->pos.x);
+            particlePosAndColor.push_back(next_strand[i]->pos.y);
+            particlePosAndColor.push_back(next_strand[i]->pos.z);
+            particlePosAndColor.push_back(next_strand[i]->color.x);
+            particlePosAndColor.push_back(next_strand[i]->color.y);
+            particlePosAndColor.push_back(next_strand[i]->color.z);
+
+            particlePosAndColor.push_back(strand[i + 1]->pos.x);
+            particlePosAndColor.push_back(strand[i + 1]->pos.y);
+            particlePosAndColor.push_back(strand[i + 1]->pos.z);
+            particlePosAndColor.push_back(strand[i + 1]->color.x);
+            particlePosAndColor.push_back(strand[i + 1]->color.y);
+            particlePosAndColor.push_back(strand[i + 1]->color.z);
+
+            particlePosAndColor.push_back(next_strand[i+1]->pos.x);
+            particlePosAndColor.push_back(next_strand[i+1]->pos.y);
+            particlePosAndColor.push_back(next_strand[i+1]->pos.z);
+            particlePosAndColor.push_back(next_strand[i+1]->color.x);
+            particlePosAndColor.push_back(next_strand[i+1]->color.y);
+            particlePosAndColor.push_back(next_strand[i+1]->color.z);
         }
+    }
+
 
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -135,14 +167,14 @@ void PBDSimulation::Draw() {
 
     // position attribute
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) 0);
-
-    // color attribute
+    // normal attribute
     glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) 0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) (sizeof(float) * 3));
 
     glLineWidth(1.0f);
-    glDrawArrays(GL_LINES, 0, particlePosAndColor.size() / 6);
+    glDrawArrays(GL_TRIANGLES, 0, particlePosAndColor.size() / 6);
 }
 
 vec3 PBDSimulation::getExternalForces() const {
